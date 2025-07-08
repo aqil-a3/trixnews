@@ -1,19 +1,13 @@
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarHeader,
-} from "@/components/ui/sidebar";
+import { Sidebar } from "@/components/ui/sidebar";
 import AdminSidebarFooter from "./Footer";
+import AdminSidebarHeader from "./Header";
+import AdminSidebarContent from "./Content";
 
 export function AdminSidebar() {
   return (
     <Sidebar>
-      <SidebarHeader />
-      <SidebarContent>
-        <SidebarGroup />
-        <SidebarGroup />
-      </SidebarContent>
+      <AdminSidebarHeader />
+      <AdminSidebarContent />
       <AdminSidebarFooter />
     </Sidebar>
   );

@@ -16,9 +16,11 @@ import {
 
 import { ChevronUp, User2, LogOut, CreditCard, Settings } from "lucide-react";
 import { useAdminSidebarFooterLogics } from "./logics";
+import { useSession } from "next-auth/react";
 
 export default function AdminSidebarFooter() {
   const { signoutHandler } = useAdminSidebarFooterLogics();
+  const session = useSession();
 
   return (
     <SidebarFooter className="border-t pt-2">
@@ -28,7 +30,7 @@ export default function AdminSidebarFooter() {
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton className="flex items-center w-full px-3 py-2 rounded-md hover:bg-muted transition text-sm">
                 <User2 className="mr-2 h-4 w-4" />
-                <span className="truncate">Username</span>
+                <span className="truncate">{session.data?.user?.name}</span>
                 <ChevronUp className="ml-auto h-4 w-4" />
               </SidebarMenuButton>
             </DropdownMenuTrigger>

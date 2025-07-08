@@ -1,6 +1,8 @@
 import { auth } from "@/auth";
+import AdminHeader from "@/components/layouts/AdminHeader";
 import { AdminSidebar } from "@/components/layouts/AdminSidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { SessionProvider } from "next-auth/react";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -14,12 +16,14 @@ export default async function AdminLayout({
   if (!session) redirect("/login");
 
   return (
-    <SidebarProvider>
-      <AdminSidebar />
-      <main className="w-full">
-        <SidebarTrigger />
-        {children}
-      </main>
-    </SidebarProvider>
+    <SessionProvider>
+      <SidebarProvider>
+        <AdminSidebar />
+        <main className="w-full">
+          <AdminHeader />
+          {children}
+        </main>
+      </SidebarProvider>
+    </SessionProvider>
   );
 }

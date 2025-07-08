@@ -16,11 +16,13 @@ import {
   Folder,
   Image as IconImage,
   ExternalLink,
+  User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const sidebarLinks = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Account", href: "/account", icon: User },
   { label: "Posts", href: "/posts", icon: FileText },
   { label: "Categories", href: "/categories", icon: Folder },
   { label: "Tags", href: "/tags", icon: Tag },

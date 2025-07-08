@@ -49,7 +49,7 @@ export class UsersService {
     return data;
   }
 
-  async getAllAdmins(): Promise<AdminUser[]> {
+  async getAllAdminUsers(): Promise<AdminUser[]> {
     const result = await this.supabase.from('admin_users').select('*');
 
     const { data, error } = result;

@@ -8,8 +8,8 @@ export class UsersController {
 
   @UseGuards(SharedSecretGuardService)
   @Get('')
-  async getAllAdmin() {
-    return await this.usersService.getAllAdmins();
+  async getAllAdminUsers() {
+    return await this.usersService.getAllAdminUsers();
   }
 
   @UseGuards(SharedSecretGuardService)

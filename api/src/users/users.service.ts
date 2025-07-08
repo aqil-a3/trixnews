@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { getSupabaseClient } from 'src/supabase/supabase.client';
+import { getSupabaseClient } from '../supabase/supabase.client';
 
 export interface AdminUser {
   id: string;

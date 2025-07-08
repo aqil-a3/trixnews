@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { SharedSecretGuardService } from 'src/shared-secret-guard/shared-secret-guard.service';
+import { SharedSecretGuardService } from '../shared-secret-guard/shared-secret-guard.service';
 import { UsersService } from './users.service';
 
 @Controller('api/users')

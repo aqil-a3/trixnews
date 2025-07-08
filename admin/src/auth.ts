@@ -51,6 +51,8 @@ const getAdminInfo = async (user: User): Promise<AdminUser | null> => {
       }
     );
 
+    console.log(data)
+
     if (!data) return null;
 
     return data;

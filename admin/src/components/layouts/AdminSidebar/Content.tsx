@@ -1,15 +1,14 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-import { Button } from "@/components/ui/button"
+} from "@/components/ui/sidebar";
 import {
   LayoutDashboard,
   FileText,
@@ -17,8 +16,8 @@ import {
   Folder,
   Image as IconImage,
   ExternalLink,
-} from "lucide-react"
-import { cn } from "@/lib/utils"
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const sidebarLinks = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -26,26 +25,24 @@ const sidebarLinks = [
   { label: "Categories", href: "/categories", icon: Folder },
   { label: "Tags", href: "/tags", icon: Tag },
   { label: "Media", href: "/media", icon: IconImage },
-]
+];
 
 export default function AdminSidebarContent() {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <SidebarContent>
       {/* Sanity Studio */}
       <SidebarGroup>
         <SidebarGroupLabel>Studio</SidebarGroupLabel>
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-2 bg-muted border border-dashed hover:scale-[1.02] transition-all text-sm font-medium"
-          onClick={() => {
-            console.log("Go to Sanity Studio")
-          }}
+        <Link
+          href={"/studio"}
+          target="_blank"
+          className="flex px-3 py-2 w-full justify-start gap-2 bg-muted border border-dashed hover:scale-[1.02] transition-all text-sm font-medium"
         >
-          <ExternalLink className="w-4 h-4 text-primary" />
+          <ExternalLink className="w-4 h-4 text-primary my-auto" />
           <span className="truncate">Open Sanity Studio</span>
-        </Button>
+        </Link>
       </SidebarGroup>
 
       {/* Navigation */}
@@ -53,7 +50,7 @@ export default function AdminSidebarContent() {
         <SidebarGroupLabel>Navigation</SidebarGroupLabel>
         <SidebarMenu>
           {sidebarLinks.map(({ label, href, icon: Icon }) => {
-            const isActive = pathname === href
+            const isActive = pathname === href;
             return (
               <SidebarMenuItem key={href}>
                 <Link
@@ -69,10 +66,10 @@ export default function AdminSidebarContent() {
                   {label}
                 </Link>
               </SidebarMenuItem>
-            )
+            );
           })}
         </SidebarMenu>
       </SidebarGroup>
     </SidebarContent>
-  )
+  );
 }

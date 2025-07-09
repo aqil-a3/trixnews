@@ -1,3 +1,4 @@
+"use client";
 import { Category, PostDetail, PostSummary } from "@/@types/Posts";
 import React, { createContext, useContext } from "react";
 

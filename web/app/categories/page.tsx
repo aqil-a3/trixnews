@@ -1,6 +1,6 @@
 import Header from "@/components/layouts/Header/header"
 import Footer from "@/components/layouts/Footer"
-import CategoriesSection from "@/components/organisms/Home/CategoriesSection" // Reusing the existing component
+// import CategoriesSection from "@/components/organisms/Home/CategoriesSection" // Reusing the existing component
 import type { Metadata } from "next" // Import Metadata type
 
 export const metadata: Metadata = {
@@ -41,7 +41,7 @@ export default function CategoriesPage() {
       <main className="container mx-auto px-4 py-8 flex-1">
         <h1 className="text-4xl font-bold text-gray-900 mb-8">All Categories</h1>
         {/* Reusing CategoriesSection component */}
-        <CategoriesSection />
+        {/* <CategoriesSection /> */}
       </main>
       <Footer />
     </div>

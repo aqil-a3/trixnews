@@ -1,4 +1,4 @@
-import TrendingCard from "./trending-card"
+import TrendingCard from "../../trending-card"
 import { allArticles, type Article } from "@/lib/articles"
 import { allGuides, type Guide } from "@/lib/guides"
 

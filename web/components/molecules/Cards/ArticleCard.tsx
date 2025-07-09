@@ -1,9 +1,9 @@
-import Image from "next/image"
-import Link from "next/link"
-import { PostSummary } from "@/@types/Posts"
-import { format } from "date-fns"
+import Image from "next/image";
+import Link from "next/link";
+import { PostDetail, PostSummary } from "@/@types/Posts";
+import { format } from "date-fns";
 
-export default function ArticleCard({ article }: {article:PostSummary}) {
+export default function ArticleCard({ article }: { article: PostDetail }) {
   const { slug, title, publishedAt } = article;
   return (
     <Link href={`/articles/${slug.current}`} className="block group">
@@ -24,12 +24,17 @@ export default function ArticleCard({ article }: {article:PostSummary}) {
             <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-primary transition-colors">
               {title}
             </h3>
-            <p className="text-sm text-gray-600 mb-3 line-clamp-3">summary here</p> {/* Kept line-clamp-3 */}
+            <p className="text-sm text-gray-600 mb-3 line-clamp-3">
+              summary here
+            </p>{" "}
+            {/* Kept line-clamp-3 */}
           </div>
-          <p className="text-xs text-gray-500 mt-auto">{format(new Date(publishedAt), "dd MMM yyyy, HH:mm")}</p>{" "}
+          <p className="text-xs text-gray-500 mt-auto">
+            {format(new Date(publishedAt), "dd MMM yyyy, HH:mm")}
+          </p>{" "}
           {/* mt-auto pushes date to bottom */}
         </div>
       </div>
     </Link>
-  )
+  );
 }

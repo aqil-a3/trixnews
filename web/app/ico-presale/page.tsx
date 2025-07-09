@@ -1,5 +1,5 @@
 import Header from "@/components/layouts/Header/header"
-import Footer from "@/components/footer"
+import Footer from "@/components/layouts/Footer"
 import PresaleCard from "@/components/presale-card"
 import PresaleSubmissionForm from "@/components/presale-submission-form"
 import { getApprovedPresales } from "@/lib/presales"

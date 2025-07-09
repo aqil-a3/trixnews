@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import CryptoTicker from "@/components/crypto-ticker";
 import Header from "@/components/layouts/Header/header";
+import Footer from "@/components/layouts/Footer";
 
 export const metadata: Metadata = {
   title: "Web3 News Portal",
@@ -22,6 +23,7 @@ export default function RootLayout({
         <CryptoTicker />
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );

@@ -1,10 +1,10 @@
-import ArticleCard from "../organisms/Articles/ArticleCard";
-import { PostSummary } from "@/@types/Posts";
+import ArticleCard from "../molecules/Cards/ArticleCard";
+import { PostDetail } from "@/@types/Posts";
 
 export default function ArticlesTemplate({
   articles,
 }: {
-  articles: PostSummary[];
+  articles: PostDetail[];
 }) {
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">

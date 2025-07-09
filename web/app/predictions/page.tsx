@@ -1,5 +1,5 @@
 import Header from "@/components/layouts/Header/header"
-import Footer from "@/components/footer"
+import Footer from "@/components/layouts/Footer"
 import PredictionCard from "@/components/prediction-card"
 import PredictionSubmissionForm from "@/components/prediction-submission-form"
 import { getActivePredictions } from "@/lib/predictions"

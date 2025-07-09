@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import Header from "@/components/layouts/Header/header"
-import Footer from "@/components/footer"
+import Footer from "@/components/layouts/Footer"
 import Image from "next/image"
 import { getPresaleBySlug, formatCurrency, formatDate } from "@/lib/presales"
 import { CalendarDays, DollarSign, Coins, TrendingUp } from "lucide-react"

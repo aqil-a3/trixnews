@@ -1,5 +1,5 @@
 import Header from "@/components/layouts/Header/header"
-import Footer from "@/components/footer"
+import Footer from "@/components/layouts/Footer"
 import ToolCard from "@/components/tool-card"
 import { allWeb3Tools } from "@/lib/web3-tools"
 import type { Metadata } from "next"

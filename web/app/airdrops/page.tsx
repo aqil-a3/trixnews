@@ -1,5 +1,5 @@
 import Header from "@/components/layouts/Header/header"
-import Footer from "@/components/footer"
+import Footer from "@/components/layouts/Footer"
 import AirdropCard from "@/components/airdrop-card"
 import AirdropSubmissionForm from "@/components/airdrop-submission-form"
 import { getApprovedAirdrops } from "@/lib/airdrops"

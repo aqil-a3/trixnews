@@ -1,9 +1,8 @@
 import Image from "next/image";
-import Footer from "@/components/footer";
+import Footer from "@/components/layouts/Footer";
 import { Separator } from "@/components/ui/separator";
 import ArticleComments from "@/components/article-comments";
 import SocialShareButtons from "@/components/social-share-buttons";
-import RelatedArticlesSection from "@/components/related-articles-section";
 import Breadcrumbs from "@/components/breadcrumbs"; // Import Breadcrumbs component
 import { headers } from "next/headers";
 import {
@@ -77,7 +76,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
           <SocialShareButtons title={article.title} url={fullUrl} />
           <ArticleComments />
-          <RelatedArticlesSection currentArticleSlug={article.slug.current} />
+          {/* <RelatedArticlesSection currentArticleSlug={article.slug.current} /> */}
         </article>
       </main>
       <Footer />

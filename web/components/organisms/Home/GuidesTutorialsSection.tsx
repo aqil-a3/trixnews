@@ -12,7 +12,6 @@ interface GuideDisplay {
 }
 
 export default function GuidesTutorialsSection() {
-  // Map allGuides from lib/guides.ts to GuideDisplay format
   const guidesToDisplay: GuideDisplay[] = allGuides.map((guide) => {
     let IconComponent: React.ElementType
     switch (guide.slug) {
@@ -46,7 +45,7 @@ export default function GuidesTutorialsSection() {
   })
 
   return (
-    <section>
+    <div className="mt-8">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Guides & Tutorials</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {guidesToDisplay.map((guide, index) => {
@@ -66,6 +65,6 @@ export default function GuidesTutorialsSection() {
           )
         })}
       </div>
-    </section>
+    </div>
   )
 }

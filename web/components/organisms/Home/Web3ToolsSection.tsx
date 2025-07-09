@@ -1,4 +1,4 @@
-import ToolCard from "./tool-card"
+import ToolCard from "../../tool-card"
 import { allWeb3Tools } from "@/lib/web3-tools"
 
 export default function Web3ToolsSection() {

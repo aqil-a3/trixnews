@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Header from "@/components/layouts/Header/header"
-import Footer from "@/components/footer"
+import Footer from "@/components/layouts/Footer"
 import Breadcrumbs from "@/components/breadcrumbs" // Import Breadcrumbs component
 import { getGuideBySlug } from "@/lib/guides"
 

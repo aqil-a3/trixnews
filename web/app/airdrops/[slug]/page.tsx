@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import Header from "@/components/layouts/Header/header"
-import Footer from "@/components/footer"
+import Footer from "@/components/layouts/Footer"
 import Image from "next/image"
 import { getAirdropBySlug, formatDate, getAirdropStatus } from "@/lib/airdrops"
 import { CalendarDays, Gift, LinkIcon, TrendingUp } from "lucide-react"

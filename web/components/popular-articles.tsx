@@ -1,4 +1,4 @@
-import ArticleCard from "./article-card"
+import ArticleCard from "./organisms/Articles/ArticleCard"
 import { allArticles } from "@/lib/articles"
 
 export default function PopularArticles() {

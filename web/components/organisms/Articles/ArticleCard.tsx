@@ -1,22 +1,16 @@
 import Image from "next/image"
 import Link from "next/link"
-import { formatDateForDisplay } from "@/lib/articles"
+import { PostSummary } from "@/@types/Posts"
+import { format } from "date-fns"
 
-interface ArticleCardProps {
-  title: string
-  summary: string
-  date: string
-  imageUrl: string
-  slug: string
-}
-
-export default function ArticleCard({ title, summary, date, imageUrl, slug }: ArticleCardProps) {
+export default function ArticleCard({ article }: {article:PostSummary}) {
+  const { slug, title, publishedAt } = article;
   return (
-    <Link href={`/articles/${slug}`} className="block group">
+    <Link href={`/articles/${slug.current}`} className="block group">
       <div className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow flex flex-col h-full">
         <div className="relative aspect-video w-full">
           <Image
-            src={imageUrl || "/placeholder.svg"}
+            src={"/placeholder.svg"}
             alt={title}
             layout="fill"
             objectFit="cover"
@@ -30,9 +24,9 @@ export default function ArticleCard({ title, summary, date, imageUrl, slug }: Ar
             <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-primary transition-colors">
               {title}
             </h3>
-            <p className="text-sm text-gray-600 mb-3 line-clamp-3">{summary}</p> {/* Kept line-clamp-3 */}
+            <p className="text-sm text-gray-600 mb-3 line-clamp-3">summary here</p> {/* Kept line-clamp-3 */}
           </div>
-          <p className="text-xs text-gray-500 mt-auto">{formatDateForDisplay(date)}</p>{" "}
+          <p className="text-xs text-gray-500 mt-auto">{format(new Date(publishedAt), "dd MMM yyyy, HH:mm")}</p>{" "}
           {/* mt-auto pushes date to bottom */}
         </div>
       </div>

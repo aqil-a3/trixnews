@@ -1,6 +1,6 @@
 import Header from "@/components/layouts/Header/header"
 import Footer from "@/components/footer"
-import ArticleCard from "@/components/article-card"
+import ArticleCard from "@/components/organisms/Articles/ArticleCard"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { searchContent } from "@/lib/search"
 import Link from "next/link"

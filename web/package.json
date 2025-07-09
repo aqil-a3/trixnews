@@ -71,6 +71,7 @@
     "@types/react-dom": "^19",
     "postcss": "^8.5",
     "tailwindcss": "^3.4.17",
+    "ts-prune": "^0.10.3",
     "typescript": "^5"
   }
 }

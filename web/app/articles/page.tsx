@@ -1,14 +1,19 @@
-import Header from "@/components/layouts/Header/header"
-import Footer from "@/components/footer"
-import ArticleCard from "@/components/article-card"
-import { allArticles } from "@/lib/articles"
-import type { Metadata } from "next" // Import Metadata type
+import type { Metadata } from "next"; // Import Metadata type
+import ArticlesTemplate from "@/components/templates/ArticlesTemplate";
+import { getAllPost } from "@/utils/posts";
 
 export const metadata: Metadata = {
   title: "All Articles - Trixnews.com",
   description:
     "Explore a complete list of all the latest news articles and analysis on Web3, crypto, DeFi, NFTs, and blockchain on Trixnews.com.",
-  keywords: ["crypto articles", "web3 news", "article list", "blockchain analysis", "crypto guides", "Trixnews"],
+  keywords: [
+    "crypto articles",
+    "web3 news",
+    "article list",
+    "blockchain analysis",
+    "crypto guides",
+    "Trixnews",
+  ],
   openGraph: {
     title: "All Articles - Trixnews.com",
     description:
@@ -31,30 +36,14 @@ export const metadata: Metadata = {
     title: "All Articles - Trixnews.com",
     description:
       "Explore a complete list of all the latest news articles and analysis on Web3, crypto, DeFi, NFTs, and blockchain on Trixnews.com.",
-    images: ["/placeholder.svg?height=630&width=1200&text=All Articles Trixnews"], // Twitter Card image
+    images: [
+      "/placeholder.svg?height=630&width=1200&text=All Articles Trixnews",
+    ], // Twitter Card image
   },
-}
+};
 
-export default function ArticlesPage() {
-  // Sort articles by date (latest first) for consistent display
-  const sortedArticles = [...allArticles].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+export default async function ArticlesPage() {
+  const articles = await getAllPost();
 
-  return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
-      <main className="container mx-auto px-4 py-8 flex-1">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">All Articles</h1>
-
-        {sortedArticles.length === 0 ? (
-          <p className="text-gray-500 text-center text-lg">No articles found.</p>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sortedArticles.map((article, index) => (
-              <ArticleCard key={index} {...article} />
-            ))}
-          </div>
-        )}
-      </main>
-      <Footer />
-    </div>
-  )
+  return <ArticlesTemplate articles={articles} />;
 }

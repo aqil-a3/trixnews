@@ -1,4 +1,4 @@
-import ArticleCard from "./article-card"
+import ArticleCard from "./organisms/Articles/ArticleCard"
 import { getRelatedArticles } from "@/lib/articles"
 
 interface RelatedArticlesSectionProps {

@@ -2,7 +2,7 @@
 import { useState, useMemo } from "react"
 import Header from "@/components/layouts/Header/header"
 import Footer from "@/components/footer"
-import ArticleCard from "@/components/article-card"
+import ArticleCard from "@/components/organisms/Articles/ArticleCard"
 import { getArticlesByTagSlug, getTagDisplayName } from "@/lib/articles"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 

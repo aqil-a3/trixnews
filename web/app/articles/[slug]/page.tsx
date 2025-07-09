@@ -1,74 +1,86 @@
-import Image from "next/image"
-import Footer from "@/components/footer"
-import { Separator } from "@/components/ui/separator"
-import ArticleComments from "@/components/article-comments"
-import SocialShareButtons from "@/components/social-share-buttons"
-import RelatedArticlesSection from "@/components/related-articles-section"
-import Breadcrumbs from "@/components/breadcrumbs" // Import Breadcrumbs component
-import { headers } from "next/headers"
-import { getArticleBySlug, formatDateForDisplay, getCategoryDisplayName } from "@/lib/articles" // Import getCategoryDisplayName
+import Image from "next/image";
+import Footer from "@/components/footer";
+import { Separator } from "@/components/ui/separator";
+import ArticleComments from "@/components/article-comments";
+import SocialShareButtons from "@/components/social-share-buttons";
+import RelatedArticlesSection from "@/components/related-articles-section";
+import Breadcrumbs from "@/components/breadcrumbs"; // Import Breadcrumbs component
+import { headers } from "next/headers";
+import {
+  getArticleBySlug,
+  formatDateForDisplay,
+  getCategoryDisplayName,
+} from "@/lib/articles"; // Import getCategoryDisplayName
+import { getPostBySlug } from "@/utils/posts";
+import { notFound } from "next/navigation";
+import { format } from "date-fns";
+import { PortableText } from "next-sanity";
 
-export default async function ArticleDetailPage({ params }: { params: { slug: string } }) {
-  const article = getArticleBySlug(params.slug)
-  const headersList = await headers()
-  const fullUrl = headersList.get("x-url") || ""
+interface ArticlePageProps {
+  params: { slug: string };
+}
+
+export default async function ArticlePage({ params }: ArticlePageProps) {
+  const article = await getPostBySlug(params.slug);
+  const headersList = await headers();
 
   if (!article) {
-    return (
-      <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
-        <main className="container mx-auto px-4 py-8 flex-1 flex items-center justify-center">
-          <h1 className="text-3xl font-bold text-gray-900">Article not found.</h1>
-        </main>
-        <Footer />
-      </div>
-    )
+    notFound();
   }
 
-  // Construct breadcrumbs for article page
+  const fullUrl = headersList.get("x-url") || "";
+
+
   const breadcrumbItems = [
     { label: "Home", href: "/" },
     { label: "Articles", href: "/articles" },
     {
-      label: getCategoryDisplayName(article.category.toLowerCase().replace(/\s/g, "-")),
-      href: `/categories/${article.category.toLowerCase().replace(/\s/g, "-")}`,
+      label: article.categories?.[0]?.title || "Uncategorized",
+      href: `/categories/${article.categories?.[0]?.title?.toLowerCase().replace(/\s/g, "-")}`,
     },
-    { label: article.title }, // Last item, no href
-  ]
+    { label: article.title },
+  ];
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
       <main className="container mx-auto px-4 py-8 flex-1">
         <article className="max-w-3xl mx-auto">
-          <Breadcrumbs items={breadcrumbItems} className="mb-6" /> {/* Add Breadcrumbs */}
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">{article.title}</h1>
+          <Breadcrumbs items={breadcrumbItems} className="mb-6" />
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+            {article.title}
+          </h1>
           <div className="text-gray-600 text-sm mb-6 flex items-center space-x-4">
             <span>
-              By <span className="font-medium">{article.author || "Anonymous Author"}</span>
+              By{" "}
+              <span className="font-medium">
+                {article.author?.name || "Anonymous"}
+              </span>
             </span>
             <Separator orientation="vertical" className="h-4" />
-            <span>{formatDateForDisplay(article.date)}</span>
+            <span>{format(new Date(article.publishedAt), "dd MMM yyyy")}</span>
           </div>
-          <div className="relative aspect-video w-full mb-8 rounded-lg overflow-hidden">
-            <Image
-              src={article.imageUrl || "/placeholder.svg"}
-              alt={article.title}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-lg"
-            />
-          </div>
-          {article.content && (
-            <div
-              className="prose prose-lg max-w-none text-gray-800 leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: article.content }}
-            />
+
+          {article.mainImage?.asset?.url && (
+            <div className="relative aspect-video w-full mb-8 rounded-lg overflow-hidden">
+              <Image
+                src={article.mainImage.asset.url}
+                alt={article.mainImage.alt || article.title}
+                fill
+                className="rounded-lg object-cover"
+              />
+            </div>
           )}
+
+          <div className="prose prose-lg max-w-none text-gray-800 leading-relaxed">
+            <PortableText value={article.body} />
+          </div>
+
           <SocialShareButtons title={article.title} url={fullUrl} />
           <ArticleComments />
-          <RelatedArticlesSection currentArticleSlug={article.slug} />
+          <RelatedArticlesSection currentArticleSlug={article.slug.current} />
         </article>
       </main>
       <Footer />
     </div>
-  )
+  );
 }

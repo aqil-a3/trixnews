@@ -1,5 +1,4 @@
 import Image from "next/image"
-import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Separator } from "@/components/ui/separator"
 import ArticleComments from "@/components/article-comments"
@@ -9,15 +8,14 @@ import Breadcrumbs from "@/components/breadcrumbs" // Import Breadcrumbs compone
 import { headers } from "next/headers"
 import { getArticleBySlug, formatDateForDisplay, getCategoryDisplayName } from "@/lib/articles" // Import getCategoryDisplayName
 
-export default function ArticleDetailPage({ params }: { params: { slug: string } }) {
+export default async function ArticleDetailPage({ params }: { params: { slug: string } }) {
   const article = getArticleBySlug(params.slug)
-  const headersList = headers()
+  const headersList = await headers()
   const fullUrl = headersList.get("x-url") || ""
 
   if (!article) {
     return (
       <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
-        <Header />
         <main className="container mx-auto px-4 py-8 flex-1 flex items-center justify-center">
           <h1 className="text-3xl font-bold text-gray-900">Article not found.</h1>
         </main>
@@ -39,7 +37,6 @@ export default function ArticleDetailPage({ params }: { params: { slug: string }
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
-      <Header />
       <main className="container mx-auto px-4 py-8 flex-1">
         <article className="max-w-3xl mx-auto">
           <Breadcrumbs items={breadcrumbItems} className="mb-6" /> {/* Add Breadcrumbs */}

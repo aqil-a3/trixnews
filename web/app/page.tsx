@@ -1,4 +1,4 @@
-import Header from "@/components/header"
+import Header from "@/components/layouts/Header/header"
 import HeroSection from "@/components/hero-section"
 import LatestNews from "@/components/latest-news"
 import CategoriesSection from "@/components/categories-section"
@@ -14,7 +14,6 @@ import TrendingTopicsSection from "@/components/trending-topics-section"
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans">
-      <Header />
       <main className="container mx-auto px-4 py-8">
         <HeroSection />
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-[70%_30%] gap-8">

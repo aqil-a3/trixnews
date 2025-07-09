@@ -1,4 +1,4 @@
-import Header from "@/components/header"
+import Header from "@/components/layouts/Header/header"
 import Footer from "@/components/footer"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"

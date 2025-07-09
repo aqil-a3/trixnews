@@ -1,107 +1,119 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link" // Import Link for navigation
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Search, BookOpen, Newspaper } from "lucide-react" // Add icons for articles/guides
-import { searchContent } from "@/lib/search" // Import searchContent function
-import type { Article } from "@/lib/articles" // Import Article type
-import type { Guide } from "@/lib/guides" // Import Guide type
-import { cn } from "@/lib/utils" // Import cn utility
+import * as React from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link"; // Import Link for navigation
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Search, BookOpen, Newspaper } from "lucide-react"; // Add icons for articles/guides
+import { searchContent } from "@/lib/search"; // Import searchContent function
+import type { Article } from "@/lib/articles"; // Import Article type
+import type { Guide } from "@/lib/guides"; // Import Guide type
+import { cn } from "@/lib/utils"; // Import cn utility
 
 export default function SearchInput() {
-  const [query, setQuery] = React.useState("")
-  const [suggestions, setSuggestions] = React.useState<{ articles: Article[]; guides: Guide[] }>({
+  const [query, setQuery] = React.useState("");
+  const [suggestions, setSuggestions] = React.useState<{
+    articles: Article[];
+    guides: Guide[];
+  }>({
     articles: [],
     guides: [],
-  })
-  const [showSuggestions, setShowSuggestions] = React.useState(false)
-  const [activeIndex, setActiveIndex] = React.useState(-1) // For keyboard navigation
-  const router = useRouter()
-  const searchTimeoutRef = React.useRef<NodeJS.Timeout | null>(null)
-  const inputRef = React.useRef<HTMLInputElement>(null)
-  const suggestionsRef = React.useRef<HTMLDivElement>(null)
+  });
+  const [showSuggestions, setShowSuggestions] = React.useState(false);
+  const [activeIndex, setActiveIndex] = React.useState(-1); // For keyboard navigation
+  const router = useRouter();
+  const searchTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const suggestionsRef = React.useRef<HTMLDivElement>(null);
 
   // Debounce search input
   React.useEffect(() => {
     if (searchTimeoutRef.current) {
-      clearTimeout(searchTimeoutRef.current)
+      clearTimeout(searchTimeoutRef.current);
     }
 
     if (query.trim().length > 1) {
       // Only search if query is at least 2 characters
       searchTimeoutRef.current = setTimeout(() => {
-        const results = searchContent(query)
-        setSuggestions(results)
-        setShowSuggestions(true)
-        setActiveIndex(-1) // Reset active index on new search
-      }, 300) // 300ms debounce
+        const results = searchContent(query);
+        setSuggestions(results);
+        setShowSuggestions(true);
+        setActiveIndex(-1); // Reset active index on new search
+      }, 300); // 300ms debounce
     } else {
-      setSuggestions({ articles: [], guides: [] })
-      setShowSuggestions(false)
+      setSuggestions({ articles: [], guides: [] });
+      setShowSuggestions(false);
     }
 
     return () => {
       if (searchTimeoutRef.current) {
-        clearTimeout(searchTimeoutRef.current)
+        clearTimeout(searchTimeoutRef.current);
       }
-    }
-  }, [query])
+    };
+  }, [query]);
 
   const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (query.trim()) {
-      router.push(`/search?q=${encodeURIComponent(query.trim())}`)
-      setQuery("") // Clear input after search
-      setShowSuggestions(false) // Hide suggestions
+      router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+      setQuery(""); // Clear input after search
+      setShowSuggestions(false); // Hide suggestions
     }
-  }
+  };
 
   const handleSuggestionClick = (path: string) => {
-    router.push(path)
-    setQuery("") // Clear input
-    setShowSuggestions(false) // Hide suggestions
-  }
+    router.push(path);
+    setQuery(""); // Clear input
+    setShowSuggestions(false); // Hide suggestions
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    const allSuggestions = [...suggestions.articles, ...suggestions.guides]
-    if (allSuggestions.length === 0) return
+    const allSuggestions = [...suggestions.articles, ...suggestions.guides];
+    if (allSuggestions.length === 0) return;
 
     if (e.key === "ArrowDown") {
-      e.preventDefault()
-      setActiveIndex((prevIndex) => (prevIndex + 1) % allSuggestions.length)
+      e.preventDefault();
+      setActiveIndex((prevIndex) => (prevIndex + 1) % allSuggestions.length);
     } else if (e.key === "ArrowUp") {
-      e.preventDefault()
-      setActiveIndex((prevIndex) => (prevIndex - 1 + allSuggestions.length) % allSuggestions.length)
+      e.preventDefault();
+      setActiveIndex(
+        (prevIndex) =>
+          (prevIndex - 1 + allSuggestions.length) % allSuggestions.length
+      );
     } else if (e.key === "Enter") {
-      e.preventDefault()
+      e.preventDefault();
       if (activeIndex !== -1) {
-        const selectedItem = allSuggestions[activeIndex]
-        const path = "slug" in selectedItem ? `/articles/${selectedItem.slug}` : `/guides/${selectedItem.slug}`
-        handleSuggestionClick(path)
+        const selectedItem = allSuggestions[activeIndex];
+        //@ts-ignore
+        const path =
+        "slug" in selectedItem
+        ? `/articles/${selectedItem.slug}`
+        //@ts-ignore
+            : `/guides/${selectedItem.slug}`;
+        handleSuggestionClick(path);
       } else {
-        handleSearch(e) // If no suggestion is highlighted, perform regular search
+        handleSearch(e); // If no suggestion is highlighted, perform regular search
       }
     } else if (e.key === "Escape") {
-      setShowSuggestions(false)
-      setActiveIndex(-1)
-      inputRef.current?.blur() // Remove focus from input
+      setShowSuggestions(false);
+      setActiveIndex(-1);
+      inputRef.current?.blur(); // Remove focus from input
     }
-  }
+  };
 
   const handleBlur = (e: React.FocusEvent) => {
     // Delay hiding suggestions to allow click events on suggestions to fire
     setTimeout(() => {
       if (!suggestionsRef.current?.contains(e.relatedTarget as Node)) {
-        setShowSuggestions(false)
-        setActiveIndex(-1)
+        setShowSuggestions(false);
+        setActiveIndex(-1);
       }
-    }, 100)
-  }
+    }, 100);
+  };
 
-  const totalSuggestions = suggestions.articles.length + suggestions.guides.length
+  const totalSuggestions =
+    suggestions.articles.length + suggestions.guides.length;
 
   return (
     <div className="relative w-full max-w-sm">
@@ -112,7 +124,11 @@ export default function SearchInput() {
           placeholder="Search articles or guides..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onFocus={() => query.trim().length > 1 && setSuggestions(searchContent(query)) && setShowSuggestions(true)}
+          onFocus={() =>
+            query.trim().length > 1 &&
+            setSuggestions(searchContent(query)) &&
+            setShowSuggestions(true)
+          }
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
           className="flex-1"
@@ -143,16 +159,20 @@ export default function SearchInput() {
                 <Link
                   key={`article-${article.slug}`}
                   href={`/articles/${article.slug}`}
-                  onClick={() => handleSuggestionClick(`/articles/${article.slug}`)}
+                  onClick={() =>
+                    handleSuggestionClick(`/articles/${article.slug}`)
+                  }
                   className={cn(
                     "flex items-center gap-2 p-3 hover:bg-gray-100 cursor-pointer",
-                    activeIndex === index && "bg-gray-100",
+                    activeIndex === index && "bg-gray-100"
                   )}
                   role="option"
                   aria-selected={activeIndex === index}
                 >
                   <Newspaper className="h-4 w-4 text-gray-500" />
-                  <span className="text-sm text-gray-800 line-clamp-1">{article.title}</span>
+                  <span className="text-sm text-gray-800 line-clamp-1">
+                    {article.title}
+                  </span>
                 </Link>
               ))}
             </>
@@ -163,7 +183,7 @@ export default function SearchInput() {
               <div
                 className={cn(
                   "px-3 py-2 text-xs font-semibold text-gray-500 uppercase",
-                  suggestions.articles.length > 0 && "border-t border-gray-100",
+                  suggestions.articles.length > 0 && "border-t border-gray-100"
                 )}
               >
                 Guides
@@ -175,13 +195,18 @@ export default function SearchInput() {
                   onClick={() => handleSuggestionClick(`/guides/${guide.slug}`)}
                   className={cn(
                     "flex items-center gap-2 p-3 hover:bg-gray-100 cursor-pointer",
-                    activeIndex === suggestions.articles.length + index && "bg-gray-100", // Adjust index for guides
+                    activeIndex === suggestions.articles.length + index &&
+                      "bg-gray-100" // Adjust index for guides
                   )}
                   role="option"
-                  aria-selected={activeIndex === suggestions.articles.length + index}
+                  aria-selected={
+                    activeIndex === suggestions.articles.length + index
+                  }
                 >
                   <BookOpen className="h-4 w-4 text-gray-500" />
-                  <span className="text-sm text-gray-800 line-clamp-1">{guide.title}</span>
+                  <span className="text-sm text-gray-800 line-clamp-1">
+                    {guide.title}
+                  </span>
                 </Link>
               ))}
             </>
@@ -189,5 +214,5 @@ export default function SearchInput() {
         </div>
       )}
     </div>
-  )
+  );
 }

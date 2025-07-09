@@ -1,4 +1,4 @@
-import Header from "@/components/header"
+import Header from "@/components/layouts/Header/header"
 import Footer from "@/components/footer"
 import CategoriesSection from "@/components/categories-section" // Reusing the existing component
 import type { Metadata } from "next" // Import Metadata type

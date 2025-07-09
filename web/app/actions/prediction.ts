@@ -28,6 +28,7 @@ export async function submitPrediction(prevState: any, formData: FormData) {
     predictionContent: predictionContent,
     status: "pending", // Always pending for admin approval
     contactEmail: contactEmail,
+    
   }
 
   console.log("New Prediction Submission for Admin Approval:", newPredictionSubmission)

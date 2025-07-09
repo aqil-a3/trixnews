@@ -1,4 +1,4 @@
-import Header from "@/components/header"
+import Header from "@/components/layouts/Header/header"
 import Footer from "@/components/footer"
 import ToolCard from "@/components/tool-card"
 import { allWeb3Tools } from "@/lib/web3-tools"

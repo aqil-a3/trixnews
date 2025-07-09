@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import Header from "@/components/header"
+import Header from "@/components/layouts/Header/header"
 import Footer from "@/components/footer"
 import Image from "next/image"
 import { getAirdropBySlug, formatDate, getAirdropStatus } from "@/lib/airdrops"
@@ -70,7 +70,6 @@ export default function AirdropDetailPage({ params }: { params: { slug: string }
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
-      <Header />
       <main className="container mx-auto px-4 py-8 flex-1">
         <article className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
           <div className="flex items-center gap-4 mb-6">

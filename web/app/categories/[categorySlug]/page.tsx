@@ -1,4 +1,4 @@
-import Header from "@/components/header"
+import Header from "@/components/layouts/Header/header"
 import Footer from "@/components/footer"
 import ArticleCard from "@/components/article-card"
 import { getArticlesByCategorySlug, getCategoryDisplayName } from "@/lib/articles"

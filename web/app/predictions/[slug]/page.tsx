@@ -1,5 +1,5 @@
 import Image from "next/image"
-import Header from "@/components/header"
+import Header from "@/components/layouts/Header/header"
 import Footer from "@/components/footer"
 import { getPredictionBySlug, formatDate } from "@/lib/predictions"
 import type { Metadata } from "next"

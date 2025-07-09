@@ -1,26 +1,17 @@
-import Link from "next/link"
-import SearchInput from "./search-input"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { ChevronDown } from "lucide-react"
-import { getUserSession, signOut } from "@/app/actions/auth" // Import auth actions
-import { Button } from "@/components/ui/button" // Import Button component
+import Link from "next/link";
+import SearchInput from "../../search-input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button"; // Import Button component
+import { loginPageUrl } from "@/lib/variables";
+import { dropdownLinks, mainNavLinks } from "./links";
 
 export default async function Header() {
-  const session = await getUserSession() // Get user session
-
-  const mainNavLinks = [
-    { name: "Home", href: "/" },
-    { name: "ICO Presales", href: "/ico-presale" },
-    { name: "Airdrops", href: "/airdrops" },
-  ]
-
-  const dropdownLinks = [
-    { name: "Articles", href: "/articles" },
-    { name: "Guides", href: "/guides" },
-    { name: "Predictions", href: "/predictions" },
-    { name: "Web3 Tools", href: "/web3-tools" },
-  ]
-
   return (
     <header className="bg-white border-b border-gray-200 py-4 px-6 flex items-center justify-between">
       <div className="flex items-center">
@@ -60,18 +51,12 @@ export default async function Header() {
       </nav>
       <div className="flex-shrink-0 flex items-center gap-4">
         <SearchInput />
-        {session ? (
-          <form action={signOut}>
-            <Button type="submit" variant="outline">
-              Logout
-            </Button>
-          </form>
-        ) : (
-          <Button>
-            <Link href="/login">Login</Link>
-          </Button>
-        )}
+        <Button>
+          <Link href={loginPageUrl} target="_blank">
+            Login
+          </Link>
+        </Button>
       </div>
     </header>
-  )
+  );
 }

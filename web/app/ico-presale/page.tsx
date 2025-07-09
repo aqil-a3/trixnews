@@ -1,4 +1,4 @@
-import Header from "@/components/header"
+import Header from "@/components/layouts/Header/header"
 import Footer from "@/components/footer"
 import PresaleCard from "@/components/presale-card"
 import PresaleSubmissionForm from "@/components/presale-submission-form"
@@ -40,7 +40,6 @@ export default function ICOPresalePage() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
-      <Header />
       <main className="container mx-auto px-4 py-8 flex-1">
         <h1 className="text-4xl font-bold text-gray-900 mb-8">ICO Presale List</h1>
 

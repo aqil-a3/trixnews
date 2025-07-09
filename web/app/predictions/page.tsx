@@ -1,4 +1,4 @@
-import Header from "@/components/header"
+import Header from "@/components/layouts/Header/header"
 import Footer from "@/components/footer"
 import PredictionCard from "@/components/prediction-card"
 import PredictionSubmissionForm from "@/components/prediction-submission-form"

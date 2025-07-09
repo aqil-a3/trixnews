@@ -11,7 +11,7 @@ export interface Prediction {
   predictionContent: string // Full content of the prediction
   status: "active" | "archived" | "pending" // Status of the prediction
   // Fields for accuracy tracking (kept as they are used in card/detail page)
-  isResolved: boolean // True if the prediction has been evaluated
+  isResolved?: boolean // True if the prediction has been evaluated
   resolutionDate?: string // YYYY-MM-DD, when the prediction was resolved
   actualOutcome?: string // Description of what actually happened
   accuracyScore?: number // 0-100, how accurate the prediction was

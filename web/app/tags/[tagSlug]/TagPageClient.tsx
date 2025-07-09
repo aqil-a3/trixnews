@@ -1,6 +1,6 @@
 "use client"
 import { useState, useMemo } from "react"
-import Header from "@/components/header"
+import Header from "@/components/layouts/Header/header"
 import Footer from "@/components/footer"
 import ArticleCard from "@/components/article-card"
 import { getArticlesByTagSlug, getTagDisplayName } from "@/lib/articles"

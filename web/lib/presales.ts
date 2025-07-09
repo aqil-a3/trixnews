@@ -12,7 +12,7 @@ export interface Presale {
   status: "pending" | "approved" | "rejected"
   contactEmail: string // For internal use, not displayed
   imageUrl?: string // Optional: for token logo
-  slug: string // Unique identifier for the presale URL
+  slug?: string // Unique identifier for the presale URL
 }
 
 // Dummy data for approved presales

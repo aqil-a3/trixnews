@@ -3,7 +3,7 @@ import { parseBody } from "next-sanity/webhook";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  console.log("🔥 Webhook received");
+  console.log("🔥 Webhook receiveds");
 
   const secret = process.env.SANITY_REVALIDATE_SECRET;
 

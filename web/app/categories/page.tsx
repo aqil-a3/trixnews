@@ -1,13 +1,20 @@
-import Header from "@/components/layouts/Header/header"
-import Footer from "@/components/layouts/Footer"
+import Header from "@/components/layouts/Header/header";
+import Footer from "@/components/layouts/Footer";
 // import CategoriesSection from "@/components/organisms/Home/CategoriesSection" // Reusing the existing component
-import type { Metadata } from "next" // Import Metadata type
+import type { Metadata } from "next"; // Import Metadata type
 
 export const metadata: Metadata = {
   title: "All Categories - Trixnews.com",
   description:
     "Explore a complete list of news categories and topics on Trixnews.com, including Web3, Finance, NFT, Layer 2, Analysis, and Opinion.",
-  keywords: ["crypto categories", "web3 topics", "category list", "blockchain news", "crypto analysis", "Trixnews"],
+  keywords: [
+    "crypto categories",
+    "web3 topics",
+    "category list",
+    "blockchain news",
+    "crypto analysis",
+    "Trixnews",
+  ],
   openGraph: {
     title: "All Categories - Trixnews.com",
     description:
@@ -30,20 +37,24 @@ export const metadata: Metadata = {
     title: "All Categories - Trixnews.com",
     description:
       "Explore a complete list of news categories and topics on Trixnews.com, including Web3, Finance, NFT, Layer 2, Analysis, and Opinion.",
-    images: ["/placeholder.svg?height=630&width=1200&text=All Categories Trixnews"], // Twitter Card image
+    images: [
+      "/placeholder.svg?height=630&width=1200&text=All Categories Trixnews",
+    ], // Twitter Card image
   },
-}
+};
 
 export default function CategoriesPage() {
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
       <Header />
       <main className="container mx-auto px-4 py-8 flex-1">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">All Categories</h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-8">
+          All Categories
+        </h1>
         {/* Reusing CategoriesSection component */}
         {/* <CategoriesSection /> */}
       </main>
       <Footer />
     </div>
-  )
+  );
 }

@@ -1,32 +1,31 @@
-import { revalidateTag } from 'next/cache';
-import { NextResponse, type NextRequest } from 'next/server';
-import { parseBody } from 'next-sanity/webhook';
-
-type WebhookPayload = {
-  _type: string;
-};
+import { revalidateTag } from "next/cache";
+import { parseBody } from "next-sanity/webhook";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  try {
-    const secret = process.env.SANITY_REVALIDATE_SECRET;
-    if (!secret) {
-      return new Response('Missing secret', { status: 500 });
-    }
+  console.log("🔥 Webhook received");
 
-    const { isValidSignature, body } = await parseBody<WebhookPayload>(req, secret);
+  const secret = process.env.SANITY_REVALIDATE_SECRET;
 
-    if (!isValidSignature) {
-      return new Response('Invalid signature', { status: 401 });
-    }
+  const { isValidSignature, body } = await parseBody<{ _type: string }>(
+    req,
+    secret!,
+  );
 
-    if (!body?._type) {
-      return new Response('Bad payload', { status: 400 });
-    }
+  console.log("📦 Webhook body:", body);
+  console.log("✅ Signature valid:", isValidSignature);
 
-    revalidateTag(body._type); // contoh: _type === "post"
-    return NextResponse.json({ success: true });
-  } catch (err) {
-    console.error(err);
-    return new Response('Server error', { status: 500 });
+  if (!isValidSignature) {
+    return new Response("Invalid signature", { status: 401 });
   }
+
+  if (!body?._type) {
+    return new Response("Bad Request", { status: 400 });
+  }
+
+  // Jalankan revalidate tag
+  console.log(`🔁 Revalidating tag: ${body._type}`);
+  revalidateTag(body._type);
+
+  return NextResponse.json({ revalidated: true, tag: body._type });
 }

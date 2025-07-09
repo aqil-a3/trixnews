@@ -5,7 +5,8 @@ import { sanityFetch } from "@/sanity/lib/live";
 export async function getAllPost() {
   const result = await sanityFetch({
     query: groqGetAllPost,
+    tags: ["posts"],
   });
 
-  return result.data as PostSummary[]
+  return result.data as PostSummary[];
 }

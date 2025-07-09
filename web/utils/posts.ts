@@ -1,18 +1,18 @@
 import { Category, PostDetail, PostSummary } from "@/@types/Posts";
+import { sanityFetch } from "@/sanity/lib/client";
 import {
   groqGetAllCategories,
   groqGetAllPost,
   groqGetPostByCategorySlug,
   groqGetPostBySlug,
 } from "@/sanity/lib/groq";
-import { sanityFetch } from "@/sanity/lib/live";
 
 export async function getAllCategories(): Promise<Category[]> {
   try {
     const result = await sanityFetch({
       query: groqGetAllCategories,
     });
-    return result.data as Category[];
+    return result as Category[];
   } catch (error) {
     console.error("Failed to fetch categories", error);
     return [];
@@ -24,7 +24,7 @@ export async function getAllPost() {
     query: groqGetAllPost,
   });
 
-  return result.data as PostDetail[];
+  return result as PostDetail[];
 }
 
 export async function getCategoryDisplayName(slug: string): Promise<string> {
@@ -51,7 +51,7 @@ export async function getPostBySlug(slug: string): Promise<PostDetail | null> {
       params: { slug },
     });
 
-    return result.data;
+    return result;
   } catch (error) {
     console.error("Failed to fetch post by slug", error);
     return null;
@@ -67,7 +67,7 @@ export async function getPostsByCategorySlug(
       params: { slug },
     });
 
-    return result.data as PostDetail[];
+    return result as PostDetail[];
   } catch (error) {
     console.error("Failed to fetch posts by category slug", error);
     return [];

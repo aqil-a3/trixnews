@@ -8,5 +8,5 @@ export async function getAllPost() {
     revalidate: 0,
   });
 
-  return result.data as PostSummary[];
+  return result as PostSummary[];
 }

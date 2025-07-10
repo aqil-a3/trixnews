@@ -1,8 +1,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
+import { Eye, Pencil } from "lucide-react";
 import { PostSummary } from "@/@types/Posts";
+import { webUrl } from "@/lib/client-variables";
 
 export const postSummaryColumns: ColumnDef<PostSummary>[] = [
   {
@@ -30,6 +31,7 @@ export const postSummaryColumns: ColumnDef<PostSummary>[] = [
     header: "Actions",
     cell: ({ row }) => {
       const post = row.original;
+      const slug = row.original.slug.current;
 
       return (
         <div className="flex gap-2">
@@ -41,6 +43,15 @@ export const postSummaryColumns: ColumnDef<PostSummary>[] = [
             }
           >
             <Pencil className="w-4 h-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() =>
+              window.open(`${webUrl}/articles/${slug}`, "_blank")
+            }
+          >
+            <Eye className="w-4 h-4" />
           </Button>
         </div>
       );

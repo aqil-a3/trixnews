@@ -14,7 +14,6 @@ import {
   FileText,
   Tag,
   Folder,
-  Image as IconImage,
   ExternalLink,
   User,
 } from "lucide-react";
@@ -26,7 +25,6 @@ const sidebarLinks = [
   { label: "Posts", href: "/posts", icon: FileText },
   { label: "Categories", href: "/categories", icon: Folder },
   { label: "Tags", href: "/tags", icon: Tag },
-  { label: "Media", href: "/media", icon: IconImage },
 ];
 
 export default function AdminSidebarContent() {

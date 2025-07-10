@@ -21,7 +21,6 @@ export class UsersService {
   private supabase = getSupabaseClient();
 
   async getUserByEmail(email: string): Promise<AdminUser | null> {
-    console.log('Pengambilan dimulai');
     const { data, error, status } = await this.supabase
       .from('admin_users')
       .select('*')

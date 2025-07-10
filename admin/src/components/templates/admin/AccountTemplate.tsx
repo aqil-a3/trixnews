@@ -10,6 +10,7 @@ import Link from "next/link";
 import AccountProvider from "@/components/providers/AccountProvider";
 import { useSession } from "next-auth/react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { isAdminOrDeveloper } from "@/utils/auth";
 
 export default function AccountTemplate({ users }: { users: AdminUser[] }) {
   return (
@@ -36,9 +37,8 @@ const AddNewUserButton = () => {
 
   if (!user) return <Skeleton className="h-[36px] w-[140px] rounded-2xl" />;
   const role = user.role!.toLowerCase();
-  const isHidden = role !== "admin" && role !== "developer";
 
-  if (isHidden) return null;
+  if (!isAdminOrDeveloper(role)) return null;
 
   return (
     <div className="mb-4 flex justify-end">

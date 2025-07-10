@@ -1,6 +1,6 @@
-import { PostSummary } from "@/@types/Posts";
+import { Category, PostSummary, Tag } from "@/@types/Posts";
 import { sanityFetch } from "@/sanity/lib/client";
-import { groqGetAllPost } from "@/sanity/lib/groq";
+import { groqGetAllCategory, groqGetAllPost, groqGetAllTags } from "@/sanity/lib/groq";
 
 export async function getAllPost() {
   const result = await sanityFetch({
@@ -9,4 +9,22 @@ export async function getAllPost() {
   });
 
   return result as PostSummary[];
+}
+
+export async function getAllCategory() {
+  const result = await sanityFetch({
+    query: groqGetAllCategory,
+    revalidate: 0,
+  });
+
+  return result as Category[];
+}
+
+export async function getAllTags() {
+  const result = await sanityFetch({
+    query: groqGetAllTags,
+    revalidate: 0,
+  });
+
+  return result as Tag[];
 }

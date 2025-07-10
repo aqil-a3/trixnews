@@ -46,6 +46,15 @@ export const postType = defineType({
         Rule.required().min(1).error("At least one category is required"),
     }),
     defineField({
+      name: "tags",
+      title: "Tags",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "tag" }] }],
+      options: {
+        layout: "tags",
+      },
+    }),
+    defineField({
       name: "publishedAt",
       type: "datetime",
       validation: (Rule) => Rule.required().error("Publish date is required"),

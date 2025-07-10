@@ -38,3 +38,25 @@ export interface PostSummary {
   };
   publishedAt: string;
 }
+
+export interface Category {
+  readonly _id: string;
+  readonly _type: "category";
+  readonly title: string;
+  readonly slug: {
+    readonly _type: "slug";
+    readonly current: string;
+  };
+  readonly description?: string;
+}
+
+export interface Tag {
+  readonly _id: string;
+  readonly _type: "tag";
+  readonly title: string;
+  readonly slug: {
+    readonly _type: "slug";
+    readonly current: string;
+  };
+  readonly description?: string;
+}

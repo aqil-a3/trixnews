@@ -64,6 +64,8 @@ export const adminUserColumns: ColumnDef<AdminUser>[] = [
   {
     accessorKey: "actions",
     header: "Actions",
-    cell: ({ row }) => <DeleteDialog email={row.original.email} />,
+    cell: ({ row }) => (
+      <DeleteDialog email={row.original.email} role={row.original.role} />
+    ),
   },
 ];

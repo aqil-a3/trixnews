@@ -17,12 +17,14 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { canDeleteUser, isYourself } from "@/utils/auth";
 
 interface DeleteDialogProps {
   email: string;
+  role: string;
 }
 
-export function DeleteDialog({ email }: DeleteDialogProps) {
+export function DeleteDialog({ email, role }: DeleteDialogProps) {
   const session = useSession();
   const user = session.data?.user;
 
@@ -57,7 +59,19 @@ export function DeleteDialog({ email }: DeleteDialogProps) {
   }
 
   if (!user) return <Skeleton className="h-8 w-8 rounded-md gap-1.5 px-3" />;
-  const isHidden = user.email === email || (user.role?.toLocaleLowerCase() !== "admin" && user.role?.toLowerCase() !== "developer");
+
+  const currentRole = user.role?.toLowerCase();
+  const targetRole = role.toLowerCase();
+  const targetEmail = email;
+
+  const isHidden =
+    !canDeleteUser(
+      String(user.email),
+      String(currentRole),
+      targetEmail,
+      targetRole
+    ) && isYourself(String(user.email), targetEmail);
+
   if (isHidden) return null;
 
   return (

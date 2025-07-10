@@ -52,7 +52,8 @@ export default function AdminSidebarContent() {
         <SidebarGroupLabel>Navigation</SidebarGroupLabel>
         <SidebarMenu>
           {sidebarLinks.map(({ label, href, icon: Icon }) => {
-            const isActive = pathname === href;
+            const isActive = pathname.startsWith(href);
+
             return (
               <SidebarMenuItem key={href}>
                 <Link

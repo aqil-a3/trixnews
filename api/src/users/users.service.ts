@@ -1,5 +1,6 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { getSupabaseClient } from '../supabase/supabase.client';
+import { CreateAdminUserDto } from 'src/dto/create-admin-user.dto';
 
 export interface AdminUser {
   id: string;
@@ -61,19 +62,27 @@ export class UsersService {
     return data;
   }
 
-  async createAdmin(payload: {
-    email: string;
-    name?: string;
-    avatar_url?: string;
-    role?: string;
-  }): Promise<AdminUser> {
+  async createNewUserAdmin(payload: CreateAdminUserDto): Promise<AdminUser> {
+    const { data: existingUser, error: findError } = await this.supabase
+      .from('admin_users')
+      .select('id')
+      .eq('email', payload.email)
+      .maybeSingle();
+
+    if (findError) {
+      throw new Error(`Failed to validate email: ${findError.message}`);
+    }
+
+    if (existingUser) {
+      throw new BadRequestException('Email is already in use');
+    }
+
+    // 2. Lanjutkan insert jika belum ada
     const { data, error } = await this.supabase
       .from('admin_users')
       .insert([
         {
           ...payload,
-          is_active: true,
-          role: payload.role || 'admin',
         },
       ])
       .select()

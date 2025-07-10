@@ -25,5 +25,6 @@ const getAllUsers = async (): Promise<AdminUser[]> => {
 
 export default async function AccountPage() {
   const users = await getAllUsers();
+  console.log("Revalidated")
   return <AccountTemplate users={users} />;
 }

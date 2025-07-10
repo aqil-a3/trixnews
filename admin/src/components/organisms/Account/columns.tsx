@@ -1,23 +1,24 @@
-import { ColumnDef } from "@tanstack/react-table"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { format } from "date-fns"
-import { AdminUser } from "@/@types/Auth"
+import { ColumnDef } from "@tanstack/react-table";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { format } from "date-fns";
+import { AdminUser } from "@/@types/Auth";
+import { DeleteDialog } from "./DeleteDialogs";
 
 export const adminUserColumns: ColumnDef<AdminUser>[] = [
   {
     accessorKey: "avatar_url",
     header: "Avatar",
     cell: ({ row }) => {
-      const avatarUrl = row.original.avatar_url
-      const name = row.original.name || "?"
+      const avatarUrl = row.original.avatar_url;
+      const name = row.original.name || "?";
 
       return (
         <Avatar className="h-8 w-8">
           <AvatarImage src={avatarUrl} />
           <AvatarFallback>{name[0]}</AvatarFallback>
         </Avatar>
-      )
+      );
     },
     enableSorting: false,
   },
@@ -45,7 +46,9 @@ export const adminUserColumns: ColumnDef<AdminUser>[] = [
     cell: ({ row }) => (
       <span
         className={
-          row.original.is_active ? "text-green-600 font-medium" : "text-muted-foreground"
+          row.original.is_active
+            ? "text-green-600 font-medium"
+            : "text-muted-foreground"
         }
       >
         {row.original.is_active ? "Yes" : "No"}
@@ -55,6 +58,12 @@ export const adminUserColumns: ColumnDef<AdminUser>[] = [
   {
     accessorKey: "created_at",
     header: "Created At",
-    cell: ({ row }) => format(new Date(row.original.created_at), "yyyy-MM-dd HH:mm"),
+    cell: ({ row }) =>
+      format(new Date(row.original.created_at), "yyyy-MM-dd HH:mm"),
   },
-]
+  {
+    accessorKey: "actions",
+    header: "Actions",
+    cell: ({ row }) => <DeleteDialog email={row.original.email} />,
+  },
+];

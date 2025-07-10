@@ -13,7 +13,6 @@ export default function AccountTemplate({ users }: { users: AdminUser[] }) {
   return (
     <AccountProvider users={users}>
       <MainContainer className="py-4">
-        {/* Judul dan deskripsi halaman */}
         <div>
           <h1 className="text-2xl font-bold">Manage Admin Accounts</h1>
           <p className="text-sm text-muted-foreground">
@@ -21,7 +20,6 @@ export default function AccountTemplate({ users }: { users: AdminUser[] }) {
           </p>
         </div>
 
-        {/* Tombol untuk menambah user baru */}
         <div className="mb-4 flex justify-end">
           <Link href="/account/new">
             <Button className="flex gap-2">
@@ -31,7 +29,6 @@ export default function AccountTemplate({ users }: { users: AdminUser[] }) {
           </Link>
         </div>
 
-        {/* Tabel pengguna */}
         <DataTable columns={adminUserColumns} data={users} />
       </MainContainer>
     </AccountProvider>

@@ -10,7 +10,6 @@ const apiClient = axios.create({
   },
 });
 
-// Helper untuk POST
 export function apiPost<T = unknown>(
   url: string,
   body?: unknown
@@ -18,7 +17,14 @@ export function apiPost<T = unknown>(
   return apiClient.post(url, body);
 }
 
-// Helper untuk GET
 export function apiGet<T = unknown>(url: string): Promise<{ data: T }> {
   return apiClient.get(url);
 }
+
+export function apiDelete<T = unknown>(
+  url: string,
+  data?: unknown
+): Promise<{ data: T }> {
+  return apiClient.delete(url, { data });
+}
+

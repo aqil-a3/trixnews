@@ -53,3 +53,7 @@ export function useFormLogics() {
 
   return { form, onSubmit, isLoading };
 }
+
+export async function deleteUserAdmin(email: string) {
+  return email;
+}

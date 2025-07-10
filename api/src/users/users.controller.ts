@@ -2,13 +2,15 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Post,
   UseGuards,
 } from '@nestjs/common';
 import { SharedSecretGuardService } from '../shared-secret-guard/shared-secret-guard.service';
 import { UsersService } from './users.service';
-import { CreateAdminUserDto } from 'src/dto/create-admin-user.dto';
+import { CreateAdminUserDto } from 'src/dto/user/create-admin-user.dto';
+import { DeleteAdminUserDto } from 'src/dto/user/delete-admin-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -27,8 +29,8 @@ export class UsersController {
     return await this.usersService.getUserByEmail(email);
   }
 
-  @Post('/new-account')
   @UseGuards(SharedSecretGuardService)
+  @Post('/new-account')
   async createNewUserAdmin(@Body() body: CreateAdminUserDto) {
     try {
       const user = await this.usersService.createNewUserAdmin(body);
@@ -40,5 +42,18 @@ export class UsersController {
     } catch (error) {
       throw new BadRequestException(error.message || 'Failed to create user');
     }
+  }
+
+  @UseGuards(SharedSecretGuardService)
+  @Delete('')
+  async deleteAdminUser(@Body() body: DeleteAdminUserDto) {
+    const { email } = body;
+
+    const result = await this.usersService.deleteAdminUser(email);
+
+    return {
+      message: `Admin user with email ${email} has been deleted`,
+      ...result,
+    };
   }
 }

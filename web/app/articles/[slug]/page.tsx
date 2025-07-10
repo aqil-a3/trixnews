@@ -14,6 +14,7 @@ import { getPostBySlug } from "@/utils/posts";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
 import { PortableText } from "next-sanity";
+import RichText from "@/components/molecules/PortableText";
 
 interface ArticlePageProps {
   params: { slug: string };
@@ -39,6 +40,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     },
     { label: article.title },
   ];
+
+  console.log(article.body)
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
@@ -70,9 +73,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </div>
           )}
 
-          <div className="prose prose-lg max-w-none text-gray-800 leading-relaxed">
-            <PortableText value={article.body} />
-          </div>
+          <RichText value={article.body} />
 
           <SocialShareButtons title={article.title} url={fullUrl} />
           <ArticleComments />

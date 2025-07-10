@@ -4,13 +4,13 @@ import { PostDetail, PostSummary } from "@/@types/Posts";
 import { format } from "date-fns";
 
 export default function ArticleCard({ article }: { article: PostDetail }) {
-  const { slug, title, publishedAt } = article;
+  const { slug, title, publishedAt, summary, mainImage } = article;
   return (
     <Link href={`/articles/${slug.current}`} className="block group">
       <div className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow flex flex-col h-full">
         <div className="relative aspect-video w-full">
           <Image
-            src={"/placeholder.svg"}
+            src={mainImage ? mainImage.asset.url : "/placeholder.svg"}
             alt={title}
             layout="fill"
             objectFit="cover"
@@ -25,7 +25,7 @@ export default function ArticleCard({ article }: { article: PostDetail }) {
               {title}
             </h3>
             <p className="text-sm text-gray-600 mb-3 line-clamp-3">
-              summary here
+              {summary}
             </p>{" "}
             {/* Kept line-clamp-3 */}
           </div>

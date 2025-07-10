@@ -64,18 +64,15 @@ export default function PresaleDetailPage({ params }: { params: { slug: string }
   if (!presale) {
     return (
       <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
-        <Header />
         <main className="container mx-auto px-4 py-8 flex-1 flex items-center justify-center">
           <h1 className="text-3xl font-bold text-gray-900">Presale not found.</h1>
         </main>
-        <Footer />
       </div>
     )
   }
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
-      <Header />
       <main className="container mx-auto px-4 py-8 flex-1">
         <article className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
           <div className="flex items-center gap-4 mb-6">
@@ -164,7 +161,6 @@ export default function PresaleDetailPage({ params }: { params: { slug: string }
           </div>
         </article>
       </main>
-      <Footer />
     </div>
   )
 }

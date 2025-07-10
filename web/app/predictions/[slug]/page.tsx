@@ -1,6 +1,4 @@
 import Image from "next/image"
-import Header from "@/components/layouts/Header/header"
-import Footer from "@/components/layouts/Footer"
 import { getPredictionBySlug, formatDate } from "@/lib/predictions"
 import type { Metadata } from "next"
 import { CheckCircle, XCircle, CalendarDays } from "lucide-react" // Import new icons
@@ -61,18 +59,15 @@ export default function PredictionDetailPage({ params }: { params: { slug: strin
   if (!prediction) {
     return (
       <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
-        <Header />
         <main className="container mx-auto px-4 py-8 flex-1 flex items-center justify-center">
           <h1 className="text-3xl font-bold text-gray-900">Prediction not found.</h1>
         </main>
-        <Footer />
       </div>
     )
   }
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
-      <Header />
       <main className="container mx-auto px-4 py-8 flex-1">
         <article className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
           <div className="relative aspect-video w-full mb-6 rounded-lg overflow-hidden">
@@ -137,7 +132,6 @@ export default function PredictionDetailPage({ params }: { params: { slug: strin
           )}
         </article>
       </main>
-      <Footer />
     </div>
   )
 }

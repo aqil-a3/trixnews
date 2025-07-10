@@ -60,7 +60,6 @@ export default function ICOPresalePage() {
           <PresaleSubmissionForm />
         </section>
       </main>
-      <Footer />
     </div>
   )
 }

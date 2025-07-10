@@ -38,7 +38,6 @@ export const metadata: Metadata = {
 export default function Web3ToolsPage() {
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
-      <Header />
       <main className="container mx-auto px-4 py-8 flex-1">
         <h1 className="text-4xl font-bold text-gray-900 mb-8">Web3 Tools & Resources</h1>
 
@@ -52,7 +51,6 @@ export default function Web3ToolsPage() {
           </div>
         )}
       </main>
-      <Footer />
     </div>
   )
 }

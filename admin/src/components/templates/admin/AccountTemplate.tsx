@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import AccountProvider from "@/components/providers/AccountProvider";
+import { useSession } from "next-auth/react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AccountTemplate({ users }: { users: AdminUser[] }) {
   return (
@@ -20,17 +22,32 @@ export default function AccountTemplate({ users }: { users: AdminUser[] }) {
           </p>
         </div>
 
-        <div className="mb-4 flex justify-end">
-          <Link href="/account/new">
-            <Button className="flex gap-2">
-              <Plus className="w-4 h-4" />
-              Add New User
-            </Button>
-          </Link>
-        </div>
+        <AddNewUserButton />
 
         <DataTable columns={adminUserColumns} data={users} />
       </MainContainer>
     </AccountProvider>
   );
 }
+
+const AddNewUserButton = () => {
+  const { data } = useSession();
+  const user = data?.user;
+
+  if (!user) return <Skeleton className="h-[36px] w-[140px] rounded-2xl" />;
+  const role = user.role!.toLowerCase();
+  const isHidden = role !== "admin" && role !== "developer";
+
+  if (isHidden) return null;
+
+  return (
+    <div className="mb-4 flex justify-end">
+      <Link href="/account/new">
+        <Button className="flex gap-2">
+          <Plus className="w-4 h-4" />
+          Add New User
+        </Button>
+      </Link>
+    </div>
+  );
+};

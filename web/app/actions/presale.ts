@@ -1,6 +1,6 @@
 "use server"
 
-import type { Presale } from "@/lib/presales"
+import { Presale } from "@/@types/Posts"
 
 // In a real application, this would save to a database
 // For demonstration, we'll just log the submission

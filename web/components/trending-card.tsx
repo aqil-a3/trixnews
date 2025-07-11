@@ -3,8 +3,8 @@ import Link from "next/link"
 import { Card } from "@/components/ui/card"
 import { formatDateForDisplay } from "@/lib/articles"
 import type { Article } from "@/lib/articles"
-import type { Guide } from "@/lib/guides"
 import { Newspaper, BookOpen } from "lucide-react"
+import { Guide } from "@/@types/Posts"
 
 type TrendingItem = Article | Guide
 

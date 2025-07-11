@@ -3,9 +3,10 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { formatDate, getAirdropStatus, type Airdrop } from "@/lib/airdrops" // Import Airdrop type and helpers
+import { formatDate, getAirdropStatus } from "@/lib/airdrops" // Import Airdrop type and helpers
 import { CalendarDays, Gift } from "lucide-react" // Import Link as LinkIcon to avoid conflict
 import { cn } from "@/lib/utils"
+import { Airdrop } from "@/@types/Posts"
 
 interface AirdropCardProps {
   airdrop: Airdrop

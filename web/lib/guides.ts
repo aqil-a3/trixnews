@@ -1,14 +1,5 @@
 import { getAllGuides } from "@/utils/sanity-posts";
 
-// lib/guides.ts
-export interface Guide {
-  title: string;
-  description: string;
-  slug: string;
-  icon?: string; // Optional: if you want to store icon names as strings
-  content: string; // Full HTML content for the guide
-  popularity?: number; // Add popularity property
-}
 
 // export const allGuides: Guide[] = [
 //   {

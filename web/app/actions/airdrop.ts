@@ -1,6 +1,6 @@
 "use server"
 
-import type { Airdrop } from "@/lib/airdrops"
+import type { Airdrop } from "@/@types/Posts"
 
 export async function submitAirdrop(prevState: any, formData: FormData) {
   const contactEmail = formData.get("contactEmail") as string

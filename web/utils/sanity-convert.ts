@@ -1,6 +1,7 @@
-import { Airdrop, Presale } from "@/@types/Posts";
-import { SanityAirdrop, SanityPresale } from "@/@types/Sanity";
+import { Airdrop, Guide, Presale } from "@/@types/Posts";
+import { SanityAirdrop, SanityGuide, SanityPresale } from "@/@types/Sanity";
 import { urlFor } from "@/sanity/lib/image";
+import { toHTML } from "@portabletext/to-html"
 
 export function convertSanityPresale(sanity: SanityPresale): Presale {
   return {
@@ -32,5 +33,16 @@ export function convertSanityAirdrop(doc: SanityAirdrop): Airdrop {
     contactEmail: doc.contactEmail,
     imageUrl: doc.mainImage ? urlFor(doc.mainImage).width(64).height(64).url() : undefined,
     slug: doc.slug.current,
+  };
+}
+
+export function convertSanityGuideToGuide(guide: SanityGuide): Guide {
+  return {
+    title: guide.title,
+    description: guide.description,
+    slug: guide.slug.current,
+    icon: guide.icon,
+    content: toHTML(guide.content), // Ubah Portable Text jadi HTML
+    popularity: guide.popularity,
   };
 }

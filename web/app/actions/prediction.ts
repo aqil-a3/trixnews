@@ -1,6 +1,7 @@
 "use server"
 
-import type { Prediction } from "@/lib/predictions"
+import { Prediction } from "@/@types/Posts"
+
 
 export async function submitPrediction(prevState: any, formData: FormData) {
   const authorName = (formData.get("authorName") as string) || "Anonymous"

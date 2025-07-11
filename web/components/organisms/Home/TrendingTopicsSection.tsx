@@ -1,18 +1,32 @@
-import TrendingCard from "../../trending-card"
-import { allArticles, type Article } from "@/lib/articles"
-import { allGuides, type Guide } from "@/lib/guides"
+import { useMemo } from "react";
+import TrendingCard from "../../trending-card";
+import { allArticles, type Article } from "@/lib/articles";
+import { SanityGuide } from "@/@types/Sanity";
+import { convertSanityGuideToGuide } from "@/utils/sanity-convert";
+import { Guide } from "@/@types/Posts";
 
-export default function TrendingTopicsSection() {
+export default function TrendingTopicsSection({
+  guides,
+}: {
+  guides: SanityGuide[];
+}) {
   // Combine articles and guides into a single array
-  const combinedItems: (Article | Guide)[] = [...allArticles, ...allGuides]
+  const allGuides = useMemo(() => {
+    const result = [];
+    for (const guide of guides) {
+      result.push(convertSanityGuideToGuide(guide));
+    }
+    return result;
+  }, [guides]);
+  const combinedItems: (Article | Guide)[] = [...allArticles, ...allGuides];
 
   // Sort by popularity in descending order and take the top 6
   const trendingItems = combinedItems
     .sort((a, b) => (b.popularity || 0) - (a.popularity || 0)) // Use 0 if popularity is undefined
-    .slice(0, 6) // Display top 6 trending items
+    .slice(0, 6); // Display top 6 trending items
 
   if (trendingItems.length === 0) {
-    return null // Don't render section if no trending items
+    return null; // Don't render section if no trending items
   }
 
   return (
@@ -24,5 +38,5 @@ export default function TrendingTopicsSection() {
         ))}
       </div>
     </section>
-  )
+  );
 }

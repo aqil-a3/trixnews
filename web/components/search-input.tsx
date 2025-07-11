@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Search, BookOpen, Newspaper } from "lucide-react"; // Add icons for articles/guides
 import { searchContent } from "@/lib/search"; // Import searchContent function
 import type { Article } from "@/lib/articles"; // Import Article type
-import type { Guide } from "@/lib/guides"; // Import Guide type
 import { cn } from "@/lib/utils"; // Import cn utility
+import { Guide } from "@/@types/Posts";
 
 export default function SearchInput() {
   const [query, setQuery] = React.useState("");

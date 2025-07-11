@@ -135,3 +135,30 @@ export interface Airdrop {
   imageUrl?: string // Optional: for token logo
   slug: string // Unique identifier for the airdrop URL
 }
+
+export interface Guide {
+  title: string;
+  description: string;
+  slug: string;
+  icon?: string; // Optional: if you want to store icon names as strings
+  content: string; // Full HTML content for the guide
+  popularity?: number; // Add popularity property
+}
+
+export interface Prediction {
+  id: string
+  title: string
+  summary: string
+  date: string // YYYY-MM-DD (date prediction was made/published)
+  imageUrl?: string
+  slug: string
+  author: string
+  predictionContent: string // Full content of the prediction
+  status: "active" | "archived" | "pending" // Status of the prediction
+  // Fields for accuracy tracking (kept as they are used in card/detail page)
+  isResolved?: boolean // True if the prediction has been evaluated
+  resolutionDate?: string // YYYY-MM-DD, when the prediction was resolved
+  actualOutcome?: string // Description of what actually happened
+  accuracyScore?: number // 0-100, how accurate the prediction was
+  contactEmail?: string // For internal use, if submitted via form
+}

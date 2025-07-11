@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Eye, Pencil } from "lucide-react";
 import { Airdrop } from "@/@types/Posts";
+import { webUrl } from "@/lib/client-variables";
 
 export const airdropColumns: ColumnDef<Airdrop>[] = [
   {
@@ -79,7 +80,7 @@ export const airdropColumns: ColumnDef<Airdrop>[] = [
             variant="outline"
             size="icon"
             onClick={() =>
-              window.open(`/airdrops/${slug}`, "_blank")
+              window.open(`${webUrl}/airdrops/${slug}`, "_blank")
             }
           >
             <Eye className="w-4 h-4" />

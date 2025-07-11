@@ -1,16 +1,15 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import Header from "@/components/layouts/Header/header"
-import Footer from "@/components/layouts/Footer"
 import Image from "next/image"
-import { getPresaleBySlug, formatCurrency, formatDate } from "@/lib/presales"
+import { formatCurrency, formatDate } from "@/lib/presales"
 import { CalendarDays, DollarSign, Coins, TrendingUp } from "lucide-react"
 import type { Metadata } from "next"
+import { getPresaleBySlug } from "@/utils/sanity-posts"
 
 // Dynamic metadata for presale detail page
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const presale = getPresaleBySlug(params.slug)
-
+  const presale = await getPresaleBySlug(params.slug);
+  
   if (!presale) {
     return {
       title: "Presale Not Found - Trixnews.com",
@@ -58,8 +57,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-export default function PresaleDetailPage({ params }: { params: { slug: string } }) {
-  const presale = getPresaleBySlug(params.slug)
+export default async function PresaleDetailPage({ params }: { params: { slug: string } }) {
+  const presale = await getPresaleBySlug(params.slug)
 
   if (!presale) {
     return (

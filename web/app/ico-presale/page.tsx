@@ -1,5 +1,3 @@
-import Header from "@/components/layouts/Header/header"
-import Footer from "@/components/layouts/Footer"
 import PresaleCard from "@/components/presale-card"
 import PresaleSubmissionForm from "@/components/presale-submission-form"
 import { getApprovedPresales } from "@/lib/presales"
@@ -35,8 +33,8 @@ export const metadata: Metadata = {
   },
 }
 
-export default function ICOPresalePage() {
-  const approvedPresales = getApprovedPresales()
+export default async function ICOPresalePage() {
+  const approvedPresales = await getApprovedPresales()
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">

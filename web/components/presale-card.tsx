@@ -3,9 +3,10 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { formatCurrency, formatDate, getPresaleStatus, type Presale } from "@/lib/presales" // Import getPresaleStatus
+import { formatCurrency, formatDate, getPresaleStatus } from "@/lib/presales" // Import getPresaleStatus
 import { CalendarDays, DollarSign, Coins } from "lucide-react"
 import { cn } from "@/lib/utils" // Import cn utility
+import { Presale } from "@/@types/Posts"
 
 interface PresaleCardProps {
   presale: Presale

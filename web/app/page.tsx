@@ -1,5 +1,5 @@
 import HomeTemplate from "@/components/templates/HomeTemplate";
-import { getAllCategories, getAllPost } from "@/utils/posts";
+import { getAllCategories, getAllPost } from "@/utils/sanity-posts";
 
 export default async function HomePage() {
   const [articles, categories] = await Promise.all([

@@ -1,11 +1,15 @@
-import { Category, PostDetail, PostSummary } from "@/@types/Posts";
+import { Category, PostDetail, PostSummary, Presale } from "@/@types/Posts";
+import { SanityPresale } from "@/@types/Sanity";
 import { sanityFetch } from "@/sanity/lib/client";
 import {
   groqGetAllCategories,
   groqGetAllPost,
+  groqGetAllPresales,
   groqGetPostByCategorySlug,
   groqGetPostBySlug,
+  groqGetPresaleBySlug,
 } from "@/sanity/lib/groq";
+import { convertSanityPresale } from "./sanity-convert";
 
 export async function getAllCategories(): Promise<Category[]> {
   try {
@@ -25,6 +29,15 @@ export async function getAllPost() {
   });
 
   return result as PostDetail[];
+}
+
+export async function getAllPresales() {
+  const result = await sanityFetch({
+    query: groqGetAllPresales,
+    revalidate: 0,
+  });
+
+  return result as SanityPresale[];
 }
 
 export async function getCategoryDisplayName(slug: string): Promise<string> {
@@ -72,4 +85,15 @@ export async function getPostsByCategorySlug(
     console.error("Failed to fetch posts by category slug", error);
     return [];
   }
+}
+
+export async function getPresaleBySlug(slug: string) {
+  const raw = await sanityFetch({
+    query: groqGetPresaleBySlug,
+    params: { slug },
+  });
+
+  const result = convertSanityPresale(raw);
+
+  return result;
 }

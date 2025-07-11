@@ -1,6 +1,6 @@
 import Footer from "@/components/layouts/Footer"
 import ArticleCard from "@/components/molecules/Cards/ArticleCard"
-import { getCategoryDisplayName, getPostsByCategorySlug } from "@/utils/posts"
+import { getCategoryDisplayName, getPostsByCategorySlug } from "@/utils/sanity-posts"
 
 export default async function CategoryPage({ params }: { params: { categorySlug: string } }) {
   const articles = await getPostsByCategorySlug(params.categorySlug)

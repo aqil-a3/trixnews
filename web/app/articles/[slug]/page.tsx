@@ -3,17 +3,11 @@ import Footer from "@/components/layouts/Footer";
 import { Separator } from "@/components/ui/separator";
 import ArticleComments from "@/components/article-comments";
 import SocialShareButtons from "@/components/social-share-buttons";
-import Breadcrumbs from "@/components/breadcrumbs"; // Import Breadcrumbs component
+import Breadcrumbs from "@/components/breadcrumbs";
 import { headers } from "next/headers";
-import {
-  getArticleBySlug,
-  formatDateForDisplay,
-  getCategoryDisplayName,
-} from "@/lib/articles"; // Import getCategoryDisplayName
-import { getPostBySlug } from "@/utils/posts";
+import { getPostBySlug } from "@/utils/sanity-posts";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
-import { PortableText } from "next-sanity";
 import RichText from "@/components/molecules/PortableText";
 
 interface ArticlePageProps {

@@ -35,3 +35,23 @@ export const groqGetAllImages = `*[_type == "gallery"]{
   }
 }
 `;
+
+export const groqGetAllPresales = `*[_type == "presales"] | order(startDate asc) {
+  _id,
+  _type,
+  id,
+  name,
+  description,
+  startDate,
+  endDate,
+  softCap,
+  hardCap,
+  tokenSupply,
+  status,
+  contactEmail,
+  image {
+    asset,
+    alt
+  },
+  slug
+}`;

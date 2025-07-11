@@ -1,6 +1,6 @@
 import type { Metadata } from "next"; // Import Metadata type
 import ArticlesTemplate from "@/components/templates/ArticlesTemplate";
-import { getAllPost } from "@/utils/posts";
+import { getAllPost } from "@/utils/sanity-posts";
 
 export const metadata: Metadata = {
   title: "All Articles - Trixnews.com",

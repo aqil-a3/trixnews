@@ -88,3 +88,43 @@ export const groqGetRelatedPosts = `
     "tagTitles": tags[]->title
   }
 `;
+
+export const groqGetAllPresales = `*[_type == "presales"] | order(startDate asc) {
+  _id,
+  _type,
+  id,
+  name,
+  description,
+  startDate,
+  endDate,
+  softCap,
+  hardCap,
+  tokenSupply,
+  status,
+  contactEmail,
+  image {
+    asset,
+    alt
+  },
+  slug
+}`;
+
+export const groqGetPresaleBySlug = `*[_type == "presales" && slug.current == $slug][0] {
+  _id,
+  _type,
+  id,
+  name,
+  description,
+  startDate,
+  endDate,
+  softCap,
+  hardCap,
+  tokenSupply,
+  status,
+  contactEmail,
+  image {
+    asset,
+    alt
+  },
+  slug
+}`;

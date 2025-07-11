@@ -1,6 +1,11 @@
-import { Category, PostSummary, Tag } from "@/@types/Posts";
+import { Category, PostSummary, Presale, Tag } from "@/@types/Posts";
 import { sanityFetch } from "@/sanity/lib/client";
-import { groqGetAllCategory, groqGetAllPost, groqGetAllTags } from "@/sanity/lib/groq";
+import {
+  groqGetAllCategory,
+  groqGetAllPost,
+  groqGetAllPresales,
+  groqGetAllTags,
+} from "@/sanity/lib/groq";
 
 export async function getAllPost() {
   const result = await sanityFetch({
@@ -27,4 +32,13 @@ export async function getAllTags() {
   });
 
   return result as Tag[];
+}
+
+export async function getAllPresales() {
+  const result = await sanityFetch({
+    query: groqGetAllPresales,
+    revalidate: 0,
+  });
+
+  return result as Presale[];
 }

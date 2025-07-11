@@ -74,6 +74,21 @@ export interface PostDetail {
   body: BlockContent;
 }
 
+export interface Presale {
+  id: string
+  name: string
+  description: string
+  startDate: string
+  endDate: string
+  softCap: number 
+  hardCap: number 
+  tokenSupply: number
+  status: "pending" | "approved" | "rejected"
+  contactEmail: string 
+  imageUrl?: string
+  slug?: string
+}
+
 export interface RelatedPost {
   _id: string;
   title: string;

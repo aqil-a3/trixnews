@@ -2,19 +2,28 @@
 
 import { PostSummary } from "@/@types/Posts";
 import MainContainer from "@/components/layouts/MainContainer";
-import { postSummaryColumns } from "@/components/organisms/Posts/postsColumns";
-import PostProvider from "@/components/providers/PostProvider";
-import { DataTable } from "@/components/ui/data-table";
-import PostsHeader from "@/components/organisms/Posts/Header";
+import { postSummaryColumns } from "@/components/organisms/columnTable/postsColumns";
+import EntityTableHeader from "@/components/organisms/header/EntityTableHeader";
+import EntityTableTemplate from "../reuseability/EntityTableTemplate";
+
+const Header = () => {
+  return (
+    <EntityTableHeader
+      title="Posts"
+      description="Manage and review all published or draft posts."
+      newLink="/studio/desk/post"
+    />
+  );
+};
 
 export default function PostsTemplate({ posts }: { posts: PostSummary[] }) {
   return (
-    <PostProvider posts={posts}>
-      <MainContainer>
-        <PostsHeader />
-
-        <DataTable data={posts} columns={postSummaryColumns} />
-      </MainContainer>
-    </PostProvider>
+    <MainContainer>
+      <EntityTableTemplate
+        HeaderComponent={Header}
+        columns={postSummaryColumns}
+        data={posts}
+      />
+    </MainContainer>
   );
 }

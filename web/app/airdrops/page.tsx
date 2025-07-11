@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   },
 }
 
-export default function AirdropsPage() {
-  const approvedAirdrops = getApprovedAirdrops()
+export default async function AirdropsPage() {
+  const approvedAirdrops = await getApprovedAirdrops()
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">

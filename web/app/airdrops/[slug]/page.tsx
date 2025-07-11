@@ -9,7 +9,7 @@ import type { Metadata } from "next"
 
 // Dynamic metadata for airdrop detail page
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const airdrop = getAirdropBySlug(params.slug)
+  const airdrop = await getAirdropBySlug(params.slug)
 
   if (!airdrop) {
     return {
@@ -51,8 +51,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-export default function AirdropDetailPage({ params }: { params: { slug: string } }) {
-  const airdrop = getAirdropBySlug(params.slug)
+export default async function AirdropDetailPage({ params }: { params: { slug: string } }) {
+  const airdrop = await getAirdropBySlug(params.slug)
 
   if (!airdrop) {
     return (

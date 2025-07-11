@@ -1,7 +1,8 @@
-import { Category, PostDetail, PostSummary, Presale } from "@/@types/Posts";
-import { SanityPresale } from "@/@types/Sanity";
+import { Category, PostDetail } from "@/@types/Posts";
+import { SanityAirdrop, SanityPresale } from "@/@types/Sanity";
 import { sanityFetch } from "@/sanity/lib/client";
 import {
+  groqGetAllAirdrops,
   groqGetAllCategories,
   groqGetAllPost,
   groqGetAllPresales,
@@ -38,6 +39,15 @@ export async function getAllPresales() {
   });
 
   return result as SanityPresale[];
+}
+
+export async function getAllAirdrops() {
+  const result = await sanityFetch({
+    query: groqGetAllAirdrops,
+    revalidate: 0,
+  });
+
+  return result as SanityAirdrop[];
 }
 
 export async function getCategoryDisplayName(slug: string): Promise<string> {

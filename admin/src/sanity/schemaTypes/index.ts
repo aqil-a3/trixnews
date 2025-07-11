@@ -6,6 +6,7 @@ import { postType } from "./postType";
 import { authorType } from "./authorType";
 import { tagType } from "./tagType";
 import { presalesType } from "./presalesType";
+import { airdropType } from "./airdropType";
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     blockContentType,
@@ -14,5 +15,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     authorType,
     tagType,
     presalesType,
+    airdropType
   ],
 };

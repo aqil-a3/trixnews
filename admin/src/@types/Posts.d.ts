@@ -87,3 +87,29 @@ export interface Presale {
     readonly current: string;
   };
 }
+
+export interface Airdrop {
+  readonly _id: string;
+  readonly _type: "airdrop";
+  readonly id: string;
+  readonly name: string;
+  readonly description: string;
+  readonly startDate: string; // YYYY-MM-DD
+  readonly endDate: string; // YYYY-MM-DD
+  readonly rewardAmount: string; // e.g., "1000 ABC", "50 USD"
+  readonly status: "pending" | "approved" | "rejected";
+  readonly officialLink: string;
+  readonly contactEmail: string;
+  readonly mainImage?: {
+    readonly _type: "image";
+    readonly asset: {
+      readonly _ref: string;
+      readonly _type: "reference";
+    };
+    readonly alt?: string;
+  };
+  readonly slug: {
+    readonly _type: "slug";
+    readonly current: string;
+  };
+}

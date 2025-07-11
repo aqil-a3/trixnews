@@ -55,3 +55,22 @@ export const groqGetAllPresales = `*[_type == "presales"] | order(startDate asc)
   },
   slug
 }`;
+
+export const groqGetAllAirdrops = `*[_type == "airdrop"] | order(startDate desc) {
+  _id,
+  _type,
+  id,
+  name,
+  description,
+  startDate,
+  endDate,
+  rewardAmount,
+  status,
+  officialLink,
+  contactEmail,
+  mainImage {
+    asset,
+    alt
+  },
+  slug
+}`;

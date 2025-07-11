@@ -121,3 +121,17 @@ export interface SanityImage {
   }
   alt?: string
 }
+
+export interface Airdrop {
+  id: string
+  name: string
+  description: string
+  startDate: string // YYYY-MM-DD
+  endDate: string // YYYY-MM-DD
+  rewardAmount: string // e.g., "1000 ABC", "50 USD"
+  status: "pending" | "approved" | "rejected"
+  officialLink: string // Link to official airdrop page/announcement
+  contactEmail: string // For internal use, not displayed
+  imageUrl?: string // Optional: for token logo
+  slug: string // Unique identifier for the airdrop URL
+}

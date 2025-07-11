@@ -2,16 +2,32 @@
 
 import { Category } from "@/@types/Posts";
 import MainContainer from "@/components/layouts/MainContainer";
-import { categoryColumns } from "@/components/organisms/Categories/categoryColumns";
-import CategoriesHeader from "@/components/organisms/Categories/Header";
-import { DataTable } from "@/components/ui/data-table";
+import { categoryColumns } from "@/components/organisms/columnTable/categoryColumns";
+import EntityTableHeader from "@/components/organisms/header/EntityTableHeader";
+import EntityTableTemplate from "../reuseability/EntityTableTemplate";
 
-
-export default function CategoriesTemplate({ categories }: { categories: Category[] }) {
+const Header = () => {
   return (
-      <MainContainer>
-        <CategoriesHeader />
-        <DataTable data={categories} columns={categoryColumns} />
-      </MainContainer>
+    <EntityTableHeader
+      description="Manage and organize your content categories."
+      title="Categories"
+      newLink="/studio/deskt/category"
+    />
+  );
+};
+
+export default function CategoriesTemplate({
+  categories,
+}: {
+  categories: Category[];
+}) {
+  return (
+    <MainContainer>
+      <EntityTableTemplate
+        HeaderComponent={Header}
+        columns={categoryColumns}
+        data={categories}
+      />
+    </MainContainer>
   );
 }

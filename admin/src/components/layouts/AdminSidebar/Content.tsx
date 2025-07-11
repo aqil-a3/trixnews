@@ -26,6 +26,7 @@ const sidebarLinks = [
   { label: "Categories", href: "/categories", icon: Folder },
   { label: "Tags", href: "/tags", icon: Tag },
   { label: "Presales", href: "/presales", icon: Tag },
+  { label: "Airdrops", href: "/airdrops", icon: Tag },
 ];
 
 export default function AdminSidebarContent() {

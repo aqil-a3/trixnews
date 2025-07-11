@@ -147,3 +147,14 @@ export const groqGetAllAirdrops = `*[_type == "airdrop"] | order(startDate desc)
   },
   slug
 }`;
+
+export const groqGetAllGuides = `*[_type == "guide"] | order(popularity desc) {
+  _id,
+  _type,
+  title,
+  description,
+  slug,
+  icon,
+  content,
+  popularity
+}`;

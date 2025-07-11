@@ -1,9 +1,10 @@
 import { Category, PostDetail } from "@/@types/Posts";
-import { SanityAirdrop, SanityPresale } from "@/@types/Sanity";
+import { SanityAirdrop, SanityGuide, SanityPresale } from "@/@types/Sanity";
 import { sanityFetch } from "@/sanity/lib/client";
 import {
   groqGetAllAirdrops,
   groqGetAllCategories,
+  groqGetAllGuides,
   groqGetAllPost,
   groqGetAllPresales,
   groqGetPostByCategorySlug,
@@ -48,6 +49,15 @@ export async function getAllAirdrops() {
   });
 
   return result as SanityAirdrop[];
+}
+
+export async function getAllGuides() {
+  const result = await sanityFetch({
+    query: groqGetAllGuides,
+    revalidate: 0,
+  });
+
+  return result as SanityGuide[];
 }
 
 export async function getCategoryDisplayName(slug: string): Promise<string> {

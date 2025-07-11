@@ -16,6 +16,7 @@ import {
   Folder,
   ExternalLink,
   User,
+  Book,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -27,6 +28,7 @@ const sidebarLinks = [
   { label: "Tags", href: "/tags", icon: Tag },
   { label: "Presales", href: "/presales", icon: Tag },
   { label: "Airdrops", href: "/airdrops", icon: Tag },
+  { label: "Guides", href: "/guides", icon: Book },
 ];
 
 export default function AdminSidebarContent() {

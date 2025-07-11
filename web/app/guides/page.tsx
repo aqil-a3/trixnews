@@ -1,8 +1,8 @@
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { BookOpen, Lightbulb, GraduationCap } from "lucide-react" // Icons for guides
-import { allGuides } from "@/lib/guides"
 import type { Metadata } from "next" // Import Metadata type
+import { getAllGuides } from "@/utils/sanity-posts"
 
 export const metadata: Metadata = {
   title: "All Guides & Tutorials - Trixnews.com",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function GuidesPage() {
+export default async function GuidesPage() {
   // Helper to determine icon based on slug, similar to GuidesTutorialsSection
   const getIconComponent = (slug: string) => {
     switch (slug) {
@@ -56,6 +56,8 @@ export default function GuidesPage() {
     }
   }
 
+  const allGuides = await getAllGuides();
+
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
       <main className="container mx-auto px-4 py-8 flex-1">
@@ -66,9 +68,9 @@ export default function GuidesPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {allGuides.map((guide, index) => {
-              const Icon = getIconComponent(guide.slug)
+              const Icon = getIconComponent(guide.slug.current)
               return (
-                <Link href={`/guides/${guide.slug}`} key={index} className="block group">
+                <Link href={`/guides/${guide.slug.current}`} key={index} className="block group">
                   <Card className="hover:shadow-lg transition-shadow h-full">
                     <CardHeader className="flex flex-row items-center gap-4 pb-2">
                       <Icon className="h-8 w-8 text-primary" />

@@ -113,3 +113,17 @@ export interface Airdrop {
     readonly current: string;
   };
 }
+
+export interface Guide {
+  readonly _id: string;
+  readonly _type: "guide";
+  readonly title: string;
+  readonly description: string;
+  readonly slug: {
+    readonly _type: "slug";
+    readonly current: string;
+  };
+  readonly icon?: string; // e.g., "book-open", "lightbulb"
+  readonly content: string; // HTML string
+  readonly popularity?: number;
+}

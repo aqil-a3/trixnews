@@ -1,3 +1,5 @@
+import { BlockContent } from "./Posts";
+
 export interface SanityPresale{
   readonly _id: string;
   readonly _type: "presale";
@@ -49,4 +51,18 @@ export interface SanityAirdrop {
     readonly _type: "slug";
     readonly current: string;
   };
+}
+
+export interface SanityGuide {
+  readonly _id: string;
+  readonly _type: "guide";
+  readonly title: string;
+  readonly description: string;
+  readonly slug: {
+    readonly _type: "slug";
+    readonly current: string;
+  };
+  readonly icon?: string; 
+  readonly content: BlockContent;
+  readonly popularity?: number;
 }

@@ -1,8 +1,16 @@
-import { Airdrop, Category, PostSummary, Presale, Tag } from "@/@types/Posts";
+import {
+  Airdrop,
+  Category,
+  Guide,
+  PostSummary,
+  Presale,
+  Tag,
+} from "@/@types/Posts";
 import { sanityFetch } from "@/sanity/lib/client";
 import {
   groqGetAllAirdrops,
   groqGetAllCategory,
+  groqGetAllGuides,
   groqGetAllPost,
   groqGetAllPresales,
   groqGetAllTags,
@@ -51,4 +59,13 @@ export async function getAllAirDrops() {
   });
 
   return result as Airdrop[];
+}
+
+export async function getAllGuides() {
+  const result = await sanityFetch({
+    query: groqGetAllGuides,
+    revalidate: 0,
+  });
+
+  return result as Guide[];
 }

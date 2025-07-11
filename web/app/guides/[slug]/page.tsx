@@ -1,9 +1,10 @@
 import Image from "next/image"
 import Breadcrumbs from "@/components/breadcrumbs" // Import Breadcrumbs component
 import { getGuideBySlug } from "@/lib/guides"
+import RichText from "@/components/molecules/PortableText"
 
-export default function GuideDetailPage({ params }: { params: { slug: string } }) {
-  const guide = getGuideBySlug(params.slug)
+export default async function GuideDetailPage({ params }: { params: { slug: string } }) {
+  const guide = await getGuideBySlug(params.slug)
 
   if (!guide) {
     return (
@@ -38,12 +39,7 @@ export default function GuideDetailPage({ params }: { params: { slug: string } }
               className="rounded-lg"
             />
           </div>
-          {guide.content && (
-            <div
-              className="prose prose-lg max-w-none text-gray-800 leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: guide.content }}
-            />
-          )}
+          {guide.content && <RichText value={guide.content} /> }
         </article>
       </main>
     </div>

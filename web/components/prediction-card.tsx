@@ -1,32 +1,50 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { formatDate, type Prediction } from "@/lib/predictions"
-import { CalendarDays, User } from "lucide-react"
-import { cn } from "@/lib/utils"
+import Image from "next/image";
+import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { formatDate } from "@/lib/predictions";
+import { CalendarDays, User } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { SanityPrediction } from "@/@types/Sanity";
+import { urlFor } from "@/sanity/lib/image";
 
 interface PredictionCardProps {
-  prediction: Prediction
+  prediction: SanityPrediction;
 }
 
 export default function PredictionCard({ prediction }: PredictionCardProps) {
-  const statusClasses = cn("absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold uppercase", {
-    "bg-green-100 text-green-700": prediction.isResolved && (prediction.accuracyScore || 0) >= 70, // High accuracy
-    "bg-yellow-100 text-yellow-700": prediction.isResolved && (prediction.accuracyScore || 0) < 70, // Moderate/low accuracy
-    "bg-gray-100 text-gray-700": !prediction.isResolved, // Not resolved yet
-  })
+  const statusClasses = cn(
+    "absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold uppercase",
+    {
+      "bg-green-100 text-green-700":
+        prediction.isResolved && (prediction.accuracyScore || 0) >= 70, // High accuracy
+      "bg-yellow-100 text-yellow-700":
+        prediction.isResolved && (prediction.accuracyScore || 0) < 70, // Moderate/low accuracy
+      "bg-gray-100 text-gray-700": !prediction.isResolved, // Not resolved yet
+    }
+  );
+
+  const imageUrl = urlFor(prediction.mainImage ? prediction.mainImage : "")
+    .width(800)
+    .height(600)
+    .auto("format")
+    .url();
 
   return (
     <Card className="relative h-full flex flex-col border border-gray-200 hover:shadow-lg transition-shadow">
       {prediction.isResolved && (
         <div className={statusClasses}>
-          {prediction.accuracyScore !== undefined ? `Accuracy: ${prediction.accuracyScore}%` : "Resolved"}
+          {prediction.accuracyScore !== undefined
+            ? `Accuracy: ${prediction.accuracyScore}%`
+            : "Resolved"}
         </div>
       )}
       <div className="relative aspect-video w-full">
         <Image
-          src={prediction.imageUrl || "/placeholder.svg?height=200&width=300&text=Prediction"}
+          src={
+            imageUrl ||
+            "/placeholder.svg?height=200&width=300&text=Prediction"
+          }
           alt={prediction.title}
           layout="fill"
           objectFit="cover"
@@ -47,11 +65,17 @@ export default function PredictionCard({ prediction }: PredictionCardProps) {
         </div>
       </CardHeader>
       <CardContent className="flex-grow flex flex-col justify-between pt-2">
-        <p className="text-sm text-gray-600 mb-4 line-clamp-3">{prediction.summary}</p>
-        <Button asChild variant="outline" className="w-full mt-auto bg-transparent">
-          <Link href={`/predictions/${prediction.slug}`}>Read Prediction</Link>
+        <p className="text-sm text-gray-600 mb-4 line-clamp-3">
+          {prediction.summary}
+        </p>
+        <Button
+          asChild
+          variant="outline"
+          className="w-full mt-auto bg-transparent"
+        >
+          <Link href={`/predictions/${prediction.slug.current}`}>Read Prediction</Link>
         </Button>
       </CardContent>
     </Card>
-  )
+  );
 }

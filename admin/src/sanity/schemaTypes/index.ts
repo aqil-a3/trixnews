@@ -8,6 +8,8 @@ import { tagType } from "./tagType";
 import { presalesType } from "./presalesType";
 import { airdropType } from "./airdropType";
 import { guideType } from "./guideType";
+import { predictionType } from "./predictionType";
+
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     blockContentType,
@@ -17,6 +19,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     tagType,
     presalesType,
     airdropType,
-    guideType
+    guideType,
+    predictionType
   ],
 };

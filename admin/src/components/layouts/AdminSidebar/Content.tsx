@@ -29,6 +29,7 @@ const sidebarLinks = [
   { label: "Presales", href: "/presales", icon: Tag },
   { label: "Airdrops", href: "/airdrops", icon: Tag },
   { label: "Guides", href: "/guides", icon: Book },
+  { label: "Predictions", href: "/predictions", icon: Book },
 ];
 
 export default function AdminSidebarContent() {

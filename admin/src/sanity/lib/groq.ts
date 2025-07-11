@@ -85,3 +85,25 @@ export const groqGetAllGuides = `*[_type == "guide"] | order(popularity desc) {
   content,
   popularity
 }`;
+
+export const groqGetAllPredictions = `*[_type == "prediction"] | order(date desc) {
+  _id,
+  _type,
+  id,
+  title,
+  summary,
+  date,
+  mainImage {
+    asset,
+    alt
+  },
+  slug,
+  author,
+  predictionContent,
+  status,
+  isResolved,
+  resolutionDate,
+  actualOutcome,
+  accuracyScore,
+  contactEmail
+}`;

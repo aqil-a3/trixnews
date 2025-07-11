@@ -3,6 +3,7 @@ import {
   Category,
   Guide,
   PostSummary,
+  Prediction,
   Presale,
   Tag,
 } from "@/@types/Posts";
@@ -12,6 +13,7 @@ import {
   groqGetAllCategory,
   groqGetAllGuides,
   groqGetAllPost,
+  groqGetAllPredictions,
   groqGetAllPresales,
   groqGetAllTags,
 } from "@/sanity/lib/groq";
@@ -68,4 +70,13 @@ export async function getAllGuides() {
   });
 
   return result as Guide[];
+}
+
+export async function getAllPredictions() {
+  const result = await sanityFetch({
+    query: groqGetAllPredictions,
+    revalidate: 0,
+  });
+
+  return result as Prediction[];
 }

@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   },
 }
 
-export default function PredictionsPage() {
-  const activePredictions = getActivePredictions()
+export default async function PredictionsPage() {
+  const activePredictions = await getActivePredictions()
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">

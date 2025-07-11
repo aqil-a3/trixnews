@@ -2,10 +2,12 @@ import Image from "next/image"
 import { getPredictionBySlug, formatDate } from "@/lib/predictions"
 import type { Metadata } from "next"
 import { CheckCircle, XCircle, CalendarDays } from "lucide-react" // Import new icons
+import { urlFor } from "@/sanity/lib/image"
+import RichText from "@/components/molecules/PortableText"
 
 // Dynamic metadata for prediction detail page
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const prediction = getPredictionBySlug(params.slug)
+  const prediction = await getPredictionBySlug(params.slug)
 
   if (!prediction) {
     return {
@@ -24,6 +26,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     "Trixnews",
   ]
 
+  const imageUrl = urlFor(prediction.mainImage ? prediction.mainImage : "")
+      .width(800)
+      .height(600)
+      .auto("format")
+      .url();
+
   return {
     title,
     description,
@@ -35,7 +43,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       siteName: "Trixnews.com",
       images: [
         {
-          url: prediction.imageUrl || `/placeholder.svg?height=630&width=1200&text=${prediction.title}`,
+          url: imageUrl || `/placeholder.svg?height=630&width=1200&text=${prediction.title}`,
           width: 1200,
           height: 630,
           alt: `${prediction.title}`,
@@ -48,13 +56,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       card: "summary_large_image",
       title,
       description,
-      images: [prediction.imageUrl || `/placeholder.svg?height=630&width=1200&text=${prediction.title}`],
+      images: [imageUrl || `/placeholder.svg?height=630&width=1200&text=${prediction.title}`],
     },
   }
 }
 
-export default function PredictionDetailPage({ params }: { params: { slug: string } }) {
-  const prediction = getPredictionBySlug(params.slug)
+export default async function PredictionDetailPage({ params }: { params: { slug: string } }) {
+  const prediction = await getPredictionBySlug(params.slug)
 
   if (!prediction) {
     return (
@@ -66,13 +74,19 @@ export default function PredictionDetailPage({ params }: { params: { slug: strin
     )
   }
 
+  const imageUrl = urlFor(prediction.mainImage ? prediction.mainImage : "")
+    .width(800)
+    .height(600)
+    .auto("format")
+    .url();
+
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
       <main className="container mx-auto px-4 py-8 flex-1">
         <article className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
           <div className="relative aspect-video w-full mb-6 rounded-lg overflow-hidden">
             <Image
-              src={prediction.imageUrl || "/placeholder.svg?height=400&width=600&text=Prediction"}
+              src={imageUrl || "/placeholder.svg?height=400&width=600&text=Prediction"}
               alt={prediction.title}
               layout="fill"
               objectFit="cover"
@@ -90,12 +104,7 @@ export default function PredictionDetailPage({ params }: { params: { slug: strin
 
           <p className="text-lg text-gray-700 mb-8">{prediction.summary}</p>
 
-          {prediction.predictionContent && (
-            <div
-              className="prose prose-lg max-w-none text-gray-800 leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: prediction.predictionContent }}
-            />
-          )}
+          {prediction.predictionContent && <RichText value={prediction.predictionContent} /> }
 
           {prediction.isResolved && (
             <div className="mt-8 p-6 rounded-lg border border-gray-200 bg-gray-50">

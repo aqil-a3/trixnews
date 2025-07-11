@@ -66,3 +66,32 @@ export interface SanityGuide {
   readonly content: BlockContent;
   readonly popularity?: number;
 }
+
+export interface SanityPrediction {
+  readonly _id: string;
+  readonly _type: "prediction";
+  readonly id: string;
+  readonly title: string;
+  readonly summary: string;
+  readonly date: string; // YYYY-MM-DD
+  readonly mainImage?: {
+    readonly _type: "image";
+    readonly asset: {
+      readonly _ref: string;
+      readonly _type: "reference";
+    };
+    readonly alt?: string;
+  };
+  readonly slug: {
+    readonly _type: "slug";
+    readonly current: string;
+  };
+  readonly author: string;
+  readonly predictionContent: BlockContent;
+  readonly status: "active" | "archived" | "pending";
+  readonly isResolved?: boolean;
+  readonly resolutionDate?: string;
+  readonly actualOutcome?: string;
+  readonly accuracyScore?: number;
+  readonly contactEmail?: string;
+}

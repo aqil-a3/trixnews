@@ -30,6 +30,7 @@ export default function TrendingTopicsSection({
       result.push(convertPostToArticle(article));
     }
     return result;
+    
   }, [articles]);
 
   const combinedItems: (Article | Guide)[] = [...allArticles, ...allGuides];

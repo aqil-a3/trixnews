@@ -30,6 +30,7 @@ const sidebarLinks = [
   { label: "Airdrops", href: "/airdrops", icon: Tag },
   { label: "Guides", href: "/guides", icon: Book },
   { label: "Predictions", href: "/predictions", icon: Book },
+  { label: "Web 3 Tools", href: "/web3tools", icon: Book },
 ];
 
 export default function AdminSidebarContent() {

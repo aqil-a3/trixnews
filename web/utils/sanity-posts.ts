@@ -1,5 +1,5 @@
-import { Category, PostDetail } from "@/@types/Posts";
-import { SanityAirdrop, SanityGuide, SanityPrediction, SanityPresale } from "@/@types/Sanity";
+import { Category, PostDetail, Web3Tool } from "@/@types/Posts";
+import { SanityAirdrop, SanityGuide, SanityPrediction, SanityPresale, SanityWeb3Tool } from "@/@types/Sanity";
 import { sanityFetch } from "@/sanity/lib/client";
 import {
   groqGetAllAirdrops,
@@ -11,6 +11,7 @@ import {
   groqGetPostByCategorySlug,
   groqGetPostBySlug,
   groqGetPresaleBySlug,
+  groqGetWeb3Tools,
 } from "@/sanity/lib/groq";
 import { convertSanityPresale } from "./sanity-convert";
 
@@ -127,4 +128,13 @@ export async function getPresaleBySlug(slug: string) {
   const result = convertSanityPresale(raw);
 
   return result;
+}
+
+export async function getAllWeb3Tools() {
+  const result = await sanityFetch({
+    query: groqGetWeb3Tools,
+    revalidate: 0,
+  });
+
+  return result as SanityWeb3Tool[];
 }

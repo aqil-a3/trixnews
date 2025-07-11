@@ -1,7 +1,13 @@
-import { Airdrop, Guide, Presale } from "@/@types/Posts";
-import { SanityAirdrop, SanityGuide, SanityPresale } from "@/@types/Sanity";
+import { Airdrop, Guide, Post, PostDetail, Presale, Web3Tool } from "@/@types/Posts";
+import {
+  SanityAirdrop,
+  SanityGuide,
+  SanityPresale,
+  SanityWeb3Tool,
+} from "@/@types/Sanity";
+import { Article } from "@/lib/articles";
 import { urlFor } from "@/sanity/lib/image";
-import { toHTML } from "@portabletext/to-html"
+import { toHTML } from "@portabletext/to-html";
 
 export function convertSanityPresale(sanity: SanityPresale): Presale {
   return {
@@ -15,7 +21,9 @@ export function convertSanityPresale(sanity: SanityPresale): Presale {
     tokenSupply: sanity.tokenSupply,
     status: sanity.status,
     contactEmail: sanity.contactEmail,
-    imageUrl: sanity.image ? urlFor(sanity.image).width(64).height(64).url() : undefined,
+    imageUrl: sanity.image
+      ? urlFor(sanity.image).width(64).height(64).url()
+      : undefined,
     slug: sanity.slug?.current,
   };
 }
@@ -31,7 +39,9 @@ export function convertSanityAirdrop(doc: SanityAirdrop): Airdrop {
     status: doc.status,
     officialLink: doc.officialLink,
     contactEmail: doc.contactEmail,
-    imageUrl: doc.mainImage ? urlFor(doc.mainImage).width(64).height(64).url() : undefined,
+    imageUrl: doc.mainImage
+      ? urlFor(doc.mainImage).width(64).height(64).url()
+      : undefined,
     slug: doc.slug.current,
   };
 }
@@ -44,5 +54,44 @@ export function convertSanityGuideToGuide(guide: SanityGuide): Guide {
     icon: guide.icon,
     content: toHTML(guide.content), // Ubah Portable Text jadi HTML
     popularity: guide.popularity,
+  };
+}
+
+export function convertSanityWeb3Tool(data: SanityWeb3Tool): Web3Tool {
+  return {
+    name: data.name,
+    description: data.description,
+    slug: data.slug.current,
+    category: data.category,
+    officialLink: data.officialLink,
+    supportedBlockchains: data.supportedBlockchains,
+    keyFeatures: data.keyFeatures,
+    imageUrl: data.mainImage
+      ? urlFor(data.mainImage).width(64).height(64).url()
+      : undefined,
+  };
+}
+
+export function convertPostToArticle(post: PostDetail): Article {
+  return {
+    title: post.title,
+    summary: toHTML(post.body).slice(0, 200), // ambil ringkasan dari konten
+    date: post.publishedAt,
+    imageUrl: post.mainImage
+      ? urlFor(post.mainImage).width(64).height(64).url()
+      : "/placeholder.svg?text=No+Image",
+    slug: post.slug.current,
+    category:
+      Array.isArray(post.categories) &&
+      post.categories[0] &&
+      "title" in post.categories[0]
+        ? post.categories[0].title
+        : "Uncategorized",
+    tags: Array.isArray(post.categories)
+      ? post.categories.map((cat) => ("title" in cat ? cat.title : ""))
+      : [],
+    author: post.author && "name" in post.author ? post.author.name : undefined,
+    content: toHTML(post.body),
+    popularity: 0, // default jika belum ada sistem penilaian popularitas
   };
 }

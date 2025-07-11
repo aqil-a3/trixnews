@@ -1,10 +1,10 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Card } from "@/components/ui/card"
-import { formatDateForDisplay } from "@/lib/articles"
 import type { Article } from "@/lib/articles"
 import { Newspaper, BookOpen } from "lucide-react"
 import { Guide } from "@/@types/Posts"
+import { format } from "date-fns"
 
 type TrendingItem = Article | Guide
 
@@ -13,15 +13,14 @@ interface TrendingCardProps {
 }
 
 export default function TrendingCard({ item }: TrendingCardProps) {
-  // Type guard to differentiate between Article and Guide
   const isArticle = (item as Article).date !== undefined
 
   const title = item.title
   const slug = item.slug
-  const imageUrl = isArticle ? (item as Article).imageUrl : "/placeholder.svg?height=200&width=300&text=Guide" // Default image for guides
+  const imageUrl = isArticle ? (item as Article).imageUrl : "/placeholder.svg?height=200&width=300&text=Guide"
   const linkPath = isArticle ? `/articles/${slug}` : `/guides/${slug}`
   const description = isArticle ? (item as Article).summary : (item as Guide).description
-  const date = isArticle ? formatDateForDisplay((item as Article).date) : null
+  const date = isArticle ? format(new Date((item as Article).date), "d MMM yyyy") : null
 
   return (
     <Link href={linkPath} className="block group">

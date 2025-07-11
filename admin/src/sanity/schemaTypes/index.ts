@@ -9,6 +9,7 @@ import { presalesType } from "./presalesType";
 import { airdropType } from "./airdropType";
 import { guideType } from "./guideType";
 import { predictionType } from "./predictionType";
+import { web3Tool } from "./web3toolType";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -20,6 +21,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     presalesType,
     airdropType,
     guideType,
-    predictionType
+    predictionType,
+    web3Tool
   ],
 };

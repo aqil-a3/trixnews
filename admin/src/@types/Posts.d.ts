@@ -156,3 +156,25 @@ export interface Prediction {
   readonly accuracyScore?: number;
   readonly contactEmail?: string;
 }
+
+export interface Web3Tool {
+  readonly _id: string;
+  readonly _type: "web3Tool";
+  readonly name: string;
+  readonly description: string;
+  readonly slug: {
+    readonly current: string;
+  };
+  readonly category: string;
+  readonly officialLink: string;
+  readonly supportedBlockchains?: string[];
+  readonly keyFeatures?: string[];
+  readonly mainImage?: {
+    readonly _type: "image";
+    readonly asset: {
+      readonly _ref: string;
+      readonly _type: "reference";
+    };
+    readonly alt?: string;
+  };
+}

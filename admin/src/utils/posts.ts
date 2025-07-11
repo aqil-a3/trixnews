@@ -6,6 +6,7 @@ import {
   Prediction,
   Presale,
   Tag,
+  Web3Tool,
 } from "@/@types/Posts";
 import { sanityFetch } from "@/sanity/lib/client";
 import {
@@ -16,6 +17,7 @@ import {
   groqGetAllPredictions,
   groqGetAllPresales,
   groqGetAllTags,
+  groqGetWeb3Tools,
 } from "@/sanity/lib/groq";
 
 export async function getAllPost() {
@@ -79,4 +81,13 @@ export async function getAllPredictions() {
   });
 
   return result as Prediction[];
+}
+
+export async function getAllWeb3Tools() {
+  const result = await sanityFetch({
+    query: groqGetWeb3Tools,
+    revalidate: 0,
+  });
+
+  return result as Web3Tool[];
 }

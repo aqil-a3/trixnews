@@ -4,12 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator"; // Import Separator
 import { ExternalLink, Layers, Key } from "lucide-react"; // For external link icon, and new icons for features
+import { Web3Tool } from "@/@types/Posts";
 
-interface ToolCardProps {
-  tool: typeof import("../lib/web3-tools").allWeb3Tools[0]; // Type based on a tool from allWeb3Tools
-}
 
-export default function ToolCard({ tool }: ToolCardProps) {
+export default function ToolCard({ tool }: {tool: Web3Tool}) {
   return (
     <Card className="h-full flex flex-col border border-gray-200 hover:shadow-lg transition-shadow">
       <CardHeader className="flex items-center gap-6 pt-6 pb-6">

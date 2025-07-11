@@ -107,3 +107,21 @@ export const groqGetAllPredictions = `*[_type == "prediction"] | order(date desc
   accuracyScore,
   contactEmail
 }`;
+
+export const groqGetWeb3Tools = `*[_type == "web3Tool"] | order(name asc) {
+  _id,
+  _type,
+  name,
+  description,
+  slug {
+    current
+  },
+  category,
+  officialLink,
+  supportedBlockchains,
+  keyFeatures,
+  mainImage {
+    asset,
+    alt
+  }
+}`;

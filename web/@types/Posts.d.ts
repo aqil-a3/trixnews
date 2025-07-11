@@ -162,3 +162,14 @@ export interface Prediction {
   accuracyScore?: number // 0-100, how accurate the prediction was
   contactEmail?: string // For internal use, if submitted via form
 }
+
+export interface Web3Tool {
+  name: string;
+  description: string;
+  slug: string;
+  category: string;
+  officialLink: string;
+  supportedBlockchains?: string[];
+  keyFeatures?: string[];
+  imageUrl?: string;
+}

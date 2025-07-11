@@ -1,11 +1,25 @@
 import HomeTemplate from "@/components/templates/HomeTemplate";
-import { getAllCategories, getAllGuides, getAllPost } from "@/utils/sanity-posts";
+import {
+  getAllCategories,
+  getAllGuides,
+  getAllPost,
+  getAllWeb3Tools,
+} from "@/utils/sanity-posts";
 
 export default async function HomePage() {
-  const [articles, categories, guides] = await Promise.all([
+  const [articles, categories, guides, web3Tools] = await Promise.all([
     getAllPost(),
     getAllCategories(),
-    getAllGuides()
+    getAllGuides(),
+    getAllWeb3Tools(),
   ]);
-  return <HomeTemplate articles={articles} categories={categories} guides={guides} />;
+
+  return (
+    <HomeTemplate
+      articles={articles}
+      categories={categories}
+      guides={guides}
+      web3Tools={web3Tools}
+    />
+  );
 }

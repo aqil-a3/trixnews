@@ -10,16 +10,18 @@ import TrendingTopicsSection from "../organisms/Home/TrendingTopicsSection";
 import Web3ToolsSection from "../organisms/Home/Web3ToolsSection";
 import { Category, PostDetail, PostSummary } from "@/@types/Posts";
 import HomeProvider from "../providers/HomeProvider";
-import { SanityGuide } from "@/@types/Sanity";
+import { SanityGuide, SanityWeb3Tool } from "@/@types/Sanity";
 
 export default function HomeTemplate({
   articles,
   categories,
-  guides
+  guides,
+  web3Tools
 }: {
   articles: PostDetail[];
   categories: Category[];
-  guides:SanityGuide[]
+  guides:SanityGuide[];
+  web3Tools:SanityWeb3Tool[]
 }) {
   return (
     <HomeProvider articles={articles} categories={categories}>
@@ -33,9 +35,9 @@ export default function HomeTemplate({
           <CategoriesSection />
           <GuidesTutorialsSection guides={guides} />
           <InDepthAnalysisSection />
-          <TrendingTopicsSection guides={guides} />
+          <TrendingTopicsSection guides={guides} articles={articles} />
 
-          <Web3ToolsSection />
+          <Web3ToolsSection web3Tools={web3Tools} />
         </main>
       </div>
     </HomeProvider>

@@ -2,15 +2,19 @@ import { useMemo } from "react";
 import TrendingCard from "../../trending-card";
 import { allArticles, type Article } from "@/lib/articles";
 import { SanityGuide } from "@/@types/Sanity";
-import { convertSanityGuideToGuide } from "@/utils/sanity-convert";
-import { Guide } from "@/@types/Posts";
+import {
+  convertPostToArticle,
+  convertSanityGuideToGuide,
+} from "@/utils/sanity-convert";
+import { Guide, PostDetail } from "@/@types/Posts";
 
 export default function TrendingTopicsSection({
   guides,
+  articles,
 }: {
   guides: SanityGuide[];
+  articles: PostDetail[];
 }) {
-  // Combine articles and guides into a single array
   const allGuides = useMemo(() => {
     const result = [];
     for (const guide of guides) {
@@ -18,6 +22,16 @@ export default function TrendingTopicsSection({
     }
     return result;
   }, [guides]);
+
+  const allArticles = useMemo(() => {
+    const result = [];
+
+    for (const article of articles) {
+      result.push(convertPostToArticle(article));
+    }
+    return result;
+  }, [articles]);
+
   const combinedItems: (Article | Guide)[] = [...allArticles, ...allGuides];
 
   // Sort by popularity in descending order and take the top 6

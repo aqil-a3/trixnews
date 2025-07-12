@@ -21,7 +21,6 @@ export default async function CategoryPage({ params }: { params: { categorySlug:
           </div>
         )}
       </main>
-      <Footer />
     </div>
   )
 }

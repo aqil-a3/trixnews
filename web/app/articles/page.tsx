@@ -1,6 +1,6 @@
 import type { Metadata } from "next"; // Import Metadata type
+import { getAllArticles } from "../../utils/posts";
 import ArticlesTemplate from "@/components/templates/ArticlesTemplate";
-import { getAllPost } from "@/utils/sanity-posts";
 
 export const metadata: Metadata = {
   title: "All Articles - Trixnews.com",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ArticlesPage() {
-  const articles = await getAllPost();
+  const articles = await getAllArticles();
 
   return <ArticlesTemplate articles={articles} />;
 }

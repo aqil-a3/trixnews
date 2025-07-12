@@ -14,21 +14,23 @@ export default function CryptoNews() {
   useEffect(() => {
     const filterArticles = async () => {
       const seenSlugs = new Set();
-      const result: PostDetail[] = [];
 
-      for (const raw of raws) {
-        const article = mapEventRegistryToPostDetail(raw);
-        const slug = article.slug.current;
+      const mappedArticles = raws.map((raw) =>
+        mapEventRegistryToPostDetail(raw)
+      );
+      const articlesWithImages = mappedArticles.filter(
+        (a) =>
+          a.slug?.current &&
+          !seenSlugs.has(a.slug.current) &&
+          a.mainImage?.asset.url &&
+          seenSlugs.add(a.slug.current)
+      );
 
-        if (!slug || seenSlugs.has(slug)) continue;
-        seenSlugs.add(slug);
+      const validities = await Promise.all(
+        articlesWithImages.map((a) => isImageUrlValid(a.mainImage!.asset.url))
+      );
 
-        if (!article.mainImage?.asset.url) continue;
-        const isValid = await isImageUrlValid(article.mainImage.asset.url);
-        if (!isValid) continue;
-
-        result.push(article);
-      }
+      const result = articlesWithImages.filter((_, i) => validities[i]);
 
       setFilteredArticles(result);
       setLoading(false);
@@ -42,7 +44,8 @@ export default function CryptoNews() {
       filteredArticles
         .sort(
           (a, b) =>
-            new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+            new Date(b.publishedAt).getTime() -
+            new Date(a.publishedAt).getTime()
         )
         .slice(0, 6),
     [filteredArticles]

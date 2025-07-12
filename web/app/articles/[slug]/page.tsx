@@ -30,8 +30,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       return a.slug.current === params.slug;
     });
 
-    console.log(matched)
-
     if (matched) {
       article = matched;
     } else {
@@ -89,7 +87,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <ArticleComments />
         </article>
       </main>
-      <Footer />
     </div>
   );
 }

@@ -50,7 +50,6 @@ export default async function Web3ToolsPage() {
     allWeb3Tools.push(convertSanityWeb3Tool(r));
   }
 
-  console.log(allWeb3Tools)
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
       <main className="container mx-auto px-4 py-8 flex-1">

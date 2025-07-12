@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { PostDetail, PostSummary } from "@/@types/Posts";
+import { PostDetail } from "@/@types/Posts";
 import { format } from "date-fns";
 
 export default function ArticleCard({ article }: { article: PostDetail }) {
@@ -24,9 +24,7 @@ export default function ArticleCard({ article }: { article: PostDetail }) {
             <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-primary transition-colors">
               {title}
             </h3>
-            <p className="text-sm text-gray-600 mb-3 line-clamp-3">
-              {summary}
-            </p>{" "}
+            <p className="text-sm text-gray-600 mb-3 line-clamp-3">{summary}</p>{" "}
             {/* Kept line-clamp-3 */}
           </div>
           <p className="text-xs text-gray-500 mt-auto">

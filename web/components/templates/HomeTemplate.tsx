@@ -8,23 +8,29 @@ import LatestNews from "../organisms/Home/LatestNews";
 import LatestSidebarNews from "../organisms/Home/LatestSidebarNews";
 import TrendingTopicsSection from "../organisms/Home/TrendingTopicsSection";
 import Web3ToolsSection from "../organisms/Home/Web3ToolsSection";
-import { Category, PostDetail, PostSummary } from "@/@types/Posts";
+import { Category, PostDetail } from "@/@types/Posts";
 import HomeProvider from "../providers/HomeProvider";
 import { SanityGuide, SanityWeb3Tool } from "@/@types/Sanity";
+import CryptoNews from "../organisms/Home/CryptoNews";
 
 export default function HomeTemplate({
   articles,
   categories,
   guides,
-  web3Tools
+  web3Tools,
 }: {
   articles: PostDetail[];
   categories: Category[];
-  guides:SanityGuide[];
-  web3Tools:SanityWeb3Tool[]
+  guides: SanityGuide[];
+  web3Tools: SanityWeb3Tool[];
 }) {
   return (
-    <HomeProvider articles={articles} categories={categories}>
+    <HomeProvider
+      articles={articles}
+      categories={categories}
+      guides={guides}
+      web3Tools={web3Tools}
+    >
       <div className="min-h-screen bg-white text-gray-900 font-sans">
         <main className="container mx-auto px-4 py-8">
           <HeroSection />
@@ -32,12 +38,13 @@ export default function HomeTemplate({
             <LatestNews />
             <LatestSidebarNews className="mt-[52px]" />
           </div>
+          <CryptoNews />
           <CategoriesSection />
-          <GuidesTutorialsSection guides={guides} />
+          <GuidesTutorialsSection />
           <InDepthAnalysisSection />
-          <TrendingTopicsSection guides={guides} articles={articles} />
+          <TrendingTopicsSection />
 
-          <Web3ToolsSection web3Tools={web3Tools} />
+          <Web3ToolsSection />
         </main>
       </div>
     </HomeProvider>

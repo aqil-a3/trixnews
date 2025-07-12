@@ -4,6 +4,8 @@ import "./globals.css";
 import CryptoTicker from "@/components/crypto-ticker";
 import Header from "@/components/layouts/Header/header";
 import Footer from "@/components/layouts/Footer";
+import { getCryptoNews } from "@/lib/NewsData/getApiNews";
+import CryptoNewsProvider from "@/components/providers/CryptoNewsProvider";
 
 export const metadata: Metadata = {
   title: "Web3 News Portal",
@@ -12,18 +14,21 @@ export const metadata: Metadata = {
   generator: "v0.dev",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cryptoNews = await getCryptoNews();
   return (
     <html lang="en">
       <body>
-        <CryptoTicker />
-        <Header />
-        {children}
-        <Footer />
+        <CryptoNewsProvider articles={cryptoNews}>
+          <CryptoTicker />
+          <Header />
+          {children}
+          <Footer />
+        </CryptoNewsProvider>
       </body>
     </html>
   );

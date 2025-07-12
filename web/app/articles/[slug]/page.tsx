@@ -9,33 +9,49 @@ import { getPostBySlug } from "@/utils/sanity-posts";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
 import RichText from "@/components/molecules/PortableText";
+import { PostDetail } from "@/@types/Posts";
+import { getCryptoNews } from "@/lib/NewsData/getApiNews";
+import { mapEventRegistryToPostDetail } from "@/utils/sanity-convert";
 
 interface ArticlePageProps {
   params: { slug: string };
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
-  const article = await getPostBySlug(params.slug);
+  let article: PostDetail | null = await getPostBySlug(params.slug);
   const headersList = await headers();
 
   if (!article) {
-    notFound();
+    const cryptoArticles = (await getCryptoNews()).map((article) =>
+      mapEventRegistryToPostDetail(article)
+    );
+
+    const matched = cryptoArticles.find((a) => {
+      return a.slug.current === params.slug;
+    });
+
+    console.log(matched)
+
+    if (matched) {
+      article = matched;
+    } else {
+      notFound();
+    }
   }
 
   const fullUrl = headersList.get("x-url") || "";
-
 
   const breadcrumbItems = [
     { label: "Home", href: "/" },
     { label: "Articles", href: "/articles" },
     {
       label: article.categories?.[0]?.title || "Uncategorized",
-      href: `/categories/${article.categories?.[0]?.title?.toLowerCase().replace(/\s/g, "-")}`,
+      href: `/categories/${article.categories?.[0]?.title
+        ?.toLowerCase()
+        .replace(/\s/g, "-")}`,
     },
     { label: article.title },
   ];
-
-  console.log(article.body)
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
@@ -71,7 +87,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
           <SocialShareButtons title={article.title} url={fullUrl} />
           <ArticleComments />
-          {/* <RelatedArticlesSection currentArticleSlug={article.slug.current} /> */}
         </article>
       </main>
       <Footer />

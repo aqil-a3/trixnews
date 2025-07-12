@@ -1,6 +1,5 @@
 import { useHomeData } from "@/components/providers/HomeProvider"
 import ArticleCard from "../../molecules/Cards/ArticleCard"
-import { allArticles } from "@/lib/articles"
 
 export default function LatestNews() {
   const { articles } = useHomeData()

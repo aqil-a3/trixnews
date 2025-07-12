@@ -5,6 +5,7 @@ import { BookOpen, Lightbulb, GraduationCap } from "lucide-react";
 import { useMemo } from "react";
 import { SanityGuide } from "@/@types/Sanity";
 import { convertSanityGuideToGuide } from "@/utils/sanity-convert";
+import { useHomeData } from "@/components/providers/HomeProvider";
 
 interface GuideDisplay {
   title: string;
@@ -13,11 +14,8 @@ interface GuideDisplay {
   icon: React.ElementType; // To use Lucide icons
 }
 
-export default function GuidesTutorialsSection({
-  guides,
-}: {
-  guides: SanityGuide[];
-}) {
+export default function GuidesTutorialsSection() {
+  const { guides } = useHomeData();
   const allGuides = useMemo(() => {
     const result = [];
 
@@ -27,7 +25,7 @@ export default function GuidesTutorialsSection({
 
     return result;
   }, [guides]);
-  
+
   const guidesToDisplay: GuideDisplay[] = allGuides.map((guide) => {
     let IconComponent: React.ElementType;
     switch (guide.slug) {

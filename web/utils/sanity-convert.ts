@@ -1,4 +1,11 @@
-import { Airdrop, Guide, Post, PostDetail, Presale, Web3Tool } from "@/@types/Posts";
+import {
+  Airdrop,
+  EventRegistryNewsItem,
+  Guide,
+  PostDetail,
+  Presale,
+  Web3Tool,
+} from "@/@types/Posts";
 import {
   SanityAirdrop,
   SanityGuide,
@@ -8,6 +15,7 @@ import {
 import { Article } from "@/lib/articles";
 import { urlFor } from "@/sanity/lib/image";
 import { toHTML } from "@portabletext/to-html";
+import { nanoid } from "nanoid"
 
 export function convertSanityPresale(sanity: SanityPresale): Presale {
   return {
@@ -93,5 +101,54 @@ export function convertPostToArticle(post: PostDetail): Article {
     author: post.author && "name" in post.author ? post.author.name : undefined,
     content: toHTML(post.body),
     popularity: 0, // default jika belum ada sistem penilaian popularitas
+  };
+}
+
+export function mapEventRegistryToPostDetail(article: EventRegistryNewsItem): PostDetail {
+  return {
+    _id: article.uri, // pakai URI sebagai ID unik
+    title: article.title,
+    slug: {
+      current: article.title
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, "") // hilangkan karakter spesial
+        .trim()
+        .replace(/\s+/g, "-"),
+    },
+    publishedAt: article.dateTimePub || article.dateTime,
+    summary: article.body.slice(0, 160) + "...", // potong ringkasan
+    author: {
+      _id: article.authors?.[0]?.name || "anonymous-id",
+      name: article.authors?.[0]?.name || "Anonymous",
+    },
+    categories: [
+      {
+        _id: "external-news",
+        title: "External News",
+      },
+    ],
+    mainImage: article.image
+      ? {
+          asset: {
+            _id: "img-" + article.uri,
+            url: article.image,
+          },
+          alt: article.title,
+        }
+      : undefined,
+    body: [
+      {
+        _type: "block",
+        _key: nanoid(),
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: article.body,
+            marks: [],
+          },
+        ],
+      },
+    ],
   };
 }

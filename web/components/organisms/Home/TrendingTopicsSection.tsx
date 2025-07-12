@@ -7,14 +7,10 @@ import {
   convertSanityGuideToGuide,
 } from "@/utils/sanity-convert";
 import { Guide, PostDetail } from "@/@types/Posts";
+import { useHomeData } from "@/components/providers/HomeProvider";
 
-export default function TrendingTopicsSection({
-  guides,
-  articles,
-}: {
-  guides: SanityGuide[];
-  articles: PostDetail[];
-}) {
+export default function TrendingTopicsSection() {
+  const { articles, guides } = useHomeData()
   const allGuides = useMemo(() => {
     const result = [];
     for (const guide of guides) {

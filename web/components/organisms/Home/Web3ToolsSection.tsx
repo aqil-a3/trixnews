@@ -2,12 +2,10 @@ import { SanityWeb3Tool } from "@/@types/Sanity";
 import ToolCard from "../../tool-card";
 import { useMemo } from "react";
 import { convertSanityWeb3Tool } from "@/utils/sanity-convert";
+import { useHomeData } from "@/components/providers/HomeProvider";
 
-export default function Web3ToolsSection({
-  web3Tools,
-}: {
-  web3Tools: SanityWeb3Tool[];
-}) {
+export default function Web3ToolsSection() {
+  const { web3Tools } = useHomeData();
   const allWeb3Tools = useMemo(() => {
     const result = [];
     for (const web3Tool of web3Tools) {
@@ -15,7 +13,7 @@ export default function Web3ToolsSection({
     }
     return result;
   }, [web3Tools]);
-  
+
   // Display a subset of tools, e.g., the first 3 or 6 most popular/featured ones
   const featuredTools = allWeb3Tools.slice(0, 3); // Display 3 tools on homepage
 

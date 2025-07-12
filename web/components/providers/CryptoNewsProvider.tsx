@@ -1,9 +1,10 @@
 "use client";
-import { EventRegistryNewsItem } from "@/@types/Posts";
+import { EventRegistryNewsItem, PostDetail } from "@/@types/Posts";
 import React, { createContext, useContext } from "react";
 
 interface CryptoNewsContextState {
   articles: EventRegistryNewsItem[];
+  allArticles: PostDetail[];
 }
 
 const CryptoNewsContext = createContext<CryptoNewsContextState>(
@@ -12,15 +13,18 @@ const CryptoNewsContext = createContext<CryptoNewsContextState>(
 
 interface CryptoNewsProviderProps {
   articles: EventRegistryNewsItem[];
+  allArticles: PostDetail[];
   children: React.ReactNode;
 }
 
 export default function CryptoNewsProvider({
   articles,
   children,
+  allArticles
 }: CryptoNewsProviderProps) {
   const value: CryptoNewsContextState = {
     articles,
+    allArticles
   };
 
   return (

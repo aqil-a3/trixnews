@@ -42,7 +42,7 @@ export default function HomeTemplate({
           <CategoriesSection />
           <GuidesTutorialsSection />
           <InDepthAnalysisSection />
-          <TrendingTopicsSection />
+          {/* <TrendingTopicsSection /> */}
 
           <Web3ToolsSection />
         </main>

@@ -1,29 +1,30 @@
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ArrowRight } from "lucide-react";
-import { allArticles } from "@/lib/articles";
-import { cn } from "@/lib/utils"; // Import cn utility
-import { useHomeData } from "@/components/providers/HomeProvider";
+import { cn } from "@/lib/utils";
+import { useCryptoNewsData } from "@/components/providers/CryptoNewsProvider";
+import { formatDistanceToNow } from "date-fns";
 
 interface LatestSidebarNewsProps {
-  className?: string; // Allow passing custom class names
+  className?: string;
 }
 
-export default function LatestSidebarNews({
-  className,
-}: LatestSidebarNewsProps) {
-  const { articles } = useHomeData()
-  // Get the 8 latest articles for the sidebar to align its height with the main content
-  const latestNews = articles
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-    .slice(0, 8); // Changed from 9 to 8
+export default function LatestSidebarNews({ className }: LatestSidebarNewsProps) {
+  const { allArticles: articles } = useCryptoNewsData();
 
-  // Helper to simulate "X hours ago" for dummy data
-  const getSimulatedTimeAgo = (index: number) => {
-    const hours = 14 + index; // Just to vary the hours slightly
-    return `${hours} HOURS AGO`;
-  };
+  const latestNews = articles
+    .slice() 
+    .sort(
+      (a, b) =>
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    )
+    .slice(0, 8);
 
   return (
     <aside className="space-y-8">
@@ -36,24 +37,31 @@ export default function LatestSidebarNews({
         </CardHeader>
         <CardContent className="pt-0">
           <div className="space-y-4">
-            {latestNews.map((article, index) => (
-              <div key={article.slug.current}>
-                <Link
-                  href={`/articles/${article.slug.current}`}
-                  className="block group"
-                >
-                  <p className="text-xs text-gray-500 uppercase mb-1">
-                    {getSimulatedTimeAgo(index)}
-                  </p>
-                  <h3 className="text-base font-medium text-gray-900 leading-snug group-hover:text-primary transition-colors">
-                    {article.title}
-                  </h3>
-                </Link>
-                {index < latestNews.length - 1 && (
-                  <Separator className="my-4" />
-                )}
-              </div>
-            ))}
+            {latestNews.map((article, index) => {
+              const publishedDate = new Date(article.publishedAt);
+              const timeAgo = formatDistanceToNow(publishedDate, {
+                addSuffix: true,
+              });
+
+              return (
+                <div key={article.slug.current}>
+                  <Link
+                    href={`/articles/${article.slug.current}`}
+                    className="block group"
+                  >
+                    <p className="text-xs text-gray-500 uppercase mb-1">
+                      {timeAgo.toUpperCase()}
+                    </p>
+                    <h3 className="text-base font-medium text-gray-900 leading-snug group-hover:text-primary transition-colors">
+                      {article.title}
+                    </h3>
+                  </Link>
+                  {index < latestNews.length - 1 && (
+                    <Separator className="my-4" />
+                  )}
+                </div>
+              );
+            })}
           </div>
         </CardContent>
       </Card>

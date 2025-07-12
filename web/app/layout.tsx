@@ -6,6 +6,7 @@ import Header from "@/components/layouts/Header/header";
 import Footer from "@/components/layouts/Footer";
 import { getCryptoNews } from "@/lib/NewsData/getApiNews";
 import CryptoNewsProvider from "@/components/providers/CryptoNewsProvider";
+import { getAllArticles } from "@/utils/posts";
 
 export const metadata: Metadata = {
   title: "Web3 News Portal",
@@ -19,11 +20,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cryptoNews = await getCryptoNews();
+  const [cryptoNews, allArticles] = await Promise.all([getCryptoNews(), getAllArticles()]);
   return (
     <html lang="en">
       <body>
-        <CryptoNewsProvider articles={cryptoNews}>
+        <CryptoNewsProvider articles={cryptoNews} allArticles={allArticles} >
           <CryptoTicker />
           <Header />
           {children}

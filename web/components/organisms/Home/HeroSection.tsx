@@ -112,36 +112,41 @@ export default function HeroSection() {
 
   return (
     <section className="mb-8">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 h-[600px] md:h-[450px] lg:h-[400px]">
+      {/* Responsive layout: stack vertically on mobile, grid on md+ */}
+      <div className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:h-[600px] lg:h-[450px]">
         {/* Left Large Article */}
-        <div className="col-span-1 h-full">
-          <HeroArticleCard
-            article={mainLeftArticle}
-            size="large"
-            overlayColors={gradientColors.left}
-          />
+        <div className="h-auto md:h-full">
+          <div className="aspect-[4/3] md:aspect-auto h-full">
+            <HeroArticleCard
+              article={mainLeftArticle}
+              size="large"
+              overlayColors={gradientColors.left}
+            />
+          </div>
         </div>
 
         {/* Middle Large Article */}
-        <div className="col-span-1 h-full">
-          <HeroArticleCard
-            article={mainMiddleArticle}
-            size="large"
-            overlayColors={gradientColors.middle}
-            showMetadata={true}
-          />
+        <div className="h-auto md:h-full">
+          <div className="aspect-[4/3] md:aspect-auto h-full">
+            <HeroArticleCard
+              article={mainMiddleArticle}
+              size="large"
+              overlayColors={gradientColors.middle}
+              showMetadata={true}
+            />
+          </div>
         </div>
 
         {/* Right Stacked Articles */}
-        <div className="col-span-1 grid grid-rows-2 gap-4 h-full">
-          <div className="row-span-1 h-full">
+        <div className="flex flex-col gap-4 h-auto md:h-full">
+          <div className="aspect-[4/3] md:aspect-auto h-full">
             <HeroArticleCard
               article={topRightArticle}
               size="small"
               overlayColors={gradientColors.rightTop}
             />
           </div>
-          <div className="row-span-1 h-full">
+          <div className="aspect-[4/3] md:aspect-auto h-full">
             <HeroArticleCard
               article={bottomRightArticle}
               size="small"

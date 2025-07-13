@@ -7,6 +7,7 @@ import Footer from "@/components/layouts/Footer";
 import { getCryptoNews } from "@/lib/NewsData/getApiNews";
 import CryptoNewsProvider from "@/components/providers/CryptoNewsProvider";
 import { getAllArticles } from "@/utils/posts";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Web3 News Portal",
@@ -29,6 +30,7 @@ export default async function RootLayout({
           <Header />
           {children}
           <Footer />
+          <Toaster />
         </CryptoNewsProvider>
       </body>
     </html>

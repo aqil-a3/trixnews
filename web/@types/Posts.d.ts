@@ -75,7 +75,7 @@ body: BlockContent;
 }
 
 export interface Presale {
-  id: string;
+  readonly id: string;
   name: string;
   description: string;
   startDate: string;
@@ -83,10 +83,11 @@ export interface Presale {
   softCap: number;
   hardCap: number;
   tokenSupply: number;
-  status: "pending" | "approved" | "rejected";
+  status: "pending" | "approved" | "rejected" | string;
   contactEmail: string;
   imageUrl?: string;
   slug?: string;
+  presaleSite: string;
 }
 
 export interface RelatedPost {

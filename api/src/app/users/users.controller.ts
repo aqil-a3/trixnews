@@ -7,10 +7,10 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { SharedSecretGuardService } from '../shared-secret-guard/shared-secret-guard.service';
+import { SharedSecretGuardService } from '../../guards/shared-secret-guard/shared-secret-guard.service';
 import { UsersService } from './users.service';
-import { CreateAdminUserDto } from '../dto/user/create-admin-user.dto';
-import { DeleteAdminUserDto } from '../dto/user/delete-admin-user.dto';
+import { CreateAdminUserDto } from '../../dto/user/create-admin-user.dto';
+import { DeleteAdminUserDto } from '../../dto/user/delete-admin-user.dto';
 
 @Controller('users')
 export class UsersController {

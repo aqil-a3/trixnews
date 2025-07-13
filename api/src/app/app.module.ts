@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from '../users/users.module';
+import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
+import { IcoPresaleModule } from './ico-presale/ico-presale.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    IcoPresaleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

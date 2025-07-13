@@ -16,7 +16,11 @@ import {
   Folder,
   ExternalLink,
   User,
-  Book,
+  ShoppingCart,
+  Gift,
+  BookOpen,
+  Brain,
+  Wrench,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -26,11 +30,11 @@ const sidebarLinks = [
   { label: "Posts", href: "/posts", icon: FileText },
   { label: "Categories", href: "/categories", icon: Folder },
   { label: "Tags", href: "/tags", icon: Tag },
-  { label: "Presales", href: "/presales", icon: Tag },
-  { label: "Airdrops", href: "/airdrops", icon: Tag },
-  { label: "Guides", href: "/guides", icon: Book },
-  { label: "Predictions", href: "/predictions", icon: Book },
-  { label: "Web 3 Tools", href: "/web3tools", icon: Book },
+  { label: "Presales", href: "/presales", icon: ShoppingCart },
+  { label: "Airdrops", href: "/airdrops", icon: Gift },
+  { label: "Guides", href: "/guides", icon: BookOpen },
+  { label: "Predictions", href: "/predictions", icon: Brain },
+  { label: "Web 3 Tools", href: "/web3tools", icon: Wrench },
 ];
 
 export default function AdminSidebarContent() {

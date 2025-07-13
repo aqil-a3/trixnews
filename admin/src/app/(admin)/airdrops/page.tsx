@@ -1,5 +1,5 @@
 import AirdropsTemplate from "@/components/templates/admin/AirdropsTemplate";
-import { getAllAirDrops } from "@/utils/posts";
+import { getAllAirdrops } from "@/lib/server-utils";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,6 +7,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AirdropsPage() {
-  const airdrops = await getAllAirDrops();
+  const airdrops = await getAllAirdrops();
+
   return <AirdropsTemplate airdrops={airdrops} />;
 }

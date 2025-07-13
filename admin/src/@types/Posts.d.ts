@@ -115,6 +115,20 @@ export interface Airdrop {
   };
 }
 
+export interface DBAirdrop {
+  id: string
+  name: string
+  description: string
+  start_date: string
+  end_date: string
+  reward_amount: string
+  status: "pending" | "approved" | "rejected"
+  official_link: string
+  contact_email: string
+  image_url?: string | null
+  slug: string
+}
+
 export interface Guide {
   readonly _id: string;
   readonly _type: "guide";

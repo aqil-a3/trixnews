@@ -11,7 +11,7 @@ const Header = () => {
     <EntityTableHeader
       title="Airdrops"
       description="Manage and organize your content airdrops"
-      newLink="/studio/desk/airdrop"
+      newLink="/airdrops/add"
     />
   );
 };

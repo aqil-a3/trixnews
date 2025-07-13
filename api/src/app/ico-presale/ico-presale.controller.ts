@@ -1,6 +1,6 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { SharedSecretGuardService } from '../../guards/shared-secret-guard/shared-secret-guard.service';
-import { PresaleFormDTO } from 'src/dto/presale/presale-form-schema.dto';
+import { PresaleFormDTO } from '../../dto/presale/presale-form-schema.dto';
 import { IcoPresaleService } from './ico-presale.service';
 
 @Controller('ico-presale')

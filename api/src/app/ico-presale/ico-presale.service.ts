@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { PresaleFormDTO } from '../../dto/presale/presale-form-schema.dto';
 import { getSupabaseClient } from '../../services/supabase/supabase.client';
-import { slugify } from 'src/utils/slugify';
+import { slugify } from '../../utils/slugify';
 
 @Injectable()
 export class IcoPresaleService {

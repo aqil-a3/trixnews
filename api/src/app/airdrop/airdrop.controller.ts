@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { AirdropFormDTO } from 'src/dto/airdrop/airdrop-form-schema.dto';
 import { SharedSecretGuardService } from 'src/guards/shared-secret-guard/shared-secret-guard.service';
 import { AirdropService } from './airdrop.service';
@@ -23,5 +23,18 @@ export class AirdropController {
   @Get()
   async getAllAirdrops() {
     return await this.airdropService.getAllAirdrops();
+  }
+
+  @UseGuards(SharedSecretGuardService)
+  @Get(':id')
+  async getAirdropById(@Param('id') id: string) {
+    return await this.airdropService.getAirdropById(id);
+  }
+
+  @UseGuards(SharedSecretGuardService)
+  @Put(':id')
+  async updateAirdrop(@Param('id') id: string, @Body() body: AirdropFormDTO) {
+    const result = await this.airdropService.updateAirdrop(id, body);
+    return result;
   }
 }

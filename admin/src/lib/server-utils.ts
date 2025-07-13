@@ -68,3 +68,12 @@ export async function getPresaleById(id: string): Promise<Presale> {
     throw error;
   }
 }
+
+export async function getAirdropById(id: string): Promise<Airdrop> {
+  try {
+    const response = await apiGet(`${secretApi}/airdrop/${id}`);
+    return response.data as Airdrop;
+  } catch (error) {
+    throw error;
+  }
+}

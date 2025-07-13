@@ -71,7 +71,7 @@ export const airdropColumns: ColumnDef<Airdrop>[] = [
             variant="outline"
             size="icon"
             onClick={() =>
-              window.open(`/studio/desk/airdrop;${airdrop._id}`, "_blank")
+              window.open(`/airdrops/edit/${airdrop._id}`, "_blank")
             }
           >
             <Pencil className="w-4 h-4" />

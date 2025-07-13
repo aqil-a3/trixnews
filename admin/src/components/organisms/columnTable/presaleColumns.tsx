@@ -68,7 +68,7 @@ export const presaleColumns: ColumnDef<Presale>[] = [
           <Button
             variant="outline"
             size="icon"
-            onClick={() => window.open(`/studio/desk/presales;${id}`, "_blank")}
+            onClick={() => window.open(`/presales/edit/${id}`, "_blank")}
           >
             <Pencil className="w-4 h-4" />
           </Button>

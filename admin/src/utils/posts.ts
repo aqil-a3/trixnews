@@ -47,6 +47,7 @@ export async function getAllTags() {
   return result as Tag[];
 }
 
+// TODO : DELETE SOON
 export async function getAllPresales() {
   const result = await sanityFetch({
     query: groqGetAllPresales,

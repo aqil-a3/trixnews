@@ -36,6 +36,7 @@ export const groqGetAllImages = `*[_type == "gallery"]{
 }
 `;
 
+// TODO : DElete Soon
 export const groqGetAllPresales = `*[_type == "presales"] | order(startDate asc) {
   _id,
   _type,

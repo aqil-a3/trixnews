@@ -18,7 +18,6 @@ export async function POST(req: NextRequest) {
     });
     if (!res.ok) {
       const errorBody = await res.json();
-      console.log(errorBody);
       return NextResponse.json(
         {
           message: errorBody.message,

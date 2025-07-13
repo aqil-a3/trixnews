@@ -17,6 +17,13 @@ export function apiPost<T = unknown>(
   return apiClient.post(url, body);
 }
 
+export function apiPut<T = unknown>(
+  url: string,
+  body?: unknown
+): Promise<{ data: T }> {
+  return apiClient.put(url, body);
+}
+
 export function apiGet<T = unknown>(url: string): Promise<{ data: T }> {
   return apiClient.get(url);
 }

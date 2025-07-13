@@ -10,7 +10,7 @@ const Header = () => {
   return (
     <EntityTableHeader
       description="Manage and organize presales to classify your content."
-      newLink="/studio/desk/presales"
+      newLink="/presales/add"
       title="Presales"
     />
   );

@@ -7,8 +7,8 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { AirdropFormDTO } from 'src/dto/airdrop/airdrop-form-schema.dto';
-import { SharedSecretGuardService } from 'src/guards/shared-secret-guard/shared-secret-guard.service';
+import { AirdropFormDTO } from '../../dto/airdrop/airdrop-form-schema.dto';
+import { SharedSecretGuardService } from '../../guards/shared-secret-guard/shared-secret-guard.service';
 import { AirdropService } from './airdrop.service';
 
 @Controller('airdrop')

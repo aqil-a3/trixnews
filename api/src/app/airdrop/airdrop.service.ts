@@ -3,9 +3,9 @@ import {
   ConflictException,
   Injectable,
 } from '@nestjs/common';
-import { AirdropFormDTO } from 'src/dto/airdrop/airdrop-form-schema.dto';
-import { getSupabaseClient } from 'src/services/supabase/supabase.client';
-import { slugify } from 'src/utils/slugify';
+import { AirdropFormDTO } from '../../dto/airdrop/airdrop-form-schema.dto';
+import { getSupabaseClient } from '../../services/supabase/supabase.client';
+import { slugify } from '../../utils/slugify';
 
 @Injectable()
 export class AirdropService {

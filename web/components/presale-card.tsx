@@ -24,8 +24,6 @@ export default function PresaleCard({ presale }: PresaleCardProps) {
     }
   );
 
-  console.log(presale);
-
   return (
     <Card className="relative h-full flex flex-col border border-gray-200 hover:shadow-lg transition-shadow">
       {/* Status Badge */}

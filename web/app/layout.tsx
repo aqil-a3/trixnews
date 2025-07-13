@@ -24,11 +24,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [cryptoNews, allArticles] = await Promise.all([getCryptoNews(), getAllArticles()]);
+  const allArticles = await getAllArticles();
+
   return (
     <html lang="en">
       <body>
-        <CryptoNewsProvider articles={cryptoNews} allArticles={allArticles} >
+        <CryptoNewsProvider allArticles={allArticles}>
           <CryptoTicker />
           <Header />
           {children}

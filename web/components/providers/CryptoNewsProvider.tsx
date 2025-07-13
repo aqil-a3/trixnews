@@ -3,7 +3,7 @@ import { EventRegistryNewsItem, PostDetail } from "@/@types/Posts";
 import React, { createContext, useContext } from "react";
 
 interface CryptoNewsContextState {
-  articles: EventRegistryNewsItem[];
+  // articles: EventRegistryNewsItem[];
   allArticles: PostDetail[];
 }
 
@@ -12,18 +12,18 @@ const CryptoNewsContext = createContext<CryptoNewsContextState>(
 );
 
 interface CryptoNewsProviderProps {
-  articles: EventRegistryNewsItem[];
+  // articles: EventRegistryNewsItem[];
   allArticles: PostDetail[];
   children: React.ReactNode;
 }
 
 export default function CryptoNewsProvider({
-  articles,
+  // articles,
   children,
   allArticles
 }: CryptoNewsProviderProps) {
   const value: CryptoNewsContextState = {
-    articles,
+    // articles,
     allArticles
   };
 

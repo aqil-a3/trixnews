@@ -1,109 +1,207 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useActionState } from "react"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
-import { submitAirdrop } from "@/app/actions/airdrop" // Import the server action
-import { useToast } from "@/hooks/use-toast" // Assuming useToast is available
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { airdropSchema } from "@/lib/schemas/airdropSchema";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+
+type AirdropFormValues = z.infer<typeof airdropSchema>;
 
 export default function AirdropSubmissionForm() {
-  const [state, formAction, isPending] = useActionState(submitAirdrop, null)
-  const { toast } = useToast()
-  const formRef = React.useRef<HTMLFormElement>(null)
+  const form = useForm<AirdropFormValues>({
+    resolver: zodResolver(airdropSchema),
+    defaultValues: {
+      contactEmail: "",
+      name: "",
+      description: "",
+      rewardAmount: "",
+      officialLink: "",
+      startDate: "",
+      endDate: "",
+    },
+  });
 
-  React.useEffect(() => {
-    if (state?.success) {
-      toast({
-        title: "Submission Successful!",
-        description: state.message,
-        variant: "default",
-      })
-      formRef.current?.reset() // Reset form fields on success
-    } else if (state?.success === false) {
-      toast({
-        title: "Submission Failed",
-        description: state.message,
-        variant: "destructive",
-      })
+  const onSubmit: SubmitHandler<AirdropFormValues> = async (
+    values: AirdropFormValues
+  ) => {
+    try {
+      const res = await fetch("/api/airdrop", {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        const errorBody = await res.json().catch(() => ({}));
+        throw new Error(errorBody?.message || "Submission failed.");
+      }
+
+      const data = await res.json();
+      toast.success("Success Submit", {
+        description: data.message,
+      });
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error?.error ?? "Submission failed", {
+        description: error.message ?? "Something went wrong.",
+      });
     }
-  }, [state, toast])
+  };
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Submit Your Airdrop</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">
+        Submit Your Airdrop
+      </h2>
       <p className="text-gray-700 mb-6">
-        Fill out the form below to submit your token airdrop. Submissions will be reviewed by our admins.
+        Fill out the form below to submit your token airdrop. Submissions will
+        be reviewed by our admins.
       </p>
-      <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6" role="alert">
-        <div className="flex">
-          <div className="flex-shrink-0">
-            <svg className="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                fillRule="evenodd"
-                d="M8.257 3.099c.765-1.534 2.745-1.534 3.51 0l.757 1.519a4.5 4.5 0 01.086.112l.924 1.848c.243.487.196 1.08-.11 1.498l-.757 1.519c-.765 1.534-2.745 1.534-3.51 0l-.757-1.519a4.5 4.5 0 01-.11-.112l-.924-1.848c-.243-.487-.196-1.08.11-1.498l.757-1.519zM12 9a1 1 0 11-2 0 1 1 0 012 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
-          <div className="ml-3">
-            <p className="text-sm text-yellow-700">
-              As part of our commitment to maintaining neutrality and integrity, and ensuring security for the Web3
-              community, every token airdrop submission to be recommended by Trixnews.com must undergo a strict
-              verification process. This is our step to build a trusted and fraud-free ecosystem.
-            </p>
-          </div>
-        </div>
+
+      <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+        <p className="text-sm text-yellow-700">
+          As part of our commitment to maintaining neutrality and integrity, and
+          ensuring security for the Web3 community, every token airdrop
+          submission to be recommended by Trixnews.com must undergo a strict
+          verification process.
+        </p>
       </div>
-      <form ref={formRef} action={formAction} className="space-y-4">
-        <div>
-          <Label htmlFor="contactEmail">Contact Email</Label>
-          <Input id="contactEmail" name="contactEmail" type="email" required placeholder="name@project.com" />
-        </div>
-        <div>
-          <Label htmlFor="airdropName">Airdrop / Token Name</Label>
-          <Input id="airdropName" name="airdropName" type="text" required placeholder="Ex: XYZ Token Airdrop" />
-        </div>
-        <div>
-          <Label htmlFor="description">Short Airdrop Description</Label>
-          <Textarea
-            id="description"
+
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="contactEmail"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Contact Email</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="name@project.com"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Airdrop / Token Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Ex: XYZ Token Airdrop" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="description"
-            required
-            rows={3}
-            placeholder="Describe the airdrop and its requirements..."
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Short Airdrop Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    rows={3}
+                    placeholder="Describe the airdrop and its requirements..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-        <div>
-          <Label htmlFor="rewardAmount">Reward Amount (Ex: 100 ABC, 0.5 ETH)</Label>
-          <Input id="rewardAmount" name="rewardAmount" type="text" required placeholder="Ex: 1000 ABC" />
-        </div>
-        <div>
-          <Label htmlFor="officialLink">Official Airdrop Link</Label>
-          <Input
-            id="officialLink"
+
+          <FormField
+            control={form.control}
+            name="rewardAmount"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Reward Amount</FormLabel>
+                <FormControl>
+                  <Input placeholder="Ex: 1000 ABC" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="officialLink"
-            type="url"
-            required
-            placeholder="https://officialsite.com/airdrop"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Official Airdrop Link</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="https://officialsite.com/airdrop"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="airdropStartDate">Airdrop Start Date</Label>
-            <Input id="airdropStartDate" name="airdropStartDate" type="date" required />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="startDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Airdrop Start Date</FormLabel>
+                  <FormControl>
+                    <Input type="date" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="endDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Airdrop End Date</FormLabel>
+                  <FormControl>
+                    <Input type="date" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
-          <div>
-            <Label htmlFor="airdropEndDate">Airdrop End Date</Label>
-            <Input id="airdropEndDate" name="airdropEndDate" type="date" required />
-          </div>
-        </div>
-        <Button type="submit" className="w-full" disabled={isPending}>
-          {isPending ? "Submitting..." : "Submit Airdrop"}
-        </Button>
-      </form>
+
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={form.formState.isSubmitting}
+          >
+            {form.formState.isSubmitting ? "Submitting..." : "Submit Airdrop"}
+          </Button>
+        </form>
+      </Form>
     </div>
-  )
+  );
 }

@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { IcoPresaleModule } from './ico-presale/ico-presale.module';
+import { AirdropController } from './airdrop/airdrop.controller';
+import { AirdropService } from './airdrop/airdrop.service';
 
 @Module({
   imports: [
@@ -13,7 +15,7 @@ import { IcoPresaleModule } from './ico-presale/ico-presale.module';
     }),
     IcoPresaleModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, AirdropController],
+  providers: [AppService, AirdropService],
 })
 export class AppModule {}

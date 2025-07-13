@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { SharedSecretGuardService } from '../../guards/shared-secret-guard/shared-secret-guard.service';
 import { PresaleFormDTO } from '../../dto/presale/presale-form-schema.dto';
 import { IcoPresaleService } from './ico-presale.service';
@@ -24,6 +32,19 @@ export class IcoPresaleController {
   async getPresales() {
     try {
       const presales = await this.icoPresaleService.getPresalesForSanity();
+      return presales;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  @UseGuards(SharedSecretGuardService)
+  @Get('approved')
+  async getApprovedPresales() {
+    try {
+      const presales =
+        await this.icoPresaleService.getApprovedPresalesForSanity();
       return presales;
     } catch (error) {
       console.error(error);

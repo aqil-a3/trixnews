@@ -3,6 +3,8 @@
 import { Presale } from "@/@types/Posts";
 import { convertSanityPresale } from "@/utils/sanity-convert";
 import { getAllPresales } from "@/utils/sanity-posts";
+import { apiUrl, sharedSecretKey } from "./variables";
+import { SanityPresale } from "@/@types/Sanity";
 
 // Dummy data for approved presales
 // export const allPresales: Presale[] = ([
@@ -96,14 +98,31 @@ export const allPresales = async () => {
   return converted;
 };
 
-// In a real application, this would interact with a database
-// For now, we'll just simulate fetching approved presales
 export const getApprovedPresales = async (): Promise<Presale[]> => {
-  return (await allPresales()).filter((presale) => presale.status === "approved");
+  const res = await fetch(`${apiUrl}/ico-presale/approved`, {
+    headers: {
+      "X-Auth-Secret": sharedSecretKey,
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch approved presales: ${res.statusText}`);
+  }
+
+  const raw: SanityPresale[] = await res.json();
+  const data:Presale[] = []
+  for(const r of raw){
+    data.push(convertSanityPresale(r))
+  }
+  
+  return data as Presale[];
 };
 
 // New function to get presale by slug
-export const getPresaleBySlug = async (slug: string): Promise<Presale | null> => {
+export const getPresaleBySlug = async (
+  slug: string
+): Promise<Presale | null> => {
   return (await allPresales()).find((presale) => presale.slug === slug) || null;
 };
 

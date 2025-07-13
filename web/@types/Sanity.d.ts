@@ -13,6 +13,7 @@ export interface SanityPresale{
   readonly tokenSupply: number;
   readonly status: "pending" | "approved" | "rejected";
   readonly contactEmail: string;
+  readonly presaleSite: string;
   readonly image?: {
     readonly _type: "image";
     readonly asset: {

@@ -62,6 +62,47 @@ export class IcoPresaleService {
     };
   }
 
+  async getApprovedPresalesForSanity() {
+    const { data, error } = await this.supabase
+      .from('presales')
+      .select('*')
+      .eq('status', 'approved')
+      .order('created_at', { ascending: false });
+
+    if (error) throw new Error(error.message);
+
+    return (data || []).map((item) => ({
+      _id: item.id,
+      _type: 'presale',
+      id: item.id,
+      name: item.name,
+      description: item.description,
+      startDate: item.start_date,
+      endDate: item.end_date,
+      softCap: Number(item.soft_cap),
+      hardCap: Number(item.hard_cap),
+      tokenSupply: Number(item.token_supply),
+      status: item.status,
+      contactEmail: item.contact_email,
+      presaleSite: item.presale_site,
+      image: item.image_url
+        ? {
+            _type: 'image',
+            asset: {
+              _type: 'reference',
+              _ref: item.image_url,
+            },
+          }
+        : undefined,
+      slug: item.slug
+        ? {
+            _type: 'slug',
+            current: item.slug,
+          }
+        : undefined,
+    }));
+  }
+
   async getPresalesForSanity() {
     const { data, error } = await this.supabase
       .from('presales')
@@ -149,43 +190,42 @@ export class IcoPresaleService {
   }
 
   async updatePresale(id: string, presale: PresaleFormDTO) {
-  const payload = this.mapPresaleFormToDb(presale);
+    const payload = this.mapPresaleFormToDb(presale);
 
-  if (new Date(payload.start_date) >= new Date(payload.end_date)) {
-    throw new Error('Start date must be earlier than end date.');
+    if (new Date(payload.start_date) >= new Date(payload.end_date)) {
+      throw new Error('Start date must be earlier than end date.');
+    }
+
+    const { data: existingSlug, error: slugError } = await this.supabase
+      .from('presales')
+      .select('id')
+      .eq('slug', payload.slug)
+      .neq('id', id)
+      .limit(1)
+      .maybeSingle();
+
+    if (slugError) throw new Error(slugError.message);
+
+    if (existingSlug) {
+      throw new ConflictException(
+        'Slug already exists. Try a different token name.',
+      );
+    }
+
+    const { data: updated, error: updateError } = await this.supabase
+      .from('presales')
+      .update(payload)
+      .eq('id', id)
+      .select('*')
+      .maybeSingle();
+
+    if (updateError) {
+      throw new BadRequestException(updateError.message);
+    }
+
+    return {
+      message: 'Presale updated successfully.',
+      data: updated,
+    };
   }
-
-  const { data: existingSlug, error: slugError } = await this.supabase
-    .from('presales')
-    .select('id')
-    .eq('slug', payload.slug)
-    .neq('id', id)
-    .limit(1)
-    .maybeSingle();
-
-  if (slugError) throw new Error(slugError.message);
-
-  if (existingSlug) {
-    throw new ConflictException(
-      'Slug already exists. Try a different token name.',
-    );
-  }
-
-  const { data: updated, error: updateError } = await this.supabase
-    .from('presales')
-    .update(payload)
-    .eq('id', id)
-    .select('*')
-    .maybeSingle();
-
-  if (updateError) {
-    throw new BadRequestException(updateError.message);
-  }
-
-  return {
-    message: 'Presale updated successfully.',
-    data: updated,
-  };
-}
-
 }

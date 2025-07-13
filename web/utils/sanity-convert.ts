@@ -15,11 +15,12 @@ import {
 import { Article } from "@/lib/articles";
 import { urlFor } from "@/sanity/lib/image";
 import { toHTML } from "@portabletext/to-html";
-import { nanoid } from "nanoid"
+import { nanoid } from "nanoid";
 
 export function convertSanityPresale(sanity: SanityPresale): Presale {
   return {
     id: sanity.id,
+    presaleSite: sanity.presaleSite,
     name: sanity.name,
     description: sanity.description,
     startDate: sanity.startDate,
@@ -104,7 +105,9 @@ export function convertPostToArticle(post: PostDetail): Article {
   };
 }
 
-export function mapEventRegistryToPostDetail(article: EventRegistryNewsItem): PostDetail {
+export function mapEventRegistryToPostDetail(
+  article: EventRegistryNewsItem
+): PostDetail {
   return {
     _id: article.uri, // pakai URI sebagai ID unik
     title: article.title,

@@ -3,6 +3,7 @@
 import { Airdrop } from "@/@types/Posts";
 import { convertSanityAirdrop } from "@/utils/sanity-convert";
 import { getAllAirdrops } from "@/utils/sanity-posts";
+import { apiUrl, sharedSecretKey } from "./variables";
 
 // Dummy data for approved airdrops
 // export const allAirdrops: Airdrop[] = [
@@ -86,9 +87,34 @@ export const allAirdrops = async () => {
 };
 
 export const getApprovedAirdrops = async (): Promise<Airdrop[]> => {
-  return (await allAirdrops()).filter(
-    (airdrop) => airdrop.status === "approved"
-  );
+  const res = await fetch(`${apiUrl}/airdrop/approved`, {
+    headers: {
+      "X-Auth-Secret": sharedSecretKey,
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch approved airdrops: ${res.statusText}`);
+  }
+
+  const raw: any[] = await res.json();
+
+  const data: Airdrop[] = raw.map((item) => ({
+    id: item.id,
+    name: item.name,
+    description: item.description,
+    startDate: item.startDate?.split("T")[0] ?? "",
+    endDate: item.endDate?.split("T")[0] ?? "",
+    rewardAmount: item.rewardAmount,
+    status: item.status,
+    officialLink: item.officialLink,
+    contactEmail: item.contactEmail,
+    imageUrl: item.image_url ?? undefined,
+    slug: item.slug,
+  }));
+
+  return data;
 };
 
 export const getAirdropBySlug = async (

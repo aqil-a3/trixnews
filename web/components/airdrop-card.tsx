@@ -21,6 +21,8 @@ export default function AirdropCard({ airdrop }: AirdropCardProps) {
     "bg-blue-100 text-blue-700": status === "Upcoming",
   })
 
+  console.log(airdrop)
+
   return (
     <Card className="relative h-full flex flex-col border border-gray-200 hover:shadow-lg transition-shadow">
       {/* Status Badge */}
@@ -47,13 +49,13 @@ export default function AirdropCard({ airdrop }: AirdropCardProps) {
               <span className="text-xs font-medium text-gray-500 flex items-center gap-1 mb-1">
                 <CalendarDays className="h-3 w-3" /> Start Date:
               </span>
-              <span className="text-sm font-semibold text-gray-800">{formatDate(airdrop.startDate)}</span>
+              <span className="text-sm font-semibold text-gray-800">{airdrop.startDate}</span>
             </div>
             <div className="bg-gray-50 p-3 rounded-md">
               <span className="text-xs font-medium text-gray-500 flex items-center gap-1 mb-1">
                 <CalendarDays className="h-3 w-3" /> End Date:
               </span>
-              <span className="text-sm font-semibold text-gray-800">{formatDate(airdrop.endDate)}</span>
+              <span className="text-sm font-semibold text-gray-800">{airdrop.endDate}</span>
             </div>
           </div>
           <div className="bg-gray-50 p-3 rounded-md text-center mb-4">

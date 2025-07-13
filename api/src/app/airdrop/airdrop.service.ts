@@ -145,4 +145,28 @@ export class AirdropService {
       data: updated,
     };
   }
+
+  async getApprovedAirdropsForSanity() {
+    const { data, error } = await this.supabase
+      .from('airdrops')
+      .select('*')
+      .eq('status', 'approved')
+      .order('created_at', { ascending: false });
+
+    if (error) throw new Error(error.message);
+
+    return (data || []).map((item) => ({
+      id: item.id,
+      name: item.name,
+      description: item.description,
+      startDate: item.start_date,
+      endDate: item.end_date,
+      rewardAmount: item.reward_amount,
+      status: item.status,
+      officialLink: item.official_link,
+      contactEmail: item.contact_email,
+      imageUrl: item.image_url,
+      slug: item.slug,
+    }));
+  }
 }

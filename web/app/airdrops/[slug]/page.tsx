@@ -1,26 +1,42 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import Header from "@/components/layouts/Header/header"
-import Footer from "@/components/layouts/Footer"
-import Image from "next/image"
-import { getAirdropBySlug, formatDate, getAirdropStatus } from "@/lib/airdrops"
-import { CalendarDays, Gift, LinkIcon, TrendingUp } from "lucide-react"
-import type { Metadata } from "next"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import {
+  formatDate,
+  getAirdropStatus,
+  getApprovedAirdrops,
+} from "@/lib/airdrops";
+import { CalendarDays, Gift, LinkIcon, TrendingUp } from "lucide-react";
+import type { Metadata } from "next";
 
 // Dynamic metadata for airdrop detail page
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const airdrop = await getAirdropBySlug(params.slug)
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const airdrops = await getApprovedAirdrops();
+  const airdrop = airdrops.find((air) => air.slug === slug);
 
   if (!airdrop) {
     return {
       title: "Airdrop Not Found - Trixnews.com",
       description: "The airdrop page you are looking for was not found.",
-    }
+    };
   }
 
-  const title = `${airdrop.name} - Trixnews.com`
-  const description = `Full details about the ${airdrop.name} airdrop: ${airdrop.description}. Reward ${airdrop.rewardAmount}, starts ${formatDate(airdrop.startDate)}.`
-  const keywords = [`${airdrop.name.toLowerCase()} airdrop`, "crypto airdrop", "free tokens", "new crypto", "Trixnews"]
+  const title = `${airdrop.name} - Trixnews.com`;
+  const description = `Full details about the ${airdrop.name} airdrop: ${
+    airdrop.description
+  }. Reward ${airdrop.rewardAmount}, starts ${formatDate(airdrop.startDate)}.`;
+  const keywords = [
+    `${airdrop.name.toLowerCase()} airdrop`,
+    "crypto airdrop",
+    "free tokens",
+    "new crypto",
+    "Trixnews",
+  ];
 
   return {
     title,
@@ -33,7 +49,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       siteName: "Trixnews.com",
       images: [
         {
-          url: airdrop.imageUrl || `/placeholder.svg?height=630&width=1200&text=${airdrop.name} Airdrop`,
+          url:
+            airdrop.imageUrl ||
+            `/placeholder.svg?height=630&width=1200&text=${airdrop.name} Airdrop`,
           width: 1200,
           height: 630,
           alt: `${airdrop.name} Airdrop`,
@@ -46,25 +64,36 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       card: "summary_large_image",
       title,
       description,
-      images: [airdrop.imageUrl || `/placeholder.svg?height=630&width=1200&text=${airdrop.name} Airdrop`],
+      images: [
+        airdrop.imageUrl ||
+          `/placeholder.svg?height=630&width=1200&text=${airdrop.name} Airdrop`,
+      ],
     },
-  }
+  };
 }
 
-export default async function AirdropDetailPage({ params }: { params: { slug: string } }) {
-  const airdrop = await getAirdropBySlug(params.slug)
+export default async function AirdropDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const airdrops = await getApprovedAirdrops();
+  const airdrop = airdrops.find((air) => air.slug === slug);
 
   if (!airdrop) {
     return (
       <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
         <main className="container mx-auto px-4 py-8 flex-1 flex items-center justify-center">
-          <h1 className="text-3xl font-bold text-gray-900">Airdrop not found.</h1>
+          <h1 className="text-3xl font-bold text-gray-900">
+            Airdrop not found.
+          </h1>
         </main>
       </div>
-    )
+    );
   }
 
-  const status = getAirdropStatus(airdrop.startDate, airdrop.endDate)
+  const status = getAirdropStatus(airdrop.startDate, airdrop.endDate);
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
@@ -87,40 +116,52 @@ export default async function AirdropDetailPage({ params }: { params: { slug: st
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div className="bg-gray-50 p-4 rounded-md">
-              <h2 className="text-xl font-semibold text-gray-800 mb-3">Airdrop Details</h2>
+              <h2 className="text-xl font-semibold text-gray-800 mb-3">
+                Airdrop Details
+              </h2>
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <CalendarDays className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-sm text-gray-600">Start Date:</p>
-                    <p className="font-medium text-gray-900">{formatDate(airdrop.startDate)}</p>
+                    <p className="font-medium text-gray-900">
+                      {formatDate(airdrop.startDate)}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <CalendarDays className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-sm text-gray-600">End Date:</p>
-                    <p className="font-medium text-gray-900">{formatDate(airdrop.endDate)}</p>
+                    <p className="font-medium text-gray-900">
+                      {formatDate(airdrop.endDate)}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <Gift className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-sm text-gray-600">Reward:</p>
-                    <p className="font-medium text-gray-900">{airdrop.rewardAmount}</p>
+                    <p className="font-medium text-gray-900">
+                      {airdrop.rewardAmount}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="bg-gray-50 p-4 rounded-md">
-              <h2 className="text-xl font-semibold text-gray-800 mb-3">Additional Information</h2>
+              <h2 className="text-xl font-semibold text-gray-800 mb-3">
+                Additional Information
+              </h2>
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-sm text-gray-600">Status:</p>
-                    <p className="font-medium text-gray-900 capitalize">{status}</p>
+                    <p className="font-medium text-gray-900 capitalize">
+                      {status}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -153,10 +194,15 @@ export default async function AirdropDetailPage({ params }: { params: { slug: st
               >
                 official website
               </Link>{" "}
-              and follow the instructions provided. Make sure to do your own research (DYOR) before participating.
+              and follow the instructions provided. Make sure to do your own
+              research (DYOR) before participating.
             </p>
             <Button>
-              <Link href={airdrop.officialLink} target="_blank" rel="noopener noreferrer">
+              <Link
+                href={airdrop.officialLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Join Airdrop
               </Link>
             </Button>
@@ -164,5 +210,5 @@ export default async function AirdropDetailPage({ params }: { params: { slug: st
         </article>
       </main>
     </div>
-  )
+  );
 }

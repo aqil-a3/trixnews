@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { AirdropFormDTO } from 'src/dto/airdrop/airdrop-form-schema.dto';
 import { SharedSecretGuardService } from 'src/guards/shared-secret-guard/shared-secret-guard.service';
 import { AirdropService } from './airdrop.service';
@@ -23,6 +31,19 @@ export class AirdropController {
   @Get()
   async getAllAirdrops() {
     return await this.airdropService.getAllAirdrops();
+  }
+
+  @UseGuards(SharedSecretGuardService)
+  @Get('approved')
+  async getApprovedAirdrops() {
+    try {
+      const airdrops = await this.airdropService.getApprovedAirdropsForSanity();
+      console.log(airdrops)
+      return airdrops;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 
   @UseGuards(SharedSecretGuardService)

@@ -6,6 +6,9 @@ import {
 import { AirdropFormDTO } from './dto/airdrop-form-schema.dto';
 import { getSupabaseClient } from '../../services/supabase/supabase.client';
 import { slugify } from '../../utils/slugify';
+import { AirdropFromDb } from './interface/airdropDb.interface';
+import { AirdropSanity } from './interface/airdropSanity.interface';
+import { AirdropClient } from './interface/airdropClient.interface';
 
 @Injectable()
 export class AirdropService {
@@ -25,6 +28,51 @@ export class AirdropService {
     };
   }
 
+  mapAirdropDbToSanity(payload: AirdropFormDTO): AirdropSanity {
+    return {
+      _id: payload.id,
+      _type: 'airdrop',
+      id: payload.id,
+      name: payload.name,
+      description: payload.description,
+      startDate: payload.start_date,
+      endDate: payload.end_date,
+      rewardAmount: payload.reward_amount,
+      status: payload.status,
+      contactEmail: payload.contact_email,
+      officialLink: payload.official_link,
+      mainImage: payload.image_url
+        ? {
+            _type: 'image',
+            asset: {
+              _type: 'reference',
+              _ref: payload.image_url,
+            },
+          }
+        : undefined,
+      slug: {
+        _type: 'slug',
+        current: payload.slug,
+      },
+    };
+  }
+
+  mapAirdropDbtoClient(payload: AirdropFormDTO): AirdropClient {
+    return {
+      id: payload.id,
+      name: payload.name,
+      description: payload.description,
+      startDate: payload.start_date,
+      endDate: payload.end_date,
+      rewardAmount: payload.reward_amount,
+      status: payload.status,
+      officialLink: payload.official_link,
+      contactEmail: payload.contact_email,
+      imageUrl: payload.image_url,
+      slug: payload.slug,
+    };
+  }
+
   async createNewAirdrop(airdrop: AirdropFormDTO) {
     const payload = this.mapAirdropFormToDb(airdrop);
 
@@ -34,16 +82,29 @@ export class AirdropService {
 
     const { data: existingSlug, error: slugError } = await this.supabase
       .from('airdrops')
-      .select('id')
+      .select('*')
       .eq('slug', payload.slug)
       .limit(1)
       .maybeSingle();
 
     if (slugError) throw new Error(slugError.message);
     if (existingSlug) {
-      throw new ConflictException(
-        'Slug already exists. Try a different token name.',
-      );
+      const existingData: AirdropFromDb = existingSlug;
+      if (!existingData.deleted_at) {
+        throw new ConflictException(
+          'Slug already exists. Try a different token name.',
+        );
+      }
+
+      const { error: updatedError } = await this.supabase
+        .from('airdrops')
+        .update({ ...payload, deleted_at: null })
+        .eq('slug', existingData.slug);
+
+      if (updatedError) throw new BadRequestException(updatedError.message);
+      return {
+        message: 'Airdrop submitted successfully.',
+      };
     }
 
     const { data: inserted, error: insertError } = await this.supabase
@@ -60,50 +121,54 @@ export class AirdropService {
     };
   }
 
-  async getAllAirdrops() {
-    const { data } = await this.supabase.from('airdrops').select('*');
-
-    return data;
-  }
-
   async getAirdropById(id: string) {
     const { data, error } = await this.supabase
       .from('airdrops')
       .select('*')
       .eq('id', id)
+      .is('deleted_at', null)
       .maybeSingle();
 
     if (error) throw new Error(error.message);
     if (!data) throw new Error('Airdrop not found');
+    const dbData: AirdropFromDb = data;
 
-    const mapped = {
-      _id: data.id,
-      _type: 'airdrop',
-      id: data.id,
-      name: data.name,
-      description: data.description,
-      startDate: data.start_date,
-      endDate: data.end_date,
-      rewardAmount: data.reward_amount,
-      status: data.status,
-      contactEmail: data.contact_email,
-      officialLink: data.official_link,
-      mainImage: data.image_url
-        ? {
-            _type: 'image',
-            asset: {
-              _type: 'reference',
-              _ref: data.image_url,
-            },
-          }
-        : undefined,
-      slug: {
-        _type: 'slug',
-        current: data.slug,
-      },
-    };
+    const mapped = this.mapAirdropDbToSanity(dbData);
 
     return mapped;
+  }
+
+  async getAllAirdrops() {
+    const { data } = await this.supabase
+      .from('airdrops')
+      .select('*')
+      .is('deleted_at', null);
+
+    return data;
+  }
+
+  async getApprovedAirdropsForSanity() {
+    const { data, error } = await this.supabase
+      .from('airdrops')
+      .select('*')
+      .eq('status', 'approved')
+      .order('created_at', { ascending: false })
+      .is('deleted_at', null);
+
+    if (error) throw new Error(error.message);
+
+    return (data || []).map((item) => this.mapAirdropDbtoClient(item));
+  }
+
+  async softDeletePresale(id: string) {
+    const { error } = await this.supabase
+      .from('airdrops')
+      .update({ deleted_at: new Date().toISOString() })
+      .eq('id', id);
+
+    if (error) throw new Error(error.message);
+
+    return { message: 'Data succesfully deleted!' };
   }
 
   async updateAirdrop(id: string, airdrop: AirdropFormDTO) {
@@ -144,29 +209,5 @@ export class AirdropService {
       message: 'Airdrop updated successfully.',
       data: updated,
     };
-  }
-
-  async getApprovedAirdropsForSanity() {
-    const { data, error } = await this.supabase
-      .from('airdrops')
-      .select('*')
-      .eq('status', 'approved')
-      .order('created_at', { ascending: false });
-
-    if (error) throw new Error(error.message);
-
-    return (data || []).map((item) => ({
-      id: item.id,
-      name: item.name,
-      description: item.description,
-      startDate: item.start_date,
-      endDate: item.end_date,
-      rewardAmount: item.reward_amount,
-      status: item.status,
-      officialLink: item.official_link,
-      contactEmail: item.contact_email,
-      imageUrl: item.image_url,
-      slug: item.slug,
-    }));
   }
 }

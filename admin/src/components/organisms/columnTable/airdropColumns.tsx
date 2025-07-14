@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Eye, Pencil } from "lucide-react";
 import { Airdrop } from "@/@types/Posts";
 import { webUrl } from "@/lib/client-variables";
+import DeleteDialog from "@/components/molecules/dialog/DeleteDialog";
+import axios, { isAxiosError } from "axios";
+import { toast } from "react-toastify";
 
 export const airdropColumns: ColumnDef<Airdrop>[] = [
   {
@@ -16,9 +19,7 @@ export const airdropColumns: ColumnDef<Airdrop>[] = [
     accessorKey: "slug.current",
     header: "Slug",
     cell: ({ row }) => (
-      <code className="text-muted-foreground">
-        {row.original.slug.current}
-      </code>
+      <code className="text-muted-foreground">{row.original.slug.current}</code>
     ),
   },
   {
@@ -45,8 +46,8 @@ export const airdropColumns: ColumnDef<Airdrop>[] = [
         status === "approved"
           ? "green"
           : status === "rejected"
-          ? "red"
-          : "yellow";
+            ? "red"
+            : "yellow";
 
       return (
         <Badge
@@ -79,14 +80,31 @@ export const airdropColumns: ColumnDef<Airdrop>[] = [
           <Button
             variant="outline"
             size="icon"
-            onClick={() =>
-              window.open(`${webUrl}/airdrops/${slug}`, "_blank")
-            }
+            onClick={() => window.open(`${webUrl}/airdrops/${slug}`, "_blank")}
           >
             <Eye className="w-4 h-4" />
           </Button>
+          <DeleteDialog
+            dataSummary={[{ label: "Airdrop Name", value: row.original.name }]}
+            onConfirm={() => deleteHandler(row.original)}
+          />
         </div>
       );
     },
   },
 ];
+
+const deleteHandler = async (formData: Airdrop) => {
+  try {
+    const { data } = await axios.delete("/api/airdrops", {
+      data: formData,
+    });
+    toast.success(data.message);
+  } catch (error) {
+    if (isAxiosError(error)) {
+      const data = error.response?.data;
+      toast.error(data.message);
+    }
+    console.error(error);
+  }
+};

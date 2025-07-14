@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -38,7 +39,7 @@ export class AirdropController {
   async getApprovedAirdrops() {
     try {
       const airdrops = await this.airdropService.getApprovedAirdropsForSanity();
-      console.log(airdrops)
+      console.log(airdrops);
       return airdrops;
     } catch (error) {
       console.error(error);
@@ -56,6 +57,13 @@ export class AirdropController {
   @Put(':id')
   async updateAirdrop(@Param('id') id: string, @Body() body: AirdropFormDTO) {
     const result = await this.airdropService.updateAirdrop(id, body);
+    return result;
+  }
+
+  @UseGuards(SharedSecretGuardService)
+  @Delete()
+  async softDeleteAirdrop(@Body() body: AirdropFormDTO) {
+    const result = await this.airdropService.softDeletePresale(body.id);
     return result;
   }
 }

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { isAxiosError } from "axios"
 import { AirdropFormType } from "@/zod-schema/airdropFormSchema"
-import { apiPost, apiPut } from "@/lib/api-server"
+import { apiDelete, apiPost, apiPut } from "@/lib/api-server"
 import { secretApi } from "@/lib/server-utils"
 
 export async function POST(req: NextRequest) {
@@ -52,5 +52,18 @@ export async function PUT(req: NextRequest) {
       { message: "Unexpected server error" },
       { status: 500 }
     );
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  const body = await req.json();
+
+  try {
+    const { data } = await apiDelete(`${secretApi}/airdrop`, body);
+
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Something Error" }, { status: 500 });
   }
 }

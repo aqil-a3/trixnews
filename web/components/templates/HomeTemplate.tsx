@@ -38,7 +38,7 @@ export default function HomeTemplate({
             <LatestNews />
             <LatestSidebarNews className="mt-[52px]" />
           </div>
-          <CryptoNews />
+          {/* <CryptoNews /> */}
           <CategoriesSection />
           <GuidesTutorialsSection />
           <InDepthAnalysisSection />

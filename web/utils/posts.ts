@@ -4,20 +4,26 @@ import { PostDetail } from "@/@types/Posts";
 import { getAllPost } from "./sanity-posts";
 
 export async function getAllArticles(): Promise<PostDetail[]> {
-  const [sanityArticles, apiArticlesRaw] = await Promise.all([
+  const [
+    sanityArticles,
+    // apiArticlesRaw
+  ] = await Promise.all([
     getAllPost(),
-    getCryptoNews(),
+    // getCryptoNews(),
   ]);
 
-  const mapped = apiArticlesRaw.map(mapEventRegistryToPostDetail);
+  // const mapped = apiArticlesRaw.map(mapEventRegistryToPostDetail);
 
-  const validities = await Promise.all(
-    mapped.map((a) => isImageUrlValid(a.mainImage?.asset.url || ""))
-  );
+  // const validities = await Promise.all(
+  //   mapped.map((a) => isImageUrlValid(a.mainImage?.asset.url || ""))
+  // );
 
-  const apiArticles = mapped.filter((_, i) => validities[i]);
+  // const apiArticles = mapped.filter((_, i) => validities[i]);
 
-  const combined = [...sanityArticles, ...apiArticles];
+  const combined = [
+    ...sanityArticles,
+    // ...apiArticles
+  ];
 
   const seen = new Set();
   const unique = combined.filter((a) => {

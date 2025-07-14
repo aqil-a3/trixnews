@@ -8,7 +8,6 @@ export async function getCryptoNews(): Promise<EventRegistryNewsItem[]> {
     headers: {
       "Content-Type": "application/json",
     },
-    // Next.js server-side cache
     next: { revalidate: 60 * 60 * 6 },
     body: JSON.stringify({
       action: "getArticles",

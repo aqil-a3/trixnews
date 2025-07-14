@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { formatDate, getAirdropStatus } from "@/lib/airdrops" // Import Airdrop type and helpers
+import { getAirdropStatus } from "@/lib/airdrops" // Import Airdrop type and helpers
 import { CalendarDays, Gift } from "lucide-react" // Import Link as LinkIcon to avoid conflict
 import { cn } from "@/lib/utils"
 import { Airdrop } from "@/@types/Posts"
@@ -20,8 +20,6 @@ export default function AirdropCard({ airdrop }: AirdropCardProps) {
     "bg-red-100 text-red-700": status === "Ended",
     "bg-blue-100 text-blue-700": status === "Upcoming",
   })
-
-  console.log(airdrop)
 
   return (
     <Card className="relative h-full flex flex-col border border-gray-200 hover:shadow-lg transition-shadow">

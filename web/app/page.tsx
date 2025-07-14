@@ -1,5 +1,4 @@
 import HomeTemplate from "@/components/templates/HomeTemplate";
-import { getCryptoNews } from "@/lib/NewsData/getApiNews";
 import {
   getAllCategories,
   getAllGuides,

@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { getSupabaseClient } from '../../services/supabase/supabase.client';
-import { CreateAdminUserDto } from '../../dto/user/create-admin-user.dto';
+import { CreateAdminUserDto } from './dto/create-admin-user.dto';
 
 export interface AdminUser {
   id: string;

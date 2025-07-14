@@ -3,9 +3,11 @@ import {
   ConflictException,
   Injectable,
 } from '@nestjs/common';
-import { PresaleFormDTO } from '../../dto/presale/presale-form-schema.dto';
+import { PresaleFormDTO } from './dto/presale-form-schema.dto';
 import { getSupabaseClient } from '../../services/supabase/supabase.client';
 import { slugify } from '../../utils/slugify';
+import { PresaleMapped } from './interface/mappedPresale.interface';
+import { PresaleFromDb } from './interface/dbPresale.interface';
 
 @Injectable()
 export class IcoPresaleService {
@@ -27,6 +29,39 @@ export class IcoPresaleService {
     };
   }
 
+  mapPresaleDbToClient(payload: PresaleFormDTO): PresaleMapped {
+    return {
+      _id: payload.id,
+      _type: 'presale',
+      id: payload.id,
+      name: payload.name,
+      description: payload.description,
+      startDate: payload.start_date,
+      endDate: payload.end_date,
+      softCap: Number(payload.soft_cap),
+      hardCap: Number(payload.hard_cap),
+      tokenSupply: Number(payload.token_supply),
+      status: payload.status,
+      contactEmail: payload.contact_email,
+      presaleSite: payload.presale_site,
+      image: payload.image_url
+        ? {
+            _type: 'image',
+            asset: {
+              _type: 'reference',
+              _ref: payload.image_url,
+            },
+          }
+        : undefined,
+      slug: payload.slug
+        ? {
+            _type: 'slug',
+            current: payload.slug,
+          }
+        : undefined,
+    };
+  }
+
   async createNewPresale(presale: PresaleFormDTO) {
     const payload = this.mapPresaleFormToDb(presale);
 
@@ -39,6 +74,7 @@ export class IcoPresaleService {
       .select('id')
       .eq('slug', payload.slug)
       .limit(1)
+      .is('deleted_at', null)
       .maybeSingle();
 
     if (slugError) throw new Error(slugError.message);
@@ -67,80 +103,25 @@ export class IcoPresaleService {
       .from('presales')
       .select('*')
       .eq('status', 'approved')
-      .order('created_at', { ascending: false });
-
+      .order('created_at', { ascending: false })
+      .is('deleted_at', null);
     if (error) throw new Error(error.message);
+    const dbData: PresaleFromDb[] = data;
 
-    return (data || []).map((item) => ({
-      _id: item.id,
-      _type: 'presale',
-      id: item.id,
-      name: item.name,
-      description: item.description,
-      startDate: item.start_date,
-      endDate: item.end_date,
-      softCap: Number(item.soft_cap),
-      hardCap: Number(item.hard_cap),
-      tokenSupply: Number(item.token_supply),
-      status: item.status,
-      contactEmail: item.contact_email,
-      presaleSite: item.presale_site,
-      image: item.image_url
-        ? {
-            _type: 'image',
-            asset: {
-              _type: 'reference',
-              _ref: item.image_url,
-            },
-          }
-        : undefined,
-      slug: item.slug
-        ? {
-            _type: 'slug',
-            current: item.slug,
-          }
-        : undefined,
-    }));
+    return (dbData || []).map((item) => this.mapPresaleDbToClient(item));
   }
 
   async getPresalesForSanity() {
     const { data, error } = await this.supabase
       .from('presales')
       .select('*')
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+      .is('deleted_at', null);
 
     if (error) throw new Error(error.message);
+    const dbData: PresaleFromDb[] = data;
 
-    const mapped = data.map((item) => ({
-      _id: item.id,
-      _type: 'presale',
-      id: item.id,
-      name: item.name,
-      description: item.description,
-      startDate: item.start_date,
-      endDate: item.end_date,
-      softCap: Number(item.soft_cap),
-      hardCap: Number(item.hard_cap),
-      tokenSupply: Number(item.token_supply),
-      status: item.status,
-      contactEmail: item.contact_email,
-      presaleSite: item.presale_site,
-      image: item.image_url
-        ? {
-            _type: 'image',
-            asset: {
-              _type: 'reference',
-              _ref: item.image_url,
-            },
-          }
-        : undefined,
-      slug: item.slug
-        ? {
-            _type: 'slug',
-            current: item.slug,
-          }
-        : undefined,
-    }));
+    const mapped = dbData.map((item) => this.mapPresaleDbToClient(item));
 
     return mapped;
   }
@@ -154,39 +135,22 @@ export class IcoPresaleService {
 
     if (error) throw new Error(error.message);
     if (!data) throw new Error('Presale not found');
+    const dbData: PresaleFromDb = data;
 
-    const mapped = {
-      _id: data.id,
-      _type: 'presale',
-      id: data.id,
-      name: data.name,
-      description: data.description,
-      startDate: data.start_date,
-      endDate: data.end_date,
-      softCap: Number(data.soft_cap),
-      hardCap: Number(data.hard_cap),
-      tokenSupply: Number(data.token_supply),
-      status: data.status,
-      contactEmail: data.contact_email,
-      presaleSite: data.presale_site,
-      image: data.image_url
-        ? {
-            _type: 'image',
-            asset: {
-              _type: 'reference',
-              _ref: data.image_url,
-            },
-          }
-        : undefined,
-      slug: data.slug
-        ? {
-            _type: 'slug',
-            current: data.slug,
-          }
-        : undefined,
-    };
+    const mapped = this.mapPresaleDbToClient(dbData);
 
     return mapped;
+  }
+
+  async softDeletePresale(id: string) {
+    const { error } = await this.supabase
+      .from('presales')
+      .update({ deleted_at: new Date().toISOString() })
+      .eq('id', id);
+
+    if (error) throw new Error(error.message);
+
+    return { message: 'Data succesfully deleted!' };
   }
 
   async updatePresale(id: string, presale: PresaleFormDTO) {

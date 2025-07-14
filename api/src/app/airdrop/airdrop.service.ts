@@ -3,7 +3,7 @@ import {
   ConflictException,
   Injectable,
 } from '@nestjs/common';
-import { AirdropFormDTO } from '../../dto/airdrop/airdrop-form-schema.dto';
+import { AirdropFormDTO } from './dto/airdrop-form-schema.dto';
 import { getSupabaseClient } from '../../services/supabase/supabase.client';
 import { slugify } from '../../utils/slugify';
 

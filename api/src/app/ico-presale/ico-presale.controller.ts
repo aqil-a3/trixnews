@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -8,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { SharedSecretGuardService } from '../../guards/shared-secret-guard/shared-secret-guard.service';
-import { PresaleFormDTO } from '../../dto/presale/presale-form-schema.dto';
+import { PresaleFormDTO } from './dto/presale-form-schema.dto';
 import { IcoPresaleService } from './ico-presale.service';
 
 @Controller('ico-presale')
@@ -71,6 +72,14 @@ export class IcoPresaleController {
     @Body() presale: PresaleFormDTO,
   ) {
     const result = await this.icoPresaleService.updatePresale(id, presale);
+    return result;
+  }
+
+  @UseGuards(SharedSecretGuardService)
+  @Delete()
+  async softDeletePresale(@Body() presale: PresaleFormDTO) {
+    const result = await this.icoPresaleService.softDeletePresale(presale.id);
+
     return result;
   }
 }

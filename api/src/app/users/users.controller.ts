@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { SharedSecretGuardService } from '../../guards/shared-secret-guard/shared-secret-guard.service';
 import { UsersService } from './users.service';
-import { CreateAdminUserDto } from '../../dto/user/create-admin-user.dto';
-import { DeleteAdminUserDto } from '../../dto/user/delete-admin-user.dto';
+import { CreateAdminUserDto } from './dto/create-admin-user.dto';
+import { DeleteAdminUserDto } from './dto/delete-admin-user.dto';
 
 @Controller('users')
 export class UsersController {

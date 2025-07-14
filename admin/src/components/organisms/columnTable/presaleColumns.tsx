@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Eye, Pencil } from "lucide-react";
 import { Presale } from "@/@types/Posts";
 import { webUrl } from "@/lib/client-variables";
+import DeleteDialog from "@/components/molecules/dialog/DeleteDialog";
+import axios, { isAxiosError } from "axios";
+import { toast } from "react-toastify";
 
 export const presaleColumns: ColumnDef<Presale>[] = [
   {
@@ -68,6 +71,7 @@ export const presaleColumns: ColumnDef<Presale>[] = [
           <Button
             variant="outline"
             size="icon"
+            className="duration-200 hover:scale-95 cursor-pointer"
             onClick={() => window.open(`/presales/edit/${id}`, "_blank")}
           >
             <Pencil className="w-4 h-4" />
@@ -75,14 +79,37 @@ export const presaleColumns: ColumnDef<Presale>[] = [
           <Button
             variant="outline"
             size="icon"
+            className="hover:opacity-85 hover:scale-95 cursor-pointer"
             onClick={() =>
-              window.open(`${webUrl}/ico-presale/${row.original.slug?.current}`, "_blank")
+              window.open(
+                `${webUrl}/ico-presale/${row.original.slug?.current}`,
+                "_blank"
+              )
             }
           >
             <Eye className="w-4 h-4" />
           </Button>
+          <DeleteDialog
+            dataSummary={[{ label: "Presale Name", value: row.original.name }]}
+            onConfirm={() => deleteHandler(row.original)}
+          />
         </div>
       );
     },
   },
 ];
+
+const deleteHandler = async (formData: Presale) => {
+  try {
+    const { data } = await axios.delete("/api/presales", {
+      data: formData,
+    });
+    toast.success(data.message);
+  } catch (error) {
+    if (isAxiosError(error)) {
+      const data = error.response?.data;
+      toast.error(data.message);
+    }
+    console.error(error);
+  }
+};

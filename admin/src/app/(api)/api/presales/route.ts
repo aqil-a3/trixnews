@@ -1,4 +1,4 @@
-import { apiGet, apiPost, apiPut } from "@/lib/api-server";
+import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api-server";
 import { secretApi } from "@/lib/server-utils";
 import { PresaleFormType } from "@/zod-schema/presaleFormSchema";
 import { isAxiosError } from "axios";
@@ -77,5 +77,18 @@ export async function PUT(req: NextRequest) {
       { message: "Unexpected server error" },
       { status: 500 }
     );
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  const body = await req.json();
+
+  try {
+    const { data } = await apiDelete(`${secretApi}/ico-presale`, body);
+
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Something Error" }, { status: 500 });
   }
 }

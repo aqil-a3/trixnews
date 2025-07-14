@@ -74,7 +74,6 @@ export class IcoPresaleService {
       .select('*')
       .eq('slug', payload.slug)
       .limit(1)
-      .is('deleted_at', null)
       .maybeSingle();
 
     if (slugError) throw new Error(slugError.message);

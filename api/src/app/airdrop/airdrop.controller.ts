@@ -39,7 +39,7 @@ export class AirdropController {
   async getApprovedAirdrops() {
     try {
       const airdrops = await this.airdropService.getApprovedAirdropsForSanity();
-      console.log(airdrops);
+      
       return airdrops;
     } catch (error) {
       console.error(error);

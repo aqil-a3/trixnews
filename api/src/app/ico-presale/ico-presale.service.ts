@@ -71,17 +71,30 @@ export class IcoPresaleService {
 
     const { data: existingSlug, error: slugError } = await this.supabase
       .from('presales')
-      .select('id')
+      .select('*')
       .eq('slug', payload.slug)
       .limit(1)
       .is('deleted_at', null)
       .maybeSingle();
 
     if (slugError) throw new Error(slugError.message);
+
     if (existingSlug) {
-      throw new ConflictException(
-        'Slug already exists. Try a different token name.',
-      );
+      const existingData: PresaleFromDb = existingSlug;
+      if (!existingData.deleted_at) {
+        throw new ConflictException(
+          'Slug already exists. Try a different token name.',
+        );
+      }
+      const { error: updateError } = await this.supabase
+        .from('presales')
+        .update({ ...payload, deleted_at: null })
+        .eq('slug', payload.slug);
+
+      if (updateError) throw new BadRequestException(updateError.message);
+      return {
+        message: 'Presale submitted successfully.',
+      };
     }
 
     const { data: inserted, error: insertError } = await this.supabase

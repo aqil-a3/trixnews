@@ -1,1 +1,1 @@
-export const webUrl = "https://trixnews-web.vercel.app";
+export const webUrl = `${process.env.NEXT_PUBLIC_WEB_URL}`;

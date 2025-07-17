@@ -36,13 +36,13 @@ export default function HomeTemplate({
           <HeroSection />
           <div className="mt-8 grid grid-cols-1 lg:grid-cols-[70%_30%] gap-8">
             <LatestNews />
-            <LatestSidebarNews className="mt-[52px]" />
+            <LatestSidebarNews className="mt-0 lg:mt-[52px] " />
           </div>
           {/* <CryptoNews /> */}
           <CategoriesSection />
           <GuidesTutorialsSection />
           <InDepthAnalysisSection />
-          {/* <TrendingTopicsSection /> */}
+          <TrendingTopicsSection />
 
           <Web3ToolsSection />
         </main>

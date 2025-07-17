@@ -23,7 +23,7 @@ export default function CategoriesSection() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">{category.description}</p>
+                <p className="text-sm text-gray-600">{category.description ?? "There is no description Here"}</p>
               </CardContent>
             </Card>
           </Link>

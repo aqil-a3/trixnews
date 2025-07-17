@@ -59,7 +59,7 @@ export default function GuidesTutorialsSection() {
   });
 
   return (
-    <div className="mt-8">
+    <div className="my-4 lg:mt-8">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">
         Guides & Tutorials
       </h2>
@@ -80,7 +80,9 @@ export default function GuidesTutorialsSection() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-600">{guide.description}</p>
+                  <p className="text-sm text-gray-600">
+                    {guide.description ?? "There is no description here"}
+                  </p>
                 </CardContent>
               </Card>
             </Link>

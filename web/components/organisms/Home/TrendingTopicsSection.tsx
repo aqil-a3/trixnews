@@ -41,7 +41,7 @@ export default function TrendingTopicsSection() {
   }
 
   return (
-    <section>
+    <section className="my-4">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Trending Topics</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {trendingItems.map((item, index) => (

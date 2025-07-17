@@ -14,20 +14,16 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Menu, ChevronDown } from "lucide-react";
+import { Menu, ChevronDown, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { loginPageUrl } from "@/lib/variables";
 import { dropdownLinks, mainNavLinks } from "./links";
+import SearchPopover from "./Search";
 
 export default function Header() {
   return (
-    <header className="bg-white border-b border-gray-200 py-4 px-6 flex items-center justify-between w-full">
-      <div className="flex items-center justify-between gap-4 w-full md:w-auto">
-        {/* Logo */}
-        <Link href="/" className="text-2xl font-bold text-gray-900">
-          Trixnews.com
-        </Link>
-
+    <header className="bg-white border-b border-gray-200 py-4 px-2 md:px-6 flex items-center justify-between w-full">
+      <div className="flex items-center justify-between gap-4 md:w-auto">
         {/* Mobile Menu Trigger */}
         <div className="md:hidden">
           <Sheet>
@@ -37,7 +33,7 @@ export default function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-64 p-4">
-              <SheetTitle>Trixnews.com</SheetTitle>
+              <SheetTitle>trixnews.com</SheetTitle>
               <nav className="flex flex-col gap-4 mt-4">
                 {mainNavLinks.map((link) => (
                   <Link
@@ -74,6 +70,12 @@ export default function Header() {
           </Sheet>
         </div>
       </div>
+      <Link
+        href="/"
+        className="text-center text-xl md:text-2xl font-bold text-gray-900"
+      >
+        trixnews.com
+      </Link>
 
       {/* Main nav (desktop only) */}
       <nav className="hidden md:flex flex-1 justify-center">
@@ -106,6 +108,10 @@ export default function Header() {
           </li>
         </ul>
       </nav>
+
+      <div className="block md:hidden">
+        <SearchPopover />
+      </div>
 
       {/* Search + Login (desktop only) */}
       <div className="hidden md:flex flex-shrink-0 items-center gap-4">

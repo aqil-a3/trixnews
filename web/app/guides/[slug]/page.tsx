@@ -30,15 +30,6 @@ export default async function GuideDetailPage({ params }: { params: { slug: stri
           <Breadcrumbs items={breadcrumbItems} className="mb-6" /> {/* Add Breadcrumbs */}
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">{guide.title}</h1>
           <p className="text-lg text-gray-700 mb-8">{guide.description}</p>
-          <div className="relative aspect-video w-full mb-8 rounded-lg overflow-hidden">
-            <Image
-              src="/placeholder.svg?height=400&width=600&text=Guide"
-              alt={guide.title}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-lg"
-            />
-          </div>
           {guide.content && <RichText value={guide.content} /> }
         </article>
       </main>

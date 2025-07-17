@@ -1,10 +1,10 @@
 // import Header from "@/components/layouts/Header/header"
 // import Footer from "@/components/layouts/Footer"
-// import ArticleCard from "@/components/molecules/Cards/ArticleCard"
 // import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 // import { searchContent } from "@/lib/search"
 // import Link from "next/link"
 // import { BookOpen } from "lucide-react" // Icons for guides
+// import ArticleCard from "@/components/molecules/Cards/ArticleCard"
 
 // interface GuideCardProps {
 //   title: string
@@ -51,7 +51,7 @@
 //             <h2 className="text-3xl font-bold text-gray-900 mb-6">Articles</h2>
 //             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 //               {articles.map((article, index) => (
-//                 <ArticleCard key={index} {...article} />
+//                 <ArticleCard key={index} article={article} />
 //               ))}
 //             </div>
 //           </section>

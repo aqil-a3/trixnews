@@ -7,8 +7,8 @@ export const portableTextComponents: PortableTextComponents = {
     image: ({ value }) => {
       if (!value?.asset?._ref) return null;
       const imageUrl = urlFor(value)
-        .width(800)
-        .height(600)
+        .width(600)
+        .height(400)
         .auto("format")
         .url();
       const alt = value.alt || "Sanity Image";
@@ -18,8 +18,8 @@ export const portableTextComponents: PortableTextComponents = {
           <Image
             src={imageUrl}
             alt={alt}
-            width={800}
-            height={600}
+            width={600}
+            height={400}
             className="rounded-lg mx-auto"
           />
         </div>

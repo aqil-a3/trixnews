@@ -22,7 +22,7 @@ export default function Web3ToolsSection() {
   }
 
   return (
-    <section>
+    <section className="my-4">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">
         Web3 Tools & Resources
       </h2>
